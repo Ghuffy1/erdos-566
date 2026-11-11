@@ -1,0 +1,169 @@
+{
+  "status": "passed",
+  "workflow_url": "https://github.com/Ghuffy1/erdos-566/actions/runs/43050205767",
+  "workflow_run_id": 43050205767,
+  "checked_repository_commit": "77ce4b104c0e03b066fa10ae7e24d2099d93c980",
+  "selected_proof_commit": "ac0b12b5cb264a092ef1cdf6304760dcdc4b6328",
+  "created_utc": "2026-11-11T15:37:25Z",
+  "completed_utc": "2026-11-11T15:50:08Z",
+  "declarations": 420,
+  "all_commands_exit_zero": true,
+  "checks": [
+    {
+      "name": "lake_version",
+      "command": [
+        "lake",
+        "--version"
+      ],
+      "cwd": "<PROJECT_ROOT>",
+      "exit_code": 0,
+      "elapsed_seconds": 25.27,
+      "log": "lake_version.log",
+      "log_sha256": "f296e8e9d341337f2a531b120008d0e44395edced7970763f02b5924eb5faaff"
+    },
+    {
+      "name": "lean_version",
+      "command": [
+        "lake",
+        "env",
+        "lean",
+        "--version"
+      ],
+      "cwd": "<PROJECT_ROOT>",
+      "exit_code": 0,
+      "elapsed_seconds": 52.176,
+      "log": "lean_version.log",
+      "log_sha256": "5146206e5a36a0d2af274cabcbb57f91c61b456719a042a96c13658069813a2c"
+    },
+    {
+      "name": "dependency_cache",
+      "command": [
+        "lake",
+        "exe",
+        "cache",
+        "get"
+      ],
+      "cwd": "<PROJECT_ROOT>",
+      "exit_code": 0,
+      "elapsed_seconds": 51.156,
+      "log": "dependency_cache.log",
+      "log_sha256": "d36626672921b4e3273eba12b6520df81e49ba106393574e1cee480eddf74d3b"
+    },
+    {
+      "name": "build",
+      "command": [
+        "lake",
+        "build"
+      ],
+      "cwd": "<PROJECT_ROOT>",
+      "exit_code": 0,
+      "elapsed_seconds": 41.471,
+      "log": "build.log",
+      "log_sha256": "a42753fc8630d7e61893698ae16f384b4a2136adc911e51d2286bd50b27b1d84"
+    },
+    {
+      "name": "explicit_modules",
+      "command": [
+        "lake",
+        "build",
+        "+Erdos566",
+        "+Verification"
+      ],
+      "cwd": "<PROJECT_ROOT>",
+      "exit_code": 0,
+      "elapsed_seconds": 1.569,
+      "log": "explicit_modules.log",
+      "log_sha256": "c08c24e0a7d28e03bd09c191e4c893ac2c067b04b1d26719ebbdec22f127c59c"
+    },
+    {
+      "name": "source_trust_zero",
+      "command": [
+        "lake",
+        "env",
+        "lean",
+        "-j",
+        "1",
+        "-DautoImplicit=false",
+        "-t",
+        "0",
+        "Erdos566.lean"
+      ],
+      "cwd": "<PROJECT_ROOT>",
+      "exit_code": 0,
+      "elapsed_seconds": 77.853,
+      "log": "source_trust_zero.log",
+      "log_sha256": "4cfd46211ac8cd013afe8a778f8f59e55dce2f83579cf581992d2a050e94ca8b"
+    },
+    {
+      "name": "independent_statement",
+      "command": [
+        "lake",
+        "env",
+        "lean",
+        "-j",
+        "1",
+        "-DautoImplicit=false",
+        "-t",
+        "0",
+        "Verification.lean"
+      ],
+      "cwd": "<PROJECT_ROOT>",
+      "exit_code": 0,
+      "elapsed_seconds": 2.571,
+      "log": "independent_statement.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "axiom_audit",
+      "command": [
+        "lake",
+        "env",
+        "lean",
+        "-j",
+        "1",
+        "-DautoImplicit=false",
+        "-t",
+        "0",
+        "<EVIDENCE>/Audit.lean"
+      ],
+      "cwd": "<PROJECT_ROOT>",
+      "exit_code": 0,
+      "elapsed_seconds": 4.224,
+      "log": "axiom_audit.log",
+      "log_sha256": "1315e5c92fa65f63d464df33d681d312b25b013930ed96ec342b9faffaa647fd"
+    },
+    {
+      "name": "fresh_kernel_replay",
+      "command": [
+        "lake",
+        "env",
+        "leanchecker",
+        "--fresh",
+        "--verbose",
+        "Verification"
+      ],
+      "cwd": "<PROJECT_ROOT>",
+      "exit_code": 0,
+      "elapsed_seconds": 491.239,
+      "log": "fresh_kernel_replay.log",
+      "log_sha256": "03270d1cc947a5acb1f71af3989874ba28ff9d4e6050f12540f472443fae1215"
+    }
+  ],
+  "source_hashes": {
+    "Erdos566.lean": "6eead12291efc2353ca685b0cf82d888689a8116175653df6804e7ccc3b49f50",
+    "Verification.lean": "d001c3ff81ca96d831909606c71dff115ba1f3a6dc4ed0ed8e0f2305f72cf54d",
+    "lean-toolchain": "8733782dc070a99b312039cda424f601b80f3be6f6f512627da5ba25adc27632",
+    "lakefile.toml": "cd3dd1160726d9ef5cb99071b541024a03d070c0ca613b79413033233f909d70",
+    "lake-manifest.json": "549ac04e0545aa386b75bb1798d438b6797839f011c0de1246bdd5e48405ce62",
+    "paper/paper.pdf": "9366b11bb34ae0e4560528b7983580f7038128d2cc950562d69fae1c00f41ebd",
+    "paper/paper.tex": "f88a6b6922e2f23711b98f90f390a0678907184beeb512b6e2d6401d34cba41b",
+    "verification/declarations.txt": "369135571d5f43bd718d7dee01b7dc6d549c24bf000b4dfb7ce8f47876d3cb19"
+  },
+  "fresh_kernel_replay": true,
+  "standard_axioms": [
+    "propext",
+    "Classical.choice",
+    "Quot.sound"
+  ],
+  "method": "GitHub-hosted Ubuntu workflow using the pinned toolchain and dependencies"
+}

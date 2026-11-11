@@ -50,6 +50,8 @@ Use a new output directory for each run. The process-local thread setting bounds
 
 Mathlib is pinned to `5ed2965256430c3649e86755f9576b54eca72435`. The permitted foundational axioms are `propext`, `Classical.choice`, and `Quot.sound`. The fresh replay uses Lean's own kernel. The verification report identifies the completed checks and their limits.
 
+The full [hosted verification](https://github.com/Ghuffy1/erdos-566/actions/runs/43050205767) passed for the published repository.
+
 ## Submission materials
 
 The [submission directory](submission/) contains the joint submission and the proposed catalog-only change. Claim drafts are individual documents because JSP requires each applicant to act through their own account. The [release checklist](submission/RELEASE_CHECKLIST.md) records the publication and review sequence.

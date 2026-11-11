@@ -53,6 +53,8 @@ The verifier performs clean project and explicit module builds, trust-level-zero
 
 ## Pre-submission verification
 
+The [public GitHub workflow](https://github.com/Ghuffy1/erdos-566/actions/runs/43050205767) also passed for commit `77ce4b104c0e03b066fa10ae7e24d2099d93c980`. It fetched the pinned dependencies, rebuilt the project, checked both source modules at trust level zero, audited all 420 declarations, and completed fresh kernel replay. The mathematical source and dependency pins match the selected proof commit. The recorded commands and source hashes are in the workflow's public logs.
+
 Contributor-run verification passed for commit `ac0b12b5cb264a092ef1cdf6304760dcdc4b6328`. The [full report](https://github.com/Ghuffy1/erdos-566/blob/be07da3d31e6a56630bd5c5ccc374ebad627499b/verification/REPORT.md) and [machine-readable record](https://github.com/Ghuffy1/erdos-566/blob/be07da3d31e6a56630bd5c5ccc374ebad627499b/verification/result.json) preserve the actual commands, exit codes, timings, hash checks, and limits.
 
 The method uses native Lean 4.34.0 and its fresh kernel replay. A dedicated checkout was used with revision-checked dependencies. An independently implemented checker and independent human review remain outstanding. Organizer acceptance, attribution, priority, and eligibility are pending.

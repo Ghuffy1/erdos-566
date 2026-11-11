@@ -56,5 +56,11 @@
   "award_allocation": null,
   "publication_authorization": "Primary submitter instructed publication and JSP submission if the final verification passes.",
   "repository": "https://github.com/Ghuffy1/erdos-566",
-  "submission_pr": "https://github.com/TheJustinSunPrize/awards/pull/5565"
+  "submission_pr": "https://github.com/TheJustinSunPrize/awards/pull/5565",
+  "hosted_verification": {
+    "status": "passed",
+    "workflow_url": "https://github.com/Ghuffy1/erdos-566/actions/runs/43050205767",
+    "checked_repository_commit": "77ce4b104c0e03b066fa10ae7e24d2099d93c980",
+    "completed_utc": "2026-11-11T15:50:08Z"
+  }
 }
