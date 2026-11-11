@@ -1,0 +1,20 @@
+cff-version: 1.2.0
+message: Please cite the mathematical manuscript and acknowledge the formalization when using this work.
+title: A locally sparse graph with superlinear Ramsey growth
+type: software
+version: 1.0.0
+authors:
+  - family-names: Howe
+    given-names: Will
+  - family-names: Huffman
+    given-names: Grant
+  - family-names: Kohlmeyer
+    given-names: Jensen
+  - family-names: Kruer
+    given-names: Liam
+license: Apache-2.0
+keywords:
+  - Ramsey theory
+  - Erdos problem 566
+  - Lean
+  - locally sparse graphs

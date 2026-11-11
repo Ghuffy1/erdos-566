@@ -1,0 +1,21 @@
+Erdős problem 566 submission
+
+Authors designated for equal contribution credit
+Will Howe, Grant Huffman, Jensen Kohlmeyer, and Liam Kruer
+
+This project includes adaptations of source from OpenAI's ten-proofs project,
+CompactnessAndDegeneracy.lean, blob
+0e973d50014e8c800af597ef699ef29b81e42fc6.
+The original Apache License 2.0 text is retained in LICENSE-OpenAI.
+The mathematical ingredients and modifications are described in SOURCES.md.
+
+The canonical problem formulation includes definitions from Formal Conjectures,
+copyright 2025 The Formal Conjectures Authors, Apache License 2.0, revision
+2f91d251c07fbbaf9435166d47c11e884a08a6cf.
+
+Mathlib and its pinned transitive dependencies retain their own copyright and
+license notices in their respective repositories. They are fetched as build
+dependencies and are excluded from the submission's tracked source tree.
+
+OpenAI's ChatGPT assisted with mathematical development, formalization,
+verification, exposition, and preparation of these materials.

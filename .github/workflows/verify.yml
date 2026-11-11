@@ -1,0 +1,39 @@
+name: Verify complete proof
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  proof:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
+        with:
+          persist-credentials: false
+      - name: Install pinned Elan
+        shell: bash
+        run: |
+          curl --fail --location --silent --show-error https://raw.githubusercontent.com/leanprover/elan/227caca133724d5516bee25c2aeb3e609478f2d8/elan-init.sh --output /tmp/elan-init.sh
+          echo "a620ff1641616222c8d37c54845492004bb84d6877cdbc944dd65c1aa685bf53  /tmp/elan-init.sh" | sha256sum --check
+          sh /tmp/elan-init.sh -y --default-toolchain none
+          echo "$HOME/.elan/bin" >> "$GITHUB_PATH"
+      - name: Check verification parser
+        run: python3 -m unittest discover -s scripts -p 'test_*.py' -v
+      - name: Reproduce full proof verification
+        run: python3 scripts/verify.py --output-dir ../proof-evidence --fetch-cache --fresh-kernel
+      - name: Print verification evidence
+        if: always()
+        shell: bash
+        run: |
+          if [ -d ../proof-evidence ]
+          then
+            find ../proof-evidence -maxdepth 1 -type f -name '*.log' -print -exec cat {} \;
+            cat ../proof-evidence/result.json
+          fi

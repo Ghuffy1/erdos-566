@@ -1,0 +1,13 @@
+{
+  "schema_version": 1,
+  "files": {
+    "Erdos566.lean": "6eead12291efc2353ca685b0cf82d888689a8116175653df6804e7ccc3b49f50",
+    "Verification.lean": "d001c3ff81ca96d831909606c71dff115ba1f3a6dc4ed0ed8e0f2305f72cf54d",
+    "lean-toolchain": "8733782dc070a99b312039cda424f601b80f3be6f6f512627da5ba25adc27632",
+    "lakefile.toml": "cd3dd1160726d9ef5cb99071b541024a03d070c0ca613b79413033233f909d70",
+    "lake-manifest.json": "549ac04e0545aa386b75bb1798d438b6797839f011c0de1246bdd5e48405ce62",
+    "paper/paper.pdf": "9366b11bb34ae0e4560528b7983580f7038128d2cc950562d69fae1c00f41ebd",
+    "paper/paper.tex": "f88a6b6922e2f23711b98f90f390a0678907184beeb512b6e2d6401d34cba41b",
+    "verification/declarations.txt": "369135571d5f43bd718d7dee01b7dc6d549c24bf000b4dfb7ce8f47876d3cb19"
+  }
+}

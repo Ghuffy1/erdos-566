@@ -1,0 +1,785 @@
+\documentclass[11pt,leqno]{amsart}
+\usepackage[letterpaper,margin=1in]{geometry}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage{amsmath,amssymb,mathtools}
+\usepackage{microtype}
+\usepackage{enumitem}
+\usepackage[hidelinks]{hyperref}
+\hypersetup{
+  pdftitle={A locally sparse graph with superlinear Ramsey growth},
+  pdfauthor={Will Howe, Grant Huffman, Jensen Kohlmeyer, Liam Kruer},
+  pdfsubject={A counterexample to Erdos problem 566},
+  pdfkeywords={Ramsey theory, locally sparse graphs, entropy, Hamming cube}
+}
+\numberwithin{equation}{section}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{corollary}[theorem]{Corollary}
+\theoremstyle{definition}
+\newtheorem{definition}[theorem]{Definition}
+\theoremstyle{remark}
+\newtheorem{remark}[theorem]{Remark}
+\DeclareMathOperator{\Var}{Var}
+\DeclareMathOperator{\supp}{supp}
+\newcommand{\E}{\mathbb E}
+\newcommand{\Prob}{\mathbb P}
+\newcommand{\F}{\mathbb F}
+\newcommand{\one}{\mathbf 1}
+\newcommand{\HH}{\mathrm H}
+\newcommand{\dist}{\mathrm d}
+\newcommand{\eps}{\varepsilon}
+\newcommand{\set}[1]{\{#1\}}
+\newcommand{\abs}[1]{\lvert#1\rvert}
+\newcommand{\norm}[1]{\lVert#1\rVert}
+\newcommand{\floor}[1]{\lfloor#1\rfloor}
+\newcommand{\ceil}[1]{\lceil#1\rceil}
+\newcommand{\bin}[2]{\binom{#1}{#2}}
+\newcommand{\R}{\mathbb R}
+\setlist[enumerate]{leftmargin=2em,itemsep=2pt,topsep=5pt}
+\setlength{\emergencystretch}{1.5em}
+\allowdisplaybreaks[2]
+
+\title[Locally sparse graphs and Ramsey growth]{A locally sparse graph with superlinear Ramsey growth}
+\author[Howe, Huffman, Kohlmeyer, and Kruer]{Will Howe, Grant Huffman, Jensen Kohlmeyer, and Liam Kruer}
+\date{November 11, 2026}
+\subjclass[2020]{05C55, 05D40}
+\keywords{Ramsey numbers, locally sparse graphs, entropy, Hamming cube, Krawtchouk polynomials}
+\thanks{Electronic addresses are \href{mailto:howew@purdue.edu}{\nolinkurl{howew@purdue.edu}} (W. Howe),
+\href{mailto:huffma97@purdue.edu}{\nolinkurl{huffma97@purdue.edu}} (G. Huffman),
+\href{mailto:jenwin@purdue.edu}{\nolinkurl{jenwin@purdue.edu}} (J. Kohlmeyer), and
+\href{mailto:kruerl@purdue.edu}{\nolinkurl{kruerl@purdue.edu}} (L. Kruer).}
+
+\begin{document}
+\begin{abstract}
+We construct a fixed finite bipartite graph $G$ such that every set of at least two vertices spans at most twice its cardinality minus three edges, while the ratio $R(G,H)/e(H)$ is unbounded as $H$ ranges over graphs without isolated vertices. For all sufficiently large $m$,
+\[
+  R\bigl(G,K_{2^{570m}}\bigr)>2^{1144m-1}.
+\]
+This gives a negative answer to Erd\H{o}s problem 566. The construction uses a layered two-parent graph and a random subset of a Hamming cube. A conditional-entropy inequality excludes the fixed graph, and a bound on the negative Krawtchouk spectrum, followed by an independent-set encoding, excludes large independent sets. We give the complete argument, including the finite scalar estimates.
+\end{abstract}
+\maketitle
+
+\section{Introduction}
+
+For finite simple graphs $G$ and $H$, let $R(G,H)$ be the least integer $n$ such that every red-blue coloring of the edges of $K_n$ contains a red copy of $G$ or a blue copy of $H$. Copies are subgraphs. Write $e(H)$ for the number of edges of $H$.
+
+Erd\H{o}s, Faudree, Rousseau, and Schelp \cite{EFRS} call a graph $G$ \emph{Ramsey size-linear} if there is a constant $C_G$ such that
+\begin{equation}\label{eq:size-linear}
+  R(G,H)\le C_G e(H)
+\end{equation}
+for every finite simple graph $H$ without isolated vertices. They asked whether the local condition
+\begin{equation}\label{eq:local-condition}
+  e(G[W])\le 2\abs{W}-3
+  \qquad\text{for every }W\subseteq V(G)\text{ with }\abs{W}\ge2
+\end{equation}
+implies \eqref{eq:size-linear}. This question is recorded as Erd\H{o}s problem 566 \cite{Bloom}. The formulation using all subgraphs is equivalent to \eqref{eq:local-condition}, because each subgraph is contained in the induced subgraph on its vertex set.
+
+\begin{theorem}\label{thm:main}
+There is a fixed finite bipartite, $2$-degenerate graph $G$ satisfying \eqref{eq:local-condition} such that, for every sufficiently large positive integer $m$,
+\begin{equation}\label{eq:main-bound}
+ R\bigl(G,K_{2^{570m}}\bigr)>2^{1144m-1}.
+\end{equation}
+In particular,
+\begin{equation}\label{eq:main-ratio}
+ \frac{R\bigl(G,K_{2^{570m}}\bigr)}{e\bigl(K_{2^{570m}}\bigr)}>2^{4m}.
+\end{equation}
+\end{theorem}
+
+The graph $G$ has finitely many layers. Each vertex after the first layer represents a pair of vertices in the preceding layer and is joined to those two vertices. The layered construction, the entropy-potential approach, and the use of profiles to count child arrays originate in Chapter 10 of OpenAI \cite{OpenAI}. We use a different entropy parameter and apply the construction inside a single randomly sampled cube. The independent-set encoding used later is the Kleitman--Winston method, for which \cite[Section 3]{BTW} gives an account. The specific estimates required here are proved below.
+
+We prove that one random vertex set simultaneously supports a $G$-free short-distance graph and has small independence number. Coloring its complement blue then yields \eqref{eq:main-bound}.
+
+\section{Entropy estimates}
+
+All entropies and logarithms denoted by $\log_2$ use base two. Natural logarithms are denoted by $\ln$. Set
+\begin{equation}\label{eq:constants}
+ \tau=\frac{43}{100},\qquad
+ \beta=\frac{4857}{5000},\qquad
+ w=\frac9{16},\qquad
+ \sigma=-\log_2 w.
+\end{equation}
+The binary entropy function is
+\[
+ h(x)=-x\log_2 x-(1-x)\log_2(1-x),\qquad 0\le x\le1,
+\]
+with the endpoint values defined by continuity. We shall use
+\begin{equation}\label{eq:scalar-bounds}
+\begin{aligned}
+ .94268&<h(.36)<.94270,\\
+ .98581&<h(.43)<.98582,\\
+ .04464&<h(.0049)<.04465.
+\end{aligned}
+\end{equation}
+These are strict rational bounds. Appendix~\ref{app:scalars} proves them from a logarithmic series with an explicit remainder.
+
+\subsection{Elementary entropy facts}
+
+For a finite random variable $X$ with probabilities $p_x$, write
+\[
+ \HH(X)=-\sum_x p_x\log_2 p_x.
+\]
+Conditional entropy is the average of the entropies of the conditional laws. The following elementary estimates also fix the conventions used at zero probabilities.
+
+\begin{lemma}\label{lem:elementary-entropy}
+For $a,b\in[0,1]$,
+\begin{equation}\label{eq:continuity}
+ \abs{h(a)-h(b)}\le h(\abs{a-b}).
+\end{equation}
+Moreover,
+\begin{equation}\label{eq:pinsker-binary}
+ h\left(\frac{1+u}{2}\right)\le1-\frac{u^2}{2\ln2}
+ \qquad(-1\le u\le1).
+\end{equation}
+For integers $n\ge1$ and $0\le j\le n$,
+\begin{equation}\label{eq:binomial-entropy}
+ \frac{2^{n h(j/n)}}{n+1}\le\binom nj\le 2^{n h(j/n)}.
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+Couple Bernoulli variables $A$ and $B$ with means $a$ and $b$ so that $\Prob(A\ne B)=\abs{a-b}$. With $D=\one_{A\ne B}$, each of $A$ and $B$ is determined by the other together with $D$. The entropy chain rule gives $\HH(A)\le\HH(B)+\HH(D)$ and the reverse inequality with $A$ and $B$ interchanged. This proves \eqref{eq:continuity}.
+
+For $0<x<1$,
+\[
+ h''(x)=-\frac{1}{x(1-x)\ln2}\le-\frac4{\ln2}.
+\]
+Integrating twice from $x=1/2$, where $h(1/2)=1$ and $h'(1/2)=0$, proves \eqref{eq:pinsker-binary}. Continuity supplies the endpoints.
+
+For $0<j<n$, put $q=j/n$. In the binomial distribution with parameters $n,q$, the term at $j$ is maximal. Indeed, the ratio of the term at $i+1$ to the term at $i$ is
+\[
+ \frac{n-i}{i+1}\frac{j}{n-j},
+\]
+which is greater than one for $i<j$ and less than one for $i\ge j$. The maximal term is between $1/(n+1)$ and $1$. Substituting
+\[
+ \binom nj q^j(1-q)^{n-j}=\binom nj\,2^{-n h(q)}
+\]
+gives \eqref{eq:binomial-entropy}. For $j=0,n$, the inequalities follow directly.
+\end{proof}
+
+\subsection{A two-parent inequality}
+
+Define
+\begin{equation}\label{eq:kappa-theta}
+ \kappa=\frac12+\frac12\log_2(1+w)+\frac14\log_2 w,
+ \qquad \theta=\frac{1+h(9/25)}2.
+\end{equation}
+
+\begin{lemma}\label{lem:two-parent}
+Let $X,Y$ be independent Bernoulli variables with the same mean $q$. Let $Z$ be a binary random variable with arbitrary conditional law given $(X,Y)$, and write $v=\E Z$ and
+\[
+ d=\frac{\Prob(X\ne Z)+\Prob(Y\ne Z)}2.
+\]
+Then
+\begin{equation}\label{eq:two-parent}
+ \HH(Z\mid X,Y)\le
+ \kappa+\sigma d+\frac{h(v)-h(q)}2.
+\end{equation}
+Furthermore,
+\begin{equation}\label{eq:theta-identity}
+ \kappa+\sigma\tau=\theta<.97135<\beta.
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+We first take $0<q,v<1$. Put $\pi_z=\Prob(Z=z)$ and
+\[
+ c(x,y,z)=\frac{\one_{x\ne z}+\one_{y\ne z}}2.
+\]
+For a fixed parent pair $(x,y)$, apply the entropy bound associated with the positive weights
+\[
+ t_z=\sqrt{\pi_z}\,w^{c(x,y,z)}.
+\]
+For any probability vector $(p_z)$ and positive weights $(t_z)$, this bound is
+\[
+ -\sum_zp_z\log_2p_z
+ \le\log_2\Bigl(\sum_zt_z\Bigr)-\sum_zp_z\log_2t_z.
+\]
+To verify it, normalize $t_z$ to a probability vector and use $\ln t\le t-1$ to obtain nonnegativity of relative entropy. Averaging over $(X,Y)$ therefore gives
+\begin{equation}\label{eq:gibbs}
+ \HH(Z\mid X,Y)
+ \le \sigma d+\frac12h(v)+\E\log_2\Bigl(\sum_z t_z\Bigr).
+\end{equation}
+
+Let $u=2q-1$, $b_0=\sqrt{1-v}$, and $b_1=\sqrt v$. The probabilities of parent types $00$, $11$, and the two mixed types together are
+\[
+ a_0=\frac{(1-u)^2}4,\qquad
+ a_1=\frac{(1+u)^2}4,\qquad
+ a_* =\frac{1-u^2}2.
+\]
+It suffices by \eqref{eq:gibbs} to show that
+\begin{align*}
+ F={}&\frac12h(q)
+ +a_0\log_2(b_0+w b_1)
+ +a_1\log_2(w b_0+b_1)\\
+ &\hspace{35mm}+a_*\log_2\bigl(\sqrt w(b_0+b_1)\bigr)
+ \le\kappa.
+\end{align*}
+Set
+\[
+ M_0=\frac{1+w}{\sqrt2},\qquad
+ M_* =\sqrt{2w},\qquad
+ r=\frac{1-w}{1+w}=\frac7{25}.
+\]
+Apply $\ln z\le\ln M+z/M-1$ to the first two logarithms at $M=M_0$ and the third at $M=M_*$. The weighted logarithmic constants sum to
+\[
+ \frac12\ln(1+w)+\frac14\ln w
+ +\frac{u^2}2\ln\frac{M_0}{M_*}.
+\]
+The weighted linear terms sum to
+\[
+ \frac{(1-ru)b_0+(1+ru)b_1}{\sqrt2}-1
+ \le\sqrt{1+r^2u^2}-1\le\frac{r^2u^2}2.
+\]
+Here the first inequality is Cauchy--Schwarz and uses $b_0^2+b_1^2=1$. Also $M_0/M_*=(1-r^2)^{-1/2}$. Combining these observations with \eqref{eq:pinsker-binary} gives
+\begin{equation}\label{eq:entropy-bracket}
+ (F-\kappa)\ln2
+ \le u^2\left(-\frac14-\frac14\ln(1-r^2)+\frac{r^2}2\right).
+\end{equation}
+Since $-\ln(1-x)\le x/(1-x)$ for $0\le x<1$, the expression in parentheses is at most
+\[
+ -\frac14+\frac{49}{2304}+\frac{49}{1250}<0.
+\]
+This proves \eqref{eq:two-parent} in the interior. For the boundary cases, approximate the parent mean by interior means and add an arbitrarily small independent fair-bit noise to the child. Conditional entropy and all terms in \eqref{eq:two-parent} are continuous in the resulting finite joint laws, so the inequality passes to the limit.
+
+Finally, put $a=9/25$. Then $w=a/(1-a)$ and $\tau-1/4=a/2$. Consequently,
+\[
+ \kappa+\sigma\tau
+ =\frac12+\frac12\bigl(\log_2(1+w)-a\log_2 w\bigr)
+ =\frac{1+h(a)}2.
+\]
+The first line of \eqref{eq:scalar-bounds} proves \eqref{eq:theta-identity}.
+\end{proof}
+
+\subsection{Sampling parents without replacement}
+
+\begin{lemma}\label{lem:without-replacement}
+Consider an array of $L\ge4$ bits with mean $q$. Sample an ordered pair of distinct indices uniformly, and let $X,Y$ be the sampled bits. For an arbitrary conditional law of a binary child $Z$ given $(X,Y)$, put $v=\E Z$ and let $d$ be as in Lemma~\ref{lem:two-parent}. Then
+\begin{equation}\label{eq:without-replacement}
+ \HH(Z\mid X,Y)\le
+ \kappa+\sigma d+\frac{h(v)-h(q)}2+\eta(L),
+\end{equation}
+where
+\begin{equation}\label{eq:eta}
+ \eta(L)=\frac{1+\sigma}{L}+\frac12h(1/L).
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+Compare the parent law with the law obtained by sampling two indices independently with replacement. These laws have total variation distance at most $1/L$. One coupling samples both indices independently and, only when they coincide, resamples the second index uniformly from the other $L-1$ choices. The resulting distinct pair is uniform.
+
+Use the same child kernel under the two parent laws, assigning it arbitrarily at parent types of zero mass. Conditional entropy is the expectation of a function in $[0,1]$, so it changes by at most $1/L$. The disagreement cost changes by at most $1/L$, and so does the child mean. The parent mean remains $q$. By \eqref{eq:continuity}, the two child entropies differ by at most $h(1/L)$, since $h$ is increasing on $[0,1/2]$. Applying Lemma~\ref{lem:two-parent} to the with-replacement law gives \eqref{eq:without-replacement}.
+\end{proof}
+
+\section{A fixed locally sparse graph}
+
+Fix
+\begin{equation}\label{eq:fixed-parameters}
+ L_0=10^7,\qquad \delta=10^{-5},\qquad t=20000.
+\end{equation}
+Let $V_0$ be a set of $L_0$ vertices. Having constructed $V_{i-1}$, let $V_i$ be a disjoint set indexed by the unordered pairs of distinct vertices of $V_{i-1}$. Join each vertex of $V_i$ to the two vertices indexing it. Do this for $1\le i\le t$, and include exactly these edges. Denote the resulting graph by $G$. Write $L_i=\abs{V_i}$, so that
+\[
+ L_i=\binom{L_{i-1}}2.
+\]
+Every $L_i$ is finite, and $L_i\ge L_0$. In particular, $G$ is fixed independently of every parameter introduced below.
+
+\begin{lemma}\label{lem:local-sparsity}
+The graph $G$ is bipartite and $2$-degenerate, and satisfies \eqref{eq:local-condition}.
+\end{lemma}
+
+\begin{proof}
+Even and odd layers give a bipartition. Order the vertices by increasing layer, with any order inside a layer. Every vertex has at most two neighbors earlier in this order, which proves $2$-degeneracy. Restrict the order to a set $W$ of $s\ge2$ vertices. Its first vertex has no earlier neighbor, its second has at most one, and each remaining vertex has at most two. Counting edges by their later endpoint gives
+\[
+ e(G[W])\le0+1+2(s-2)=2s-3.
+\]
+\end{proof}
+
+The next elementary bounds ensure a uniform entropy margin at every layer.
+
+\begin{lemma}\label{lem:fixed-margins}
+For every integer $L\ge L_0$, with $M=\binom L2$,
+\begin{equation}\label{eq:margins}
+ \eta(L)<\delta,\qquad
+ L+3\log_2(M+1)-\delta M<-1.
+\end{equation}
+Also,
+\begin{equation}\label{eq:depth-margin}
+ 2t(\beta-\theta-2\delta)>1.
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+We have $0<\sigma<1$. For $0<x<1$, the inequality $-(1-x)\ln(1-x)\le x$ gives
+\[
+ h(x)\le x\log_2(1/x)+\frac{x}{\ln2}.
+\]
+Using $\log_2 L_0<24$ and $1/\ln2<2$ yields
+\[
+ \eta(L_0)<\frac2{10^7}+\frac{26}{2\cdot10^7}
+ =\frac{15}{10^7}<\delta.
+\]
+Both terms in \eqref{eq:eta} decrease for $L\ge L_0$, so the first bound follows. Next, $M+1\le L^2$ and $\log_2L\le L$. Furthermore,
+\[
+ \delta M=\frac{L(L-1)}{200000}\ge49L.
+\]
+Thus the second expression in \eqref{eq:margins} is at most $L+6L-49L=-42L<-1$. Finally, \eqref{eq:theta-identity} gives
+\[
+ \beta-\theta-2\delta>.9714-.97135-.00002=.00003.
+\]
+Multiplying by $2t=40000$ proves \eqref{eq:depth-margin}.
+\end{proof}
+
+\section{Excluding the fixed graph in a sampled cube}
+
+From now on, $N$ tends to infinity through positive multiples of $40000$. Let
+\begin{equation}\label{eq:cube-parameters}
+ U_N=\{0,1\}^N,\qquad Q=2^N,\qquad
+ k=\tau N,\qquad p=2^{-\beta N}.
+\end{equation}
+Then $k$ is an even integer. The graph $B_N$ on $U_N$ joins two distinct words when their Hamming distance is at most $k$. Each word is retained independently with probability $p$ to form a random set $S$. We shall prove that $B_N[S]$ is $G$-free with probability tending to one.
+
+\subsection{Counting child arrays}
+
+Consider a single transition with $L$ parents and $M=\binom L2$ children. Fix an ordered parent array $u=(u_1,\ldots,u_L)\in U_N^L$. A child array $z\in U_N^M$ assigns a word to each unordered pair of parent indices.
+
+For coordinate $j$, choose a child index uniformly and orient its two parents by a fair coin. Denote the parent bits by $X_j,Y_j$ and the child bit by $Z_j$. Define
+\begin{equation}\label{eq:profile-entropy}
+ E(u,z)=\frac1N\sum_{j=1}^N\HH(Z_j\mid X_j,Y_j).
+\end{equation}
+
+\begin{lemma}\label{lem:array-count}
+For a fixed parent array $u$, the number of child arrays satisfying $E(u,z)\le\beta-\delta$ is at most
+\begin{equation}\label{eq:array-count}
+ (M+1)^{3N}2^{NM(\beta-\delta)}.
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+At each coordinate, split the child indices into the three groups corresponding to unordered parent types $00$, $01$, and $11$. Let their sizes be $M_{00},M_{01},M_{11}$, and let $a_{00},a_{01},a_{11}$ count the child bits equal to one in these groups. The three counts have at most $(M+1)^3$ possibilities. For a specified triple, the number of child-bit assignments is
+\[
+ \prod_{g\in\{00,01,11\}}\binom{M_g}{a_g}
+ \le 2^{\sum_g M_g h(a_g/M_g)},
+\]
+by \eqref{eq:binomial-entropy}, with an empty group contributing zero to the exponent. The fair orientation of a mixed parent pair gives the same conditional child distribution for parent types $01$ and $10$. Hence the exponent is exactly $M\HH(Z_j\mid X_j,Y_j)$.
+
+Specify such a triple at every coordinate. There are at most $(M+1)^{3N}$ resulting profiles, and for each profile the total number of arrays is at most $2^{NM E(u,z)}$. Summing over the profiles with $E(u,z)\le\beta-\delta$ proves the lemma.
+\end{proof}
+
+\subsection{The entropy potential across layers}
+
+\begin{proposition}\label{prop:red-free}
+For the fixed graph $G$ of Section~3,
+\begin{equation}\label{eq:red-failure}
+ \Prob\bigl(G\subseteq B_N[S]\bigr)\le t2^{-N}.
+\end{equation}
+\end{proposition}
+
+\begin{proof}
+For a transition with $L$ parents and $M$ children, call a child array distinct if its $M$ words are pairwise distinct. Every particular distinct child array is contained in $S$ with probability $p^M$. There are $Q^L$ possible parent arrays. Lemmas~\ref{lem:array-count} and \ref{lem:fixed-margins}, followed by the union bound, show that the probability of a parent array and a distinct surviving child array with $E(u,z)\le\beta-\delta$ is at most
+\begin{align*}
+ Q^L(M+1)^{3N}2^{NM(\beta-\delta)}p^M
+ &=2^{N[L+3\log_2(M+1)-\delta M]}\\
+ &\le2^{-N}.
+\end{align*}
+This calculation counts all parent arrays, regardless of whether their words survive. Taking a union bound over the $t$ transitions gives an event of probability at least $1-t2^{-N}$ on which every distinct surviving child array at every transition has entropy greater than $\beta-\delta$.
+
+Suppose this event holds and there is an injective copy of $G$ in $B_N[S]$. For coordinate $j$, let $q_{i,j}$ be the proportion of ones among the images of the vertices in layer $V_i$, and put
+\[
+ \Phi_i=\frac1N\sum_{j=1}^N h(q_{i,j}).
+\]
+We have $0\le\Phi_i\le1$. For the transition from $V_{i-1}$ to $V_i$, let $E_i$ be the quantity \eqref{eq:profile-entropy}. The child images are distinct and survive, so $E_i>\beta-\delta$.
+
+Let $d_{i,j}$ be the average of the two parent-child disagreement probabilities at coordinate $j$. Every parent-child edge of the copy has Hamming distance at most $k$. Averaging over all $2L_i$ parent-child edges therefore gives
+\[
+ \frac1N\sum_{j=1}^N d_{i,j}\le\frac{k}{N}=\tau.
+\]
+At each coordinate the oriented parent pair is a uniformly sampled pair of distinct indices from the parent layer. Apply Lemma~\ref{lem:without-replacement} and average over coordinates. By \eqref{eq:theta-identity},
+\[
+ E_i\le\theta+\frac{\Phi_i-\Phi_{i-1}}2+\eta(L_{i-1})
+ <\theta+\frac{\Phi_i-\Phi_{i-1}}2+\delta.
+\]
+Thus
+\[
+ \Phi_i-\Phi_{i-1}>2(\beta-\theta-2\delta).
+\]
+Summing for $1\le i\le t$ and using \eqref{eq:depth-margin} yields $\Phi_t-\Phi_0>1$, contradicting $0\le\Phi_0,\Phi_t\le1$. Therefore the event under consideration is $G$-free, which proves \eqref{eq:red-failure}.
+\end{proof}
+
+\section{The spectrum of the Hamming ball}
+
+We next control independent sets of $B_N$. Let $T$ be the real symmetric matrix indexed by $U_N$ with
+\[
+ T(x,y)=\one_{\dist(x,y)\le k}.
+\]
+Its diagonal entries are one and its constant row sum is
+\begin{equation}\label{eq:degree}
+ D=\sum_{j=0}^k\binom Nj.
+\end{equation}
+By \eqref{eq:binomial-entropy} and the monotonicity of $h$ on $[0,1/2]$,
+\begin{equation}\label{eq:D-bounds}
+ \frac{2^{Nh(\tau)}}{N+1}\le D\le(N+1)2^{Nh(\tau)}.
+\end{equation}
+In particular $D=2^{(h(\tau)+o(1))N}$.
+
+\subsection{Characters and Krawtchouk polynomials}
+
+Identify $U_N$ with $\F_2^N$ and write $\abs x$ for the Hamming weight of a word $x$. For $b\in\F_2^N$, define
+\[
+ \chi_b(x)=(-1)^{b\cdot x}.
+\]
+The characters are orthogonal under summation over $U_N$, each with squared norm $Q$. As $T(x,y)$ depends only on $x+y$, each character is an eigenvector. Define $K_j^{(n)}(v)$ by
+\begin{equation}\label{eq:K-generating}
+ (1-z)^v(1+z)^{n-v}=\sum_{j=0}^n K_j^{(n)}(v)z^j.
+\end{equation}
+Equivalently,
+\[
+ K_j^{(n)}(v)=\sum_{a=0}^j(-1)^a\binom va\binom{n-v}{j-a}.
+\]
+Using the polynomial definition of the binomial coefficients extends $K_j^{(n)}$ to a polynomial in the real variable $v$.
+If $\abs{b}=i$, summing $\chi_b$ over words of a given weight shows that its eigenvalue is
+\[
+ \lambda_i=\sum_{j=0}^k K_j^{(N)}(i).
+\]
+We have $\lambda_0=D$. For $1\le i\le N$, coefficient extraction gives
+\begin{equation}\label{eq:partial-sum}
+ \lambda_i=[z^k]\frac{(1-z)^i(1+z)^{N-i}}{1-z}
+ =K_k^{(N-1)}(i-1).
+\end{equation}
+
+\begin{lemma}\label{lem:root-location}
+Let $1\le k\le(n+1)/2$ be even. If $K_k^{(n)}(v)<0$ for an integer $0\le v\le n$, then
+\begin{equation}\label{eq:root-location}
+ \abs{n-2v}<2\sqrt{k(n-k+1)}.
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+Put $x=n-2v$. Differentiating \eqref{eq:K-generating} and comparing coefficients gives
+\[
+ (j+1)K_{j+1}=xK_j-(n-j+1)K_{j-1}.
+\]
+Thus the monic polynomials $P_j(x)=j!K_j^{(n)}((n-x)/2)$ satisfy
+\begin{equation}\label{eq:monic-recurrence}
+ P_0=1,\qquad P_1=x,\qquad
+ P_{j+1}=xP_j-j(n-j+1)P_{j-1}.
+\end{equation}
+The determinant recurrence identifies $P_k$ with the characteristic polynomial of the real symmetric $k\times k$ tridiagonal matrix having zero diagonal and off-diagonal entries
+\[
+ \sqrt{j(n-j+1)},\qquad 1\le j\le k-1.
+\]
+All roots are real. Each eigenvalue has absolute value at most the maximal absolute row sum, which is at most $2\sqrt{k(n-k+1)}$. Here $j(n-j+1)$ is increasing for $0\le j\le(n+1)/2$.
+
+The monic polynomial $P_k$ is positive to the right of its largest root. Recurrence \eqref{eq:monic-recurrence} also gives $P_k(-x)=(-1)^kP_k(x)$. Since $k$ is even, $P_k$ is positive on both exterior intervals beyond the indicated root bound, and is nonnegative at the endpoints. A negative value must satisfy \eqref{eq:root-location}.
+\end{proof}
+
+\begin{lemma}\label{lem:K-parseval}
+For $0\le k\le n$,
+\begin{equation}\label{eq:K-parseval}
+ \sum_{v=0}^n\binom nv K_k^{(n)}(v)^2=2^n\binom nk.
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+On $\F_2^n$, let $f(x)=\one_{\abs{x}=k}$ and define the unnormalized Fourier coefficient $\widehat f(b)=\sum_x f(x)\chi_b(x)$. If $\abs b=v$, then \eqref{eq:K-generating} gives $\widehat f(b)=K_k^{(n)}(v)$. Orthogonality gives
+\[
+ \sum_b\widehat f(b)^2
+ =\sum_{x,y}f(x)f(y)\sum_b\chi_b(x+y)
+ =2^n\sum_x f(x)^2
+ =2^n\binom nk.
+\]
+Grouping $b$ by its weight proves \eqref{eq:K-parseval}.
+\end{proof}
+
+\subsection{A bound on the negative eigenvalues}
+
+\begin{proposition}\label{prop:negative-spectrum}
+For all sufficiently large admissible $N$, every eigenvalue of $T$ is at least $-\Lambda$, where
+\begin{equation}\label{eq:spectral-decay}
+ \frac{\Lambda}{D}\le2^{-.0152N}.
+\end{equation}
+\end{proposition}
+
+\begin{proof}
+Set $n=N-1$. Since $k=\tau N$ is even and $k\le(n+1)/2$, Lemma~\ref{lem:root-location} applies. If the eigenvalue in \eqref{eq:partial-sum} is negative, with $v=i-1$, then
+\[
+ \frac12-\frac{\sqrt{k(n-k+1)}}n
+ <\frac vn<
+ \frac12+\frac{\sqrt{k(n-k+1)}}n.
+\]
+Now
+\[
+ \frac{\sqrt{k(n-k+1)}}n
+ =\frac{N}{N-1}\sqrt{\tau(1-\tau)}.
+\]
+The exact inequality $.4951^2=.24512401>.2451=\tau(1-\tau)$ implies
+\[
+ \frac12-\sqrt{\tau(1-\tau)}>.0049.
+\]
+Consequently every negative eigenvalue has $v/n\in[.0049,.9951]$ for all sufficiently large $N$.
+
+By Lemmas~\ref{lem:elementary-entropy} and \ref{lem:K-parseval},
+\begin{align*}
+ \abs{K_k^{(n)}(v)}^2
+ &\le \frac{2^n\binom nk}{\binom nv}\\
+ &\le(n+1)\,2^{n[1+h(k/n)-h(v/n)]}\\
+ &\le(n+1)\,2^{n[1+h(k/n)-h(.0049)]}.
+\end{align*}
+In the last step we use the symmetry and monotonicity of binary entropy. Since $k/n\to\tau$, this bounds the magnitude of every negative eigenvalue by
+\[
+ 2^{\left(\frac{1+h(\tau)-h(.0049)}2+o(1)\right)N}.
+\]
+After division by the lower bound in \eqref{eq:D-bounds}, the exponent becomes
+\[
+ -\frac{h(\tau)+h(.0049)-1}{2}+o(1).
+\]
+The estimates \eqref{eq:scalar-bounds} give
+\[
+ \frac{h(\tau)+h(.0049)-1}{2}>.015225>.0152.
+\]
+Taking $\Lambda$ to be the larger of zero and the magnitude of the most negative eigenvalue proves \eqref{eq:spectral-decay}.
+\end{proof}
+
+\section{Independent-set containers and random thinning}
+
+Put
+\begin{equation}\label{eq:container-parameters}
+ M_N=\ceil{2^{.985N}},\qquad
+ b_N=2^{.01425N}.
+\end{equation}
+For admissible $N=40000m$, we have $b_N=2^{570m}$.
+
+\subsection{Supersaturation}
+
+\begin{lemma}\label{lem:supersaturation}
+For all sufficiently large admissible $N$, every $W\subseteq U_N$ with $\abs W\ge M_N$ contains a vertex whose degree in $B_N[W]$ is at least
+\begin{equation}\label{eq:large-degree}
+ \frac{D\abs W}{4Q}.
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+Decompose $\one_W=(\abs W/Q)\one+f$, where $f$ is orthogonal to the constant vector. Proposition~\ref{prop:negative-spectrum} and $\norm f^2=\abs W-\abs W^2/Q\le\abs W$ give
+\[
+ \one_W^{\mathsf T}T\one_W
+ \ge \frac{D\abs W^2}{Q}-\Lambda\abs W.
+\]
+Since $\abs W/Q\ge2^{-.015N}$ and $\Lambda/D\le2^{-.0152N}$, for large $N$ the second term is at most half the first. Hence
+\[
+ \one_W^{\mathsf T}T\one_W\ge\frac{D\abs W^2}{2Q}.
+\]
+There is one diagonal entry for each vertex, so
+\[
+ \frac{2e(B_N[W])}{\abs W}
+ =\frac{\one_W^{\mathsf T}T\one_W-\abs W}{\abs W}
+ \ge\frac{D\abs W}{2Q}-1.
+\]
+By \eqref{eq:D-bounds}, $DM_N/Q\to\infty$. The last expression is therefore at least $D\abs W/(4Q)$, uniformly for $\abs W\ge M_N$. Some vertex has at least the average degree.
+\end{proof}
+
+\subsection{A deterministic encoding}
+
+Fix a total order of $U_N$ to resolve ties between vertices of the same degree. Given an independent set $I$ of $B_N$, start with $W=U_N$ and an empty set $F$. While $\abs W\ge M_N$, take a vertex $x$ of maximum degree in $B_N[W]$ and do the following.
+\begin{enumerate}
+ \item If $x\notin I$, delete $x$ from $W$.
+ \item If $x\in I$, add $x$ to $F$ and delete $x$ and all its current neighbors from $W$.
+\end{enumerate}
+Write $W_F$ for the set remaining when the procedure stops. Independence implies
+\begin{equation}\label{eq:container-cover}
+ I\subseteq F\cup W_F,\qquad \abs{W_F}<M_N.
+\end{equation}
+
+\begin{lemma}\label{lem:fingerprints}
+For all sufficiently large admissible $N$, the set $W_F$ is determined by the unordered set $F$. Moreover, every set $F$ produced by the procedure has size at most
+\begin{equation}\label{eq:fingerprint-size}
+ L_N=\ceil{1+\frac{4Q}{D}\ln Q}.
+\end{equation}
+The number of possible pairs $(F,W_F)$ is at most $(Q+1)^{L_N+1}$, and
+\begin{equation}\label{eq:fingerprint-negligible}
+ L_N=o(b_N),\qquad (L_N+1)\ln(Q+1)=o(b_N).
+\end{equation}
+\end{lemma}
+
+\begin{proof}
+Replay the procedure using membership in $F$ to choose between its two deletion rules. At each stage of the original run, the selected vertex belongs to $I$ exactly when it belongs to $F$. Indeed, every selected vertex of $I$ is recorded, and all recorded vertices lie in $I$. An induction shows that the replay selects the same vertices and deletes the same sets. This proves the determination assertion.
+
+Put $a=D/(4Q)$, so $0<a\le1/4$. Whenever a vertex is recorded, Lemma~\ref{lem:supersaturation} shows that the current set loses at least the fraction $a$ of its vertices. Other steps also decrease its size. If $s\ge1$ vertices are recorded, the set immediately before the last such step has size at least $M_N$ and at most $Q(1-a)^{s-1}$. Therefore
+\[
+ s-1\le\frac{\ln(Q/M_N)}{-\ln(1-a)}
+ \le\frac{\ln Q}{a}=\frac{4Q}{D}\ln Q,
+\]
+which gives \eqref{eq:fingerprint-size}. The number of subsets of $U_N$ of size at most $L_N$ is at most $(Q+1)^{L_N+1}$. Each such recorded set determines at most one pair $(F,W_F)$.
+
+Finally, \eqref{eq:D-bounds} yields
+\[
+ L_N=O\left(N^2 2^{(1-h(\tau))N}\right).
+\]
+As $1-h(\tau)<.01419<.01425$, both assertions of \eqref{eq:fingerprint-negligible} follow. A polynomial factor is dominated by the exponential gap between these two constants.
+\end{proof}
+
+\subsection{Thinning the containers}
+
+\begin{proposition}\label{prop:blue-free}
+For the independently retained set $S$ with retention probability $p=2^{-\beta N}$,
+\begin{equation}\label{eq:blue-failure}
+ \Prob\bigl(\alpha(B_N[S])\ge b_N\bigr)=o(1).
+\end{equation}
+\end{proposition}
+
+\begin{proof}
+Every $W_F$ in Lemma~\ref{lem:fingerprints} is a fixed subset of the ambient cube. Let $X_F=\abs{W_F\cap S}$. Independence of the retention variables gives the exact exponential moment
+\begin{equation}\label{eq:exponential-moment}
+ \E 2^{X_F}=(1+p)^{\abs{W_F}}\le\exp(pM_N).
+\end{equation}
+The parameters satisfy
+\[
+ pM_N\le2^{(.985-\beta)N}+1
+ =2^{.0136N}+1=o(b_N).
+\]
+For large $N$, \eqref{eq:fingerprint-negligible} gives $L_N\le b_N/2$, and the preceding bound gives $pM_N\le(\ln2)b_N/4$. Markov's inequality applied to \eqref{eq:exponential-moment} then yields
+\begin{align*}
+ \Prob(X_F\ge b_N-L_N)
+ &\le \exp\bigl(pM_N-(\ln2)(b_N-L_N)\bigr)\\
+ &\le\exp\bigl(- (\ln2)b_N/4\bigr).
+\end{align*}
+If there is an independent set $I\subseteq S$ of size at least $b_N$, its encoding satisfies \eqref{eq:container-cover}. Hence $X_F\ge b_N-\abs F\ge b_N-L_N$. Taking the union bound over all possible pairs $(F,W_F)$ gives
+\[
+ \Prob\bigl(\alpha(B_N[S])\ge b_N\bigr)
+ \le\exp\left((L_N+1)\ln(Q+1)-\frac{\ln2}{4}b_N\right)=o(1),
+\]
+by \eqref{eq:fingerprint-negligible}.
+\end{proof}
+
+\section{Completion of the Ramsey argument}
+
+\begin{proof}[Proof of Theorem~\ref{thm:main}]
+Lemma~\ref{lem:local-sparsity} gives the required structural properties of the fixed graph $G$. It remains to prove the Ramsey bound.
+
+The order of the random sample has mean $pQ=2^{(1-\beta)N}$ and variance at most $pQ$. Chebyshev's inequality gives
+\begin{equation}\label{eq:sample-size}
+ \Prob\left(\abs S<\frac{pQ}{2}\right)
+ \le\frac4{pQ}=o(1).
+\end{equation}
+Together with Proposition~\ref{prop:red-free} and Proposition~\ref{prop:blue-free}, this shows that, for every sufficiently large admissible $N$, there exists a set $S\subseteq U_N$ satisfying all three properties
+\begin{equation}\label{eq:three-properties}
+ \abs S\ge\frac12 2^{(1-\beta)N},\qquad
+ G\nsubseteq B_N[S],\qquad
+ \alpha(B_N[S])<b_N.
+\end{equation}
+Indeed, the sum of the three failure probabilities tends to zero.
+
+Color each edge of the complete graph on $S$ red if its endpoints are adjacent in $B_N$, and blue otherwise. The second property in \eqref{eq:three-properties} excludes a red $G$. A blue clique is an independent set in $B_N[S]$, so the third property excludes a blue $K_{b_N}$. By the definition of the Ramsey number,
+\[
+ R(G,K_{b_N})>\abs S\ge\frac12 2^{(1-\beta)N}.
+\]
+Taking $N=40000m$ gives
+\[
+ b_N=2^{570m},\qquad (1-\beta)N=1144m,
+\]
+and proves \eqref{eq:main-bound}. For these cliques,
+\[
+ e\bigl(K_{2^{570m}}\bigr)
+ =\frac{2^{570m}(2^{570m}-1)}2<2^{1140m-1}.
+\]
+Division proves \eqref{eq:main-ratio}. The cliques have no isolated vertices. Their ratios tend to infinity while $G$ remains fixed, which disproves \eqref{eq:size-linear} for a graph satisfying the full local hypothesis \eqref{eq:local-condition}.
+\end{proof}
+
+\appendix
+\section{Exact scalar inequalities}\label{app:scalars}
+
+This appendix gives rational certificates for \eqref{eq:scalar-bounds}. For $1\le y\le2$, set
+\[
+ s(y)=2\sum_{j=0}^{15}\frac{1}{2j+1}
+       \left(\frac{y-1}{y+1}\right)^{2j+1},
+ \qquad \rho=\frac{3}{44\cdot3^{33}}.
+\]
+The expansion $\ln y=2\operatorname{artanh}((y-1)/(y+1))$ has nonnegative terms. Since $(y-1)/(y+1)\le1/3$, its omitted tail satisfies
+\[
+ 0\le\ln y-s(y)
+ \le\frac{2(1/3)^{33}}{33(1-1/9)}=\rho<10^{-16}.
+\]
+Thus
+\begin{equation}\label{eq:log-enclosure}
+ s(y)\le\ln y\le s(y)+\rho.
+\end{equation}
+Let $\ell=s(2)$. For a rational $x=2^e y\in(0,1)$ with $1\le y\le2$ and $e<0$, define
+\[
+ L_x=s(y)+e(\ell+\rho),\qquad
+ U_x=s(y)+\rho+e\ell.
+\]
+Equation \eqref{eq:log-enclosure} implies $L_x\le\ln x\le U_x$. Define the rational numbers
+\[
+ A_x=-xU_x-(1-x)U_{1-x},\qquad
+ B_x=-xL_x-(1-x)L_{1-x}.
+\]
+For the three arguments below, $A_x>0$, and therefore
+\begin{equation}\label{eq:entropy-enclosure}
+ \frac{A_x}{\ell+\rho}\le h(x)\le\frac{B_x}{\ell}.
+\end{equation}
+The required power-of-two reductions are
+\[
+\begin{array}{c|cc|cc}
+ x&e&y&e'&y'\\ \hline
+ 9/25&-2&36/25&-1&32/25\\
+ 43/100&-2&43/25&-1&57/50\\
+ 49/10000&-8&784/625&-1&9951/5000
+\end{array}
+\]
+where $x=2^e y$ and $1-x=2^{e'}y'$. To make the final comparisons explicit, take
+\[
+\begin{array}{c|cc}
+ x&a_x&b_x\\ \hline
+ 9/25&94268/100000&94270/100000\\
+ 43/100&98581/100000&98582/100000\\
+ 49/10000&4464/100000&4465/100000.
+\end{array}
+\]
+Substitution in the finite rational sums gives, in all three rows,
+\begin{equation}\label{eq:rational-certificates}
+ A_x-a_x(\ell+\rho)>\frac1{10^7},\qquad
+ b_x\ell-B_x>\frac1{10^7}.
+\end{equation}
+These inequalities involve rational numbers alone and follow by clearing their positive denominators. They imply $A_x>0$ and, together with \eqref{eq:entropy-enclosure}, prove $a_x<h(x)<b_x$. This is exactly \eqref{eq:scalar-bounds}.
+
+For completeness, the other scalar estimates used in the proof follow from
+\[
+ \frac{49}{2304}+\frac{49}{1250}<\frac14,
+ \qquad \left(\frac{4951}{10000}\right)^2>\frac{43\cdot57}{10000},
+\]
+and the direct consequences
+\[
+ \frac{h(.43)+h(.0049)-1}{2}>.015225,
+ \qquad 1-h(.43)<.01419.
+\]
+All decimal constants in the proof are terminating decimals and hence denote exact rational numbers.
+
+\section*{Acknowledgment}
+The authors acknowledge assistance from OpenAI's ChatGPT in developing and checking the argument and in preparing the exposition.
+
+\begin{thebibliography}{9}
+
+\bibitem{BTW}
+J. Balogh, A. Treglown, and A. Z. Wagner,
+\emph{Applications of graph containers in the Boolean lattice},
+Random Structures Algorithms \textbf{49} (2016), no. 4, 845--872.
+\href{https://doi.org/10.1002/rsa.20666}{doi:10.1002/rsa.20666}.
+
+\bibitem{Bloom}
+T. F. Bloom,
+\emph{Erd\H{o}s problems, Problem 566},
+\url{https://www.erdosproblems.com/566}, accessed November 11, 2026.
+
+\bibitem{EFRS}
+P. Erd\H{o}s, R. J. Faudree, C. C. Rousseau, and R. H. Schelp,
+\emph{Ramsey size linear graphs},
+Combin. Probab. Comput. \textbf{2} (1993), no. 4, 389--399.
+\href{https://doi.org/10.1017/S096354830000078X}{doi:10.1017/S096354830000078X}.
+
+\bibitem{OpenAI}
+OpenAI,
+\emph{Ten advances in mathematics and theoretical computer science},
+preprint, updated August 6, 2026, Chapter 10, pp. 236--248.
+\url{https://cdn.openai.com/pdf/ten-proofs-oai.pdf}.
+
+\end{thebibliography}
+\end{document}
