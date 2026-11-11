@@ -71,6 +71,7 @@ def main():
     parser.add_argument("--lake", default=shutil.which("lake") or "lake")
     parser.add_argument("--expect-commit")
     parser.add_argument("--jobs", type=int, default=1)
+    parser.add_argument("--timeout-seconds", type=int, default=7200)
     parser.add_argument("--fetch-cache", action="store_true")
     parser.add_argument("--fresh-kernel", action="store_true")
     args = parser.parse_args()
@@ -79,6 +80,8 @@ def main():
         parser.error("Choose an output directory outside the repository")
     if args.jobs < 1:
         parser.error("The job count must be positive")
+    if args.timeout_seconds < 1:
+        parser.error("The command timeout must be positive")
     output.mkdir(parents=True, exist_ok=False)
     commit = git_output("rev-parse", "HEAD")
     if args.expect_commit and commit != args.expect_commit:
@@ -123,13 +126,15 @@ def main():
         "execution_environment": "Local host with a dedicated checkout and pinned dependency cache",
         "operating_system_sandbox": False,
         "independent_checker_implementation": False,
+        "command_timeout_seconds": args.timeout_seconds,
+        "lean_num_threads": environment.get("LEAN_NUM_THREADS"),
         "status": "running",
     }
 
     def save():
         (output / "result.json").write_text(json.dumps(record, indent=2) + "\n", encoding="utf-8")
 
-    def run(name, arguments, timeout=3600):
+    def run(name, arguments):
         command = [args.lake, *arguments]
         log = output / (name + ".log")
         started = time.monotonic()
@@ -137,7 +142,7 @@ def main():
         with log.open("w", encoding="utf-8") as stream:
             result = subprocess.run(
                 command, cwd=ROOT, env=environment, stdout=stream,
-                stderr=subprocess.STDOUT, timeout=timeout,
+                stderr=subprocess.STDOUT, timeout=args.timeout_seconds,
             )
         entry = {
             "name": name,
