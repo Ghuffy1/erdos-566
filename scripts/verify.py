@@ -164,7 +164,19 @@ def main():
         if args.fetch_cache:
             run("dependency_cache", ["exe", "cache", "get"])
         record["dependencies_before"] = dependency_state()
-        run("clean", ["clean"])
+        build_directory = ROOT / ".lake" / "build"
+        if build_directory.is_symlink() or not build_directory.resolve().is_relative_to(ROOT):
+            raise ValueError("The project build directory must stay inside this checkout")
+        existed = build_directory.exists()
+        if existed:
+            shutil.rmtree(build_directory)
+        record["project_build_cleanup"] = {
+            "directory": ".lake/build",
+            "existed": existed,
+            "removed": existed,
+            "dependency_cache_preserved": True,
+        }
+        save()
         run("build", ["build"])
         run("explicit_modules", ["build", "+Erdos566", "+Verification"])
         common = ["env", "lean", "-j", str(args.jobs), "-DautoImplicit=false", "-t", "0"]
