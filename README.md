@@ -14,7 +14,7 @@ The ratio to the clique's edge count consequently tends to infinity.
 
 Will Howe, Grant Huffman, Jensen Kohlmeyer, and Liam Kruer receive equal contribution credit. Ghuffy1 is the designated repository owner and primary submission contact. See [AUTHORS.md](AUTHORS.md) for the account mapping, contribution statement, and AI disclosure.
 
-The repository is prepared locally for a future submission under `Ghuffy1/erdos-566`. Publication and prize review are pending.
+The public source repository is [Ghuffy1/erdos-566](https://github.com/Ghuffy1/erdos-566). The joint prize submission is [JSP PR #5565](https://github.com/TheJustinSunPrize/awards/pull/5565). Organizer review is pending.
 
 ## Mathematical paper
 
@@ -52,7 +52,7 @@ Mathlib is pinned to `5ed2965256430c3649e86755f9576b54eca72435`. The permitted f
 
 ## Submission materials
 
-The [submission directory](submission/) contains the joint submission draft and the proposed catalog-only change. Claim drafts are individual documents because JSP requires each applicant to act through their own account. The [release checklist](submission/RELEASE_CHECKLIST.md) records the future publication and review steps.
+The [submission directory](submission/) contains the joint submission and the proposed catalog-only change. Claim drafts are individual documents because JSP requires each applicant to act through their own account. The [release checklist](submission/RELEASE_CHECKLIST.md) records the publication and review sequence.
 
 The current rules snapshot is Justin Sun Prize revision `b1bfe454d37db2838ef76756830aeb23c40de95e`. Mathematical review, formal verification by the organizers, attribution review, personal identity confirmation, public review, and award decisions belong to the prize process. The local evidence supports that review.
 

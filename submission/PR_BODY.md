@@ -59,7 +59,7 @@ The method uses native Lean 4.34.0 and its fresh kernel replay. A dedicated chec
 
 ## Attribution
 
-Will Howe (H0W4RD-dev), Grant Huffman (Ghuffy1), Jensen Kohlmeyer (JENW1N), and Liam Kruer (lkruer) are designated equal contributors to the mathematical solution and formalization. Ghuffy1 is the primary submitter and intended repository owner. [AUTHORS.md](https://github.com/Ghuffy1/erdos-566/blob/ac0b12b5cb264a092ef1cdf6304760dcdc4b6328/AUTHORS.md) and [formalization.yaml](https://github.com/Ghuffy1/erdos-566/blob/be07da3d31e6a56630bd5c5ccc374ebad627499b/formalization.yaml) record that declaration. Personal confirmations and the organizer's account-to-author checks remain required.
+Will Howe (H0W4RD-dev), Grant Huffman (Ghuffy1), Jensen Kohlmeyer (JENW1N), and Liam Kruer (lkruer) are designated equal contributors to the mathematical solution and formalization. Ghuffy1 is the primary submitter and repository owner. [AUTHORS.md](https://github.com/Ghuffy1/erdos-566/blob/ac0b12b5cb264a092ef1cdf6304760dcdc4b6328/AUTHORS.md) and [formalization.yaml](https://github.com/Ghuffy1/erdos-566/blob/be07da3d31e6a56630bd5c5ccc374ebad627499b/formalization.yaml) record that declaration. Personal confirmations and the organizer's account-to-author checks remain required.
 
 OpenAI's ChatGPT assisted with mathematical development, formalization, verification, exposition, and preparation. The paper and [SOURCES.md](https://github.com/Ghuffy1/erdos-566/blob/ac0b12b5cb264a092ef1cdf6304760dcdc4b6328/SOURCES.md) credit the prior layered graph and entropy framework, the classical independent-set method, and the reused source licenses. No independent human verifier is designated.
 
@@ -74,4 +74,4 @@ The original local preparation history was AI-assisted. Local commit author fiel
 - [x] The selected commit is retained on the named branch, and reproduction evidence is supplied.
 - [x] The awards patch contains no proof source, archives, binaries, vendored dependencies, or private identity/payment information.
 - [x] The primary submitter requested the stated joint attribution and authorized this submission from the Ghuffy1 account. Each applicant will complete the official personal confirmation process for their own claim.
-- [ ] I have authorized public release and confirmed that all linked public materials resolve at the selected revisions.
+- [x] I have authorized public release and confirmed that all linked public materials resolve at the selected revisions.

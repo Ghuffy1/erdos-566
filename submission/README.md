@@ -1,9 +1,11 @@
-# Prepared submission materials
+# Submission materials
 
-JSP-000456 corresponds to Erdős problem 566. It is outside the MathDB pilot at the pinned rules revision, so the legacy combined mathematical-solution and Lean-submission route applies.
+JSP-000456 corresponds to Erdős problem 566. It is outside the MathDB pilot at the pinned rules revision and follows the legacy combined mathematical-solution and Lean-submission route.
 
-The primary submitter is Ghuffy1. JENW1N, H0W4RD-dev, lkruer, and Ghuffy1 receive equal contribution credit, with the complete author names given in AUTHORS.md.
+Ghuffy1 owns [the public proof repository](https://github.com/Ghuffy1/erdos-566) and is the primary submitter. Will Howe, Grant Huffman, Jensen Kohlmeyer, and Liam Kruer receive equal mathematical and formalization credit. AUTHORS.md records their accounts.
 
-The repository currently exists locally. The prepared repository address is `https://github.com/Ghuffy1/erdos-566`. Links using that address identify the intended publication destination and become usable after the owner authorizes and completes publication.
+The selected proof commit is `ac0b12b5cb264a092ef1cdf6304760dcdc4b6328`. Its full verification evidence is preserved at `be07da3d31e6a56630bd5c5ccc374ebad627499b`. All commit-pinned proof and evidence links were checked against the public repository.
 
-The completed preparation includes the joint PR body, the catalog-only proposed change, individual claim drafts, an evidence report, and a rule-by-rule compliance review. Follow RELEASE_CHECKLIST.md for the remaining external steps.
+The joint contribution is submitted in [this JSP PR](https://github.com/TheJustinSunPrize/awards/pull/5565). Organizer review is pending.
+
+The packet includes the complete paper, proof, reproduction instructions, verification evidence, literature review, catalog-only patch, and individual claim drafts. Each applicant completes their own claim and identity steps under the official process after the required contribution acceptance.

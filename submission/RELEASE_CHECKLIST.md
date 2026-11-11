@@ -34,4 +34,4 @@
 - Resolve any relevant challenges and pending reviews before the organizer confirms an award.
 - Exchange payment and delivery information only through the official private process.
 
-The external actions above are pending. The preparation does not establish an accepted claim, an active public-review period, firstness, a prize level, or a payment allocation.
+The verified proof repository is public. The joint contribution is submitted in [https://github.com/TheJustinSunPrize/awards/pull/5565](https://github.com/TheJustinSunPrize/awards/pull/5565). Personal applications, organizer acceptance, public review, and award decisions follow the official process.

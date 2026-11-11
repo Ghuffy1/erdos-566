@@ -8,8 +8,7 @@
   },
   "owner": "Ghuffy1",
   "primary_submitter": "Ghuffy1",
-  "planned_repository": "https://github.com/Ghuffy1/erdos-566",
-  "repository_publication": "authorized, awaiting completion of final verification and publication",
+  "repository_publication": "public; ownership, selected commit ancestry, and pinned links verified",
   "branch": "main",
   "selected_proof_commit": "ac0b12b5cb264a092ef1cdf6304760dcdc4b6328",
   "evidence_commit": "be07da3d31e6a56630bd5c5ccc374ebad627499b",
@@ -55,5 +54,7 @@
   },
   "public_review_start": null,
   "award_allocation": null,
-  "publication_authorization": "Primary submitter instructed publication and JSP submission if the final verification passes."
+  "publication_authorization": "Primary submitter instructed publication and JSP submission if the final verification passes.",
+  "repository": "https://github.com/Ghuffy1/erdos-566",
+  "submission_pr": "https://github.com/TheJustinSunPrize/awards/pull/5565"
 }

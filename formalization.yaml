@@ -4,7 +4,7 @@ problem:
   erdos_number: 566
   result: complete disproof
 primary_submitter: Ghuffy1
-planned_repository: https://github.com/Ghuffy1/erdos-566
+repository: https://github.com/Ghuffy1/erdos-566
 branch: main
 selected_proof_commit: ac0b12b5cb264a092ef1cdf6304760dcdc4b6328
 authors:

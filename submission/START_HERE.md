@@ -1,12 +1,11 @@
-# Prepared privately for Ghuffy1
+# Erdős 566 submission
 
-The complete proof repository is ready for owner review. The selected proof commit is `ac0b12b5cb264a092ef1cdf6304760dcdc4b6328`, and its verification evidence is preserved at `be07da3d31e6a56630bd5c5ccc374ebad627499b`. All four requested contributors receive equal mathematical and formalization credit.
+Ghuffy1 is the primary submitter and public repository owner. All four authors have equal contribution credit. The selected proof commit is `ac0b12b5cb264a092ef1cdf6304760dcdc4b6328`, with verified evidence at `be07da3d31e6a56630bd5c5ccc374ebad627499b`.
 
-- Read [the paper](../paper/paper.pdf).
-- Read [the verification report](../verification/REPORT.md).
-- Review [the joint PR body](PR_BODY.md) and [the catalog patch](catalog.patch).
-- Review [the rule-by-rule compliance audit](RULES_COMPLIANCE.md).
-- Complete [the release sequence](RELEASE_CHECKLIST.md) when publication is authorized.
-- Each contributor reviews their own file in [claim-drafts](claim-drafts/).
+- Read [the complete paper](../paper/paper.pdf).
+- Read [the full verification report](../verification/REPORT.md).
+- Read [the literature review](LITERATURE_REVIEW.md).
+- Review [the joint submission](PR_BODY.md) and [the catalog patch](catalog.patch).
+- Consult [the rules audit](RULES_COMPLIANCE.md) and [the application sequence](RELEASE_CHECKLIST.md).
 
-The repository has remained local. Public links, personal confirmations, actual submission and claim URLs, organizer review, identity checks, and public-notice dates await their respective external steps. The coauthor Lean-claim treatment for a Ghuffy1-owned personal repository also requires organizer confirmation. Financial allocations have not been inferred from equal contribution credit.
+The joint contribution PR is [https://github.com/TheJustinSunPrize/awards/pull/5565](https://github.com/TheJustinSunPrize/awards/pull/5565). Organizer acceptance, personal claims and identity confirmation, public review, and award decisions remain pending.

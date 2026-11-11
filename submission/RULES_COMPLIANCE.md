@@ -23,7 +23,7 @@ The governing snapshot is `TheJustinSunPrize/awards` commit `b1bfe454d37db2838ef
 | Duplicate review | RELATED_SUBMISSIONS.md documents the located PRs and the observed scope of their source. |
 | Individual claims | Four claim drafts name the respective applicants and retain the required personal declarations for completion by those applicants. |
 | Identity correspondence | Individual unsent email drafts are kept outside the publication repository. The public materials describe the verification method without private identity documents. |
-| Privacy | This preparation has stayed local. Identity documents, payment information, private correspondence, and machine-specific verification paths are excluded from the publication files. |
+| Privacy | Preparation remained local through successful final verification. The verified source repository is now public. Identity documents, payment information, private correspondence, and machine-specific verification paths are excluded from the publication files. |
 
 ## Future external steps
 
@@ -31,11 +31,11 @@ The following items require the owner's authorized release, personal participati
 
 | Step | Present state |
 | --- | --- |
-| Publish the repository and resolve public proof links | Pending owner authorization. The proposed URL is explicitly recorded as a planned destination. |
+| Publish the repository and resolve public proof links | Completed. Public ownership, proof ancestry, and commit-pinned links were checked. |
 | Confirm each contributor's role and account connection | Personal confirmation pending. Public account existence has been checked. |
 | Confirm personal-repository coauthor Lean claims | Pending organizer interpretation. The joint source is owned by Ghuffy1, and the rules expressly describe applicant-owned and organization repositories. Each coauthor's draft calls out the shared personal-repository source. |
 | Establish independent public completion history | Pending public release. Private Git timestamps alone establish no priority. |
-| Submit the joint proof PR | Pending owner authorization and publication. |
+| Submit the joint proof PR | Submitted in [https://github.com/TheJustinSunPrize/awards/pull/5565](https://github.com/TheJustinSunPrize/awards/pull/5565). |
 | Complete organizer mathematical review | Pending submission and review. |
 | Complete organizer formal verification | Pending submission and review. |
 | Reconcile catalog index and eligibility fields | A maintainer responsibility after review. The proposed external patch preserves those fields. |
