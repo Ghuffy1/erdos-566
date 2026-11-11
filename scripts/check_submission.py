@@ -8,6 +8,7 @@ import subprocess
 
 
 ROOT = Path(__file__).resolve().parents[1]
+PRIVATE_PATH = re.compile(r"(?<![A-Za-z])[A-Z]:[\\/]|/(?:Users|home)/[\w-]", re.IGNORECASE)
 
 
 def main():
@@ -64,14 +65,13 @@ def main():
 
     checked_links = set()
     link_pattern = r"https://github\.com/Ghuffy1/erdos-566/blob/([0-9a-f]{40})/([^\s)#]+)(?:#L(\d+))?"
-    private_path = re.compile(r"(?<![A-Za-z])[A-Z]:[\\/]|/Users/|/home/[A-Za-z]")
     for path in ROOT.rglob("*"):
         if not path.is_file() or ".git" in path.parts or ".lake" in path.parts:
             continue
         if path.suffix.lower() not in {".md", ".json", ".yaml", ".yml", ".txt", ".py", ".lean", ".toml", ".cff", ".log"}:
             continue
         text = path.read_text(encoding="utf-8")
-        if private_path.search(text):
+        if PRIVATE_PATH.search(text):
             raise ValueError("Machine-specific path found in " + str(path.relative_to(ROOT)))
         if re.search(r"\b(?:ghp_[A-Za-z0-9]{20,}|github_pat_[A-Za-z0-9_]{20,}|sk-[A-Za-z0-9]{30,})", text):
             raise ValueError("Potential secret found in " + str(path.relative_to(ROOT)))

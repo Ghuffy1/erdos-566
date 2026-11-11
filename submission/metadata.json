@@ -12,7 +12,7 @@
   "repository_publication": "authorized, awaiting completion of final verification and publication",
   "branch": "main",
   "selected_proof_commit": "ac0b12b5cb264a092ef1cdf6304760dcdc4b6328",
-  "evidence_commit": null,
+  "evidence_commit": "be07da3d31e6a56630bd5c5ccc374ebad627499b",
   "rules_commit": "b1bfe454d37db2838ef76756830aeb23c40de95e",
   "route": "legacy combined mathematical solution and Lean formalization",
   "contributors": [
