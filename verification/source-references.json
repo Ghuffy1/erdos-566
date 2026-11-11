@@ -1,0 +1,18 @@
+{
+  "canonical_sources": [
+    {
+      "url": "https://github.com/google-deepmind/formal-conjectures/blob/2f91d251c07fbbaf9435166d47c11e884a08a6cf/FormalConjectures/ErdosProblems/566.lean",
+      "commit": "2f91d251c07fbbaf9435166d47c11e884a08a6cf",
+      "path": "FormalConjectures/ErdosProblems/566.lean",
+      "sha256": "e98ef2f9a0830502e0727270620ee7ddc7344b468ea5e1cb81e5d15573c8baa4",
+      "git_blob": "554166014f8b0f596c59b02bd5d5a7796c0383c9"
+    },
+    {
+      "url": "https://github.com/google-deepmind/formal-conjectures/blob/2f91d251c07fbbaf9435166d47c11e884a08a6cf/FormalConjecturesForMathlib/Combinatorics/SimpleGraph/Ramsey.lean",
+      "commit": "2f91d251c07fbbaf9435166d47c11e884a08a6cf",
+      "path": "FormalConjecturesForMathlib/Combinatorics/SimpleGraph/Ramsey.lean",
+      "sha256": "6e52e0b8c4bb54f0a6dc53035577f48d4866008c7c23151f0ded8f17d4a82a91",
+      "git_blob": "9ad9e73d898e9b0cca1db96f1c537466bc07f385"
+    }
+  ]
+}

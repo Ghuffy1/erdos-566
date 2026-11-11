@@ -1,0 +1,63 @@
+{
+  "repository": "https://github.com/TheJustinSunPrize/awards",
+  "commit": "b1bfe454d37db2838ef76756830aeb23c40de95e",
+  "review_date": "2026-11-11",
+  "files": [
+    {
+      "path": "README.md",
+      "sha256": "6cf39723645c29e46b491901bd0062ca589d533269328dc3841e8565b555768f"
+    },
+    {
+      "path": "CONTRIBUTING.md",
+      "sha256": "bf112730e08402e2a9f95e53ebadcfbb795cbeb5b8f09bd752f2778be83fada1"
+    },
+    {
+      "path": "docs/award-process.md",
+      "sha256": "57f15383f18f9bcc30456aa385d7b9ff73aa13e052fb6a70cdfd30e3ecd4e29b"
+    },
+    {
+      "path": "docs/attribution.md",
+      "sha256": "7127947a32e87ac766f7aa7252c741f9deb61e886259284d727d49f3bfd53f1a"
+    },
+    {
+      "path": "docs/verification.md",
+      "sha256": "1e0b6ce29b956a570338eb11c564b6e688a3176f596c0eabf01d4444973e0a9c"
+    },
+    {
+      "path": "docs/records.md",
+      "sha256": "8fa4df1cac9e19351f4423eee51ab39a9532f49523698b04aa8bb41b0d0247d4"
+    },
+    {
+      "path": "docs/grading.md",
+      "sha256": "3cb62c94f8a18a82520db4e408a7c208dd225b51ab0024441caa372caea8a611"
+    },
+    {
+      "path": ".github/PULL_REQUEST_TEMPLATE.md",
+      "sha256": "bfeaaf4a5a2d489049cdb642c7b60fd868fd9bee6559437f2513b0d224a8aa5d"
+    },
+    {
+      "path": ".github/ISSUE_TEMPLATE/claim-award.yml",
+      "sha256": "ca31996bd0127e921957904db7b64a36cd0e641f3837a4b29d36ce990c336fea"
+    },
+    {
+      "path": "problems/mathdb-pilot.md",
+      "sha256": "6b05091c9baaed77e51e4235c47be15daddc364189744a463a32aeeeef1841a2"
+    },
+    {
+      "path": "problems/catalog-0401-0500.md",
+      "sha256": "1a562715b433eb1039f3d051e3f954e5af92a93c65cbcd2263c5d19d17c49960"
+    },
+    {
+      "path": "problems/mathdb-pilot.json",
+      "sha256": "81ca04589d76c14feae6bff9c2558745a88358e7765228f7b2ea221f823007af"
+    }
+  ],
+  "mathdb_pilot_member": false,
+  "legacy_entry": {
+    "status": "Open",
+    "lean_proof": "No",
+    "eligible_to_claim": "No",
+    "solver_claim": "Unavailable",
+    "lean_claim": "Unavailable"
+  }
+}

@@ -1,0 +1,59 @@
+{
+  "schema_version": 1,
+  "problem": {
+    "jsp_id": "JSP-000456",
+    "erdos_number": 566,
+    "source": "https://www.erdosproblems.com/566",
+    "catalog": "https://github.com/TheJustinSunPrize/awards/blob/main/problems/catalog-0401-0500.md#JSP-000456"
+  },
+  "owner": "Ghuffy1",
+  "primary_submitter": "Ghuffy1",
+  "planned_repository": "https://github.com/Ghuffy1/erdos-566",
+  "repository_publication": "authorized, awaiting completion of final verification and publication",
+  "branch": "main",
+  "selected_proof_commit": "ac0b12b5cb264a092ef1cdf6304760dcdc4b6328",
+  "evidence_commit": null,
+  "rules_commit": "b1bfe454d37db2838ef76756830aeb23c40de95e",
+  "route": "legacy combined mathematical solution and Lean formalization",
+  "contributors": [
+    {
+      "name": "Will Howe",
+      "github": "H0W4RD-dev",
+      "mathematical_credit": "equal",
+      "formalization_credit": "equal",
+      "personal_confirmation": "pending"
+    },
+    {
+      "name": "Grant Huffman",
+      "github": "Ghuffy1",
+      "mathematical_credit": "equal",
+      "formalization_credit": "equal",
+      "personal_confirmation": "pending"
+    },
+    {
+      "name": "Jensen Kohlmeyer",
+      "github": "JENW1N",
+      "mathematical_credit": "equal",
+      "formalization_credit": "equal",
+      "personal_confirmation": "pending"
+    },
+    {
+      "name": "Liam Kruer",
+      "github": "lkruer",
+      "mathematical_credit": "equal",
+      "formalization_credit": "equal",
+      "personal_confirmation": "pending"
+    }
+  ],
+  "ai_assistance": "OpenAI ChatGPT assisted with mathematical development, formalization, verification, exposition, and repository preparation.",
+  "merged_submission_pr": null,
+  "claim_issues": {
+    "H0W4RD-dev": null,
+    "Ghuffy1": null,
+    "JENW1N": null,
+    "lkruer": null
+  },
+  "public_review_start": null,
+  "award_allocation": null,
+  "publication_authorization": "Primary submitter instructed publication and JSP submission if the final verification passes."
+}

@@ -1,0 +1,9 @@
+{
+  "status": "passed",
+  "upstream_commit": "b1bfe454d37db2838ef76756830aeb23c40de95e",
+  "catalog_patch_sha256": "f6eb2442efeede04e766ddf0f0eb35e4f3e1ca6acd015c48d1758c43d09f43cf",
+  "catalog_metadata_check_exit_code": 0,
+  "upstream_unit_tests": 50,
+  "upstream_unit_test_exit_code": 0,
+  "review_date": "2026-11-11"
+}

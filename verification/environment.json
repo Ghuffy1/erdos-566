@@ -1,0 +1,10 @@
+{
+  "platform": "win32",
+  "python_version": "3.12.10",
+  "lean_num_threads": "2",
+  "parallelism_scope": "Only the verification process and its descendants",
+  "dependency_cache": "Revision-checked local cache, with all nine tracked trees checked before and after",
+  "checkout": "Dedicated clean checkout at the recorded proof commit",
+  "operating_system_sandbox": false,
+  "previous_attempt": "Interrupted during Windows session shutdown before the build completed"
+}

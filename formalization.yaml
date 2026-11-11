@@ -1,0 +1,32 @@
+schema_version: 1
+problem:
+  jsp_id: JSP-000456
+  erdos_number: 566
+  result: complete disproof
+primary_submitter: Ghuffy1
+planned_repository: https://github.com/Ghuffy1/erdos-566
+branch: main
+selected_proof_commit: ac0b12b5cb264a092ef1cdf6304760dcdc4b6328
+authors:
+  - name: Will Howe
+    github: H0W4RD-dev
+    mathematical_credit: equal
+    formalization_credit: equal
+  - name: Grant Huffman
+    github: Ghuffy1
+    mathematical_credit: equal
+    formalization_credit: equal
+  - name: Jensen Kohlmeyer
+    github: JENW1N
+    mathematical_credit: equal
+    formalization_credit: equal
+  - name: Liam Kruer
+    github: lkruer
+    mathematical_credit: equal
+    formalization_credit: equal
+ai_assistance: OpenAI ChatGPT assisted with development, formalization, verification, exposition, and preparation.
+attribution_status: Requested joint credit, subject to personal confirmation and organizer review.
+targets:
+  - Erdos566.original_statement_false
+  - PrizeStatement.original_problem_false
+  - Verification.original_problem_false

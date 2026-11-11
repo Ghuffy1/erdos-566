@@ -1,0 +1,37 @@
+--- a/problems/catalog-0401-0500.md
++++ b/problems/catalog-0401-0500.md
+@@ -952,30 +952,31 @@
+ | Publication details | &#91;De75&#93; Generalizations of Ramsey's theorem — Infinite and finite sets (Colloq., Keszthely, 1973), Vols. I, II, III (1975), 323-332.<br>&#91;EHP75&#93; Strong embeddings of graphs into colored graphs — Infinite and finite sets (Colloq., Keszthely, 1973), Vols. I, II, III (1975), 585-595.<br>&#91;Ro73&#93; The dimension of a graph and generalized Ramsey theorems — thesis (1973).<br>&#91;KPR98&#93; [Induced Ramsey numbers](https://doi.org/10.1007/pl00009828) — Combinatorica (1998), 373-404.<br>&#91;FoSu08&#93; Induced Ramsey-type theorems — Adv. Math. (2008), 1771-1800.<br>&#91;CFS12&#93; [On two problems in graph Ramsey theory](https://doi.org/10.1007/s00493-012-2710-3) — Combinatorica (2012), 513-535.<br>&#91;ACDFM25&#93; [An exponential upper bound for induced Ramsey numbers](https://arxiv.org/abs/2509.22629) — arXiv:2509.22629 (2025). |
+ | Scholarly recognition | Unverified: no public recognition specifically identifying this result was found (such as an award citation or authoritative public confirmation). |
+ 
+ <a id="JSP-000456"></a>
+ 
+ ## JSP-000456 · Under the specified local edge restrictions on one graph, is its Ramsey number against another graph linear in the latter's edge count?
+ 
+ | Field | Content |
+ | --- | --- |
+ | Date proposed | No later than 1993 (bibliographic evidence) |
+ | Mathematical area | Graph theory / Ramsey theory |
+ | Problem description | Under the specified local edge restrictions on one graph, is its Ramsey number against another graph linear in the latter's edge count? |
+-| Current status | Open |
+-| Lean proof | No |
++| Current status | Solved<br>Proof contributors: Will Howe, Grant Huffman, Jensen Kohlmeyer, and Liam Kruer. Equal joint contribution credit is requested. |
++| Lean proof | Yes — [Complete Lean proof](https://github.com/Ghuffy1/erdos-566/blob/ac0b12b5cb264a092ef1cdf6304760dcdc4b6328/Erdos566.lean#L9794)<br>Formalization contributors: Will Howe, Grant Huffman, Jensen Kohlmeyer, and Liam Kruer. Original repository owned by Ghuffy1, branch `main`, selected commit `ac0b12b5cb264a092ef1cdf6304760dcdc4b6328`. |
++| Attribution basis | Mathematical authorship follows the [paper](https://github.com/Ghuffy1/erdos-566/blob/ac0b12b5cb264a092ef1cdf6304760dcdc4b6328/paper/paper.pdf). Formalization credit follows the joint [authorship declaration](https://github.com/Ghuffy1/erdos-566/blob/ac0b12b5cb264a092ef1cdf6304760dcdc4b6328/AUTHORS.md). All four authors receive equal contribution credit. AI assistance and prior sources are disclosed. |
+ | Eligible to claim | No |
+ | Historical bounty |  |
+ | Elapsed years | About 33 years (since 1993) |
+-| Publication details |  |
++| Publication details | [A locally sparse graph with superlinear Ramsey growth](https://github.com/Ghuffy1/erdos-566/blob/ac0b12b5cb264a092ef1cdf6304760dcdc4b6328/paper/paper.pdf) — manuscript dated November 11, 2026, Theorem 1.1 and its proof in Sections 2–7 and Appendix A. |
+ | Scholarly recognition |  |
+ 
+ <a id="JSP-000457"></a>
+ 
+ ## JSP-000457 · For specified graphs such as the cube, is the Ramsey number against an arbitrary graph bounded by a fixed multiple of the latter's edge count?
+ 
+ | Field | Content |
+ | --- | --- |
+ | Date proposed | No later than 1993 (bibliographic evidence) |
+ | Mathematical area | Graph theory / Ramsey theory |
+ | Problem description | For specified graphs such as the cube, is the Ramsey number against an arbitrary graph bounded by a fixed multiple of the latter's edge count? |
+ | Current status | Open |

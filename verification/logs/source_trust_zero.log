@@ -1,0 +1,233 @@
+Erdos566.lean:393:2: warning: Try this: 
+  letI̵
+
+The goal is a proposition, so `let` is preferred over `letI`.
+The difference between `let` and `letI` is that `letI` inlines the value.
+But this is not relevant for proofs because of proof irrelevance.
+
+Note: This linter can be disabled with `set_option linter.style.haveILetI false`
+Erdos566.lean:777:4: warning: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+Erdos566.lean:842:61: warning: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+Erdos566.lean:850:4: warning: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+Erdos566.lean:868:61: warning: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+Erdos566.lean:877:4: warning: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+Erdos566.lean:895:63: warning: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+Erdos566.lean:904:4: warning: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+Erdos566.lean:2697:34: warning: Variable name `hx` is not explicitly referenced.
+
+Hint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:
+  [apply] _hx
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+Erdos566.lean:4746:15: warning: `if_neg` has been deprecated: Use `ite_eq_right` instead
+Erdos566.lean:5782:2: warning: Try this: 
+  letI̵
+
+The goal is a proposition, so `let` is preferred over `letI`.
+The difference between `let` and `letI` is that `letI` inlines the value.
+But this is not relevant for proofs because of proof irrelevance.
+
+Note: This linter can be disabled with `set_option linter.style.haveILetI false`
+Erdos566.lean:5820:2: warning: Try this: 
+  letI̵
+
+The goal is a proposition, so `let` is preferred over `letI`.
+The difference between `let` and `letI` is that `letI` inlines the value.
+But this is not relevant for proofs because of proof irrelevance.
+
+Note: This linter can be disabled with `set_option linter.style.haveILetI false`
+Erdos566.lean:5869:2: warning: Try this: 
+  letI̵
+
+The goal is a proposition, so `let` is preferred over `letI`.
+The difference between `let` and `letI` is that `letI` inlines the value.
+But this is not relevant for proofs because of proof irrelevance.
+
+Note: This linter can be disabled with `set_option linter.style.haveILetI false`
+Erdos566.lean:6239:2: warning: Try this: 
+  letI̵
+
+The goal is a proposition, so `let` is preferred over `letI`.
+The difference between `let` and `letI` is that `letI` inlines the value.
+But this is not relevant for proofs because of proof irrelevance.
+
+Note: This linter can be disabled with `set_option linter.style.haveILetI false`
+Erdos566.lean:6302:2: warning: Try this: 
+  letI̵
+
+The goal is a proposition, so `let` is preferred over `letI`.
+The difference between `let` and `letI` is that `letI` inlines the value.
+But this is not relevant for proofs because of proof irrelevance.
+
+Note: This linter can be disabled with `set_option linter.style.haveILetI false`
+Erdos566.lean:6751:2: warning: Try this: 
+  letI̵
+
+The goal is a proposition, so `let` is preferred over `letI`.
+The difference between `let` and `letI` is that `letI` inlines the value.
+But this is not relevant for proofs because of proof irrelevance.
+
+Note: This linter can be disabled with `set_option linter.style.haveILetI false`
+Erdos566.lean:7333:8: warning: `if_neg` has been deprecated: Use `ite_eq_right` instead
+Erdos566.lean:7336:6: warning: `push_neg` has been deprecated. Prefer using `push Not` instead.
+If you'd rather continue using `push_neg` in your project, you can implement it as follows:
+```
+open Lean.Parser.Tactic in
+macro "push_neg" cfg:optConfig loc:(location)? : tactic =>
+  `(tactic| push $cfg:optConfig Not $[$loc]?)
+```
+Erdos566.lean:7382:53: warning: `if_true` has been deprecated: Use `ite_true` instead
+Erdos566.lean:7482:10: warning: `if_pos` has been deprecated: Use `ite_eq_left` instead
+Erdos566.lean:7484:10: warning: `if_neg` has been deprecated: Use `ite_eq_right` instead
+Erdos566.lean:7490:50: warning: `if_true` has been deprecated: Use `ite_true` instead
+Erdos566.lean:7527:17: warning: This simp argument is unused:
+  derivative_add
+
+Hint: Omit it from the simp argument list.
+  [apply] simp only [derivative_one, derivative_X, zero_add, Nat.cast_add, Nat.cast_one, map_add, map_one]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+Erdos566.lean:7549:6: warning: try 'simp' instead of 'simpa'
+
+Note: This linter can be disabled with `set_option linter.unnecessarySimpa false`
+Erdos566.lean:7639:33: warning: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead
+Erdos566.lean:7639:33: warning: This simp argument is unused:
+  Set.mem_setOf_eq
+
+Hint: Omit it from the simp argument list.
+  [apply] simp only [Erdos566.Retuned.booleanWordsOfWeight, Finset.mem_filter, Finset.mem_univ, true_and,
+    weight_eq_ones]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+Erdos566.lean:7677:35: warning: `Polynomial.finset_sum_coeff` has been deprecated: Use `Polynomial.finsetSum_coeff` instead
+Erdos566.lean:7691:55: warning: Used `tac1 <;> tac2` where `(tac1; tac2)` would suffice
+
+Note: This linter can be disabled with `set_option linter.unnecessarySeqFocus false`
+Erdos566.lean:7730:10: warning: `if_pos` has been deprecated: Use `ite_eq_left` instead
+Erdos566.lean:7731:10: warning: `if_neg` has been deprecated: Use `ite_eq_right` instead
+Erdos566.lean:7721:57: warning: Variable name `hv` is not explicitly referenced.
+
+Hint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:
+  [apply] _hv
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+Erdos566.lean:7746:77: warning: This simp argument is unused:
+  Nat.lt_succ_iff
+
+Hint: Omit it from the simp argument list.
+  [apply] simp [ballIndicator, sphereIndicator, Finset.sum_ite_eq, Finset.mem_range]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+Try this:
+  [apply] ring_nf
+  
+  The `ring` tactic failed to close the goal. Use `ring_nf` to obtain a normal form.
+    
+  Note that `ring` works primarily in *commutative* rings. If you have a noncommutative ring, abelian group or module, consider using `noncomm_ring`, `abel` or `module` instead.
+Erdos566.lean:8130:15: warning: `if_neg` has been deprecated: Use `ite_eq_right` instead
+Erdos566.lean:8402:27: warning: `if_false` has been deprecated: Use `ite_false` instead
+Erdos566.lean:8398:0: warning: automatically included section variable(s) unused in theorem `Erdos566.Containers.step_small`:
+  [Fintype V]
+consider restructuring your `variable` declarations so that the variables are not in scope or explicitly omit them:
+  omit [Fintype V] in theorem ...
+
+Note: This linter can be disabled with `set_option linter.unusedSectionVars false`
+Erdos566.lean:8422:6: warning: try 'simp' instead of 'simpa'
+
+Note: This linter can be disabled with `set_option linter.unnecessarySimpa false`
+Erdos566.lean:8416:0: warning: automatically included section variable(s) unused in theorem `Erdos566.Containers.step_fingerprint_subset`:
+  [Fintype V]
+consider restructuring your `variable` declarations so that the variables are not in scope or explicitly omit them:
+  omit [Fintype V] in theorem ...
+
+Note: This linter can be disabled with `set_option linter.unusedSectionVars false`
+Erdos566.lean:8434:22: warning: `if_true` has been deprecated: Use `ite_true` instead
+Erdos566.lean:8427:0: warning: automatically included section variable(s) unused in theorem `Erdos566.Containers.step_card_lt`:
+  [Fintype V]
+consider restructuring your `variable` declarations so that the variables are not in scope or explicitly omit them:
+  omit [Fintype V] in theorem ...
+
+Note: This linter can be disabled with `set_option linter.unusedSectionVars false`
+Erdos566.lean:8488:0: warning: automatically included section variable(s) unused in theorem `Erdos566.Containers.step_fingerprint_subset_input`:
+  [Fintype V]
+consider restructuring your `variable` declarations so that the variables are not in scope or explicitly omit them:
+  omit [Fintype V] in theorem ...
+
+Note: This linter can be disabled with `set_option linter.unusedSectionVars false`
+Erdos566.lean:8507:41: warning: `if_true` has been deprecated: Use `ite_true` instead
+Erdos566.lean:8521:41: warning: `if_true` has been deprecated: Use `ite_true` instead
+Erdos566.lean:8521:50: warning: `if_false` has been deprecated: Use `ite_false` instead
+Erdos566.lean:8499:0: warning: automatically included section variable(s) unused in theorem `Erdos566.Containers.step_covers`:
+  [Fintype V]
+consider restructuring your `variable` declarations so that the variables are not in scope or explicitly omit them:
+  omit [Fintype V] in theorem ...
+
+Note: This linter can be disabled with `set_option linter.unusedSectionVars false`
+Erdos566.lean:8537:41: warning: `if_true` has been deprecated: Use `ite_true` instead
+Erdos566.lean:8544:41: warning: `if_true` has been deprecated: Use `ite_true` instead
+Erdos566.lean:8544:50: warning: `if_false` has been deprecated: Use `ite_false` instead
+Erdos566.lean:8529:0: warning: automatically included section variable(s) unused in theorem `Erdos566.Containers.step_disjoint`:
+  [Fintype V]
+consider restructuring your `variable` declarations so that the variables are not in scope or explicitly omit them:
+  omit [Fintype V] in theorem ...
+
+Note: This linter can be disabled with `set_option linter.unusedSectionVars false`
+Erdos566.lean:8530:5: warning: Variable name `hselect` is not explicitly referenced.
+
+Hint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:
+  [apply] _hselect
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+Erdos566.lean:8608:40: warning: `if_true` has been deprecated: Use `ite_true` instead
+Erdos566.lean:8577:0: warning: automatically included section variable(s) unused in theorem `Erdos566.Containers.recorded_step_bounds`:
+  [Fintype V]
+consider restructuring your `variable` declarations so that the variables are not in scope or explicitly omit them:
+  omit [Fintype V] in theorem ...
+
+Note: This linter can be disabled with `set_option linter.unusedSectionVars false`
+Erdos566.lean:8607:4: warning: Unused tactic linter: `change ((step G threshold select I state).remaining.card : ℝ) ≤ _` does nothing
+
+Note: This linter can be disabled with `set_option linter.unusedTactic false`
+Erdos566.lean:8615:16: warning: Variable name `hrate` is not explicitly referenced.
+
+Hint: The binding can be removed (if unused) or named `_` (if used implicitly). Alternatively, prefix the name with `_` to silence this warning:
+  [apply] _hrate
+
+Note: This linter can be disabled with `set_option linter.unusedVariables false`
+Erdos566.lean:8946:36: warning: `dif_pos` has been deprecated: Use `dite_eq_left` instead
+Erdos566.lean:8963:36: warning: `dif_pos` has been deprecated: Use `dite_eq_left` instead
+Erdos566.lean:9050:70: warning: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead
+Erdos566.lean:9110:17: warning: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead
+Erdos566.lean:9110:46: warning: `if_true` has been deprecated: Use `ite_true` instead
+Erdos566.lean:9113:17: warning: `Set.mem_setOf_eq` has been deprecated: Use `Set.mem_ofPred_eq` instead
+Erdos566.lean:9113:46: warning: `if_false` has been deprecated: Use `ite_false` instead
+Erdos566.lean:9506:2: warning: Try this: 
+  letI̵
+
+The goal is a proposition, so `let` is preferred over `letI`.
+The difference between `let` and `letI` is that `letI` inlines the value.
+But this is not relevant for proofs because of proof irrelevance.
+
+Note: This linter can be disabled with `set_option linter.style.haveILetI false`
+Erdos566.lean:9564:2: warning: Try this: 
+  letI̵
+
+The goal is a proposition, so `let` is preferred over `letI`.
+The difference between `let` and `letI` is that `letI` inlines the value.
+But this is not relevant for proofs because of proof irrelevance.
+
+Note: This linter can be disabled with `set_option linter.style.haveILetI false`

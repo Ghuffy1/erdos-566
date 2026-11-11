@@ -1,0 +1,69 @@
+{
+  "schema_version": 1,
+  "selected_proof_commit": "ac0b12b5cb264a092ef1cdf6304760dcdc4b6328",
+  "problem_source": "https://www.erdosproblems.com/566",
+  "canonical_statement_revision": "2f91d251c07fbbaf9435166d47c11e884a08a6cf",
+  "main_targets": [
+    "Erdos566.original_statement_false",
+    "PrizeStatement.original_problem_false",
+    "Verification.original_problem_false"
+  ],
+  "requirements": [
+    {
+      "id": "finite_simple_graphs",
+      "meaning": "The original problem concerns finite simple graphs.",
+      "declaration": "Erdos566.OriginalStatement",
+      "coverage": "full"
+    },
+    {
+      "id": "fixed_forbidden_graph",
+      "meaning": "The counterexample graph is fixed before the target graphs vary.",
+      "declaration": "Erdos566.counterexampleGraph",
+      "coverage": "full"
+    },
+    {
+      "id": "every_vertex_subset",
+      "meaning": "Every subset with at least two vertices spans at most twice its size minus three edges.",
+      "declaration": "Erdos566.counterexampleGraph_satisfies_local_premise",
+      "coverage": "full"
+    },
+    {
+      "id": "ordinary_ramsey",
+      "meaning": "The Ramsey number is the minimum complete-host vertex order forcing a red or blue subgraph.",
+      "declaration": "PrizeStatement.graphRamsey",
+      "coverage": "full"
+    },
+    {
+      "id": "constant_depends_on_graph",
+      "meaning": "For each fixed G the proposed positive real constant must work for every H.",
+      "declaration": "PrizeStatement.IsRamseySizeLinear",
+      "coverage": "full"
+    },
+    {
+      "id": "no_isolated_vertices",
+      "meaning": "The quantified target graphs have positive degree at every vertex.",
+      "declaration": "PrizeStatement.IsRamseySizeLinear",
+      "coverage": "full"
+    },
+    {
+      "id": "unbounded_ratio",
+      "meaning": "The construction violates every constant multiple of the target edge count.",
+      "declaration": "Erdos566.original_statement_false",
+      "coverage": "full"
+    },
+    {
+      "id": "closed_disproof",
+      "meaning": "The negation of the full original statement follows without a missing probabilistic premise.",
+      "declaration": "Erdos566.Spectrum.sampled_cube_statement",
+      "coverage": "full"
+    },
+    {
+      "id": "literal_statement_bridge",
+      "meaning": "The result transfers to the independently spelled-out original problem.",
+      "declaration": "Verification.original_problem_false",
+      "coverage": "full"
+    }
+  ],
+  "declaration_inventory": "declarations.txt",
+  "declaration_count": 420
+}

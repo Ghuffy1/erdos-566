@@ -12,20 +12,27 @@ permissions:
 jobs:
   proof:
     runs-on: ubuntu-24.04
-    timeout-minutes: 60
+    timeout-minutes: 120
+    env:
+      LEAN_NUM_THREADS: "2"
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262
         with:
           persist-credentials: false
+          fetch-depth: 0
       - name: Install pinned Elan
         shell: bash
         run: |
-          curl --fail --location --silent --show-error https://raw.githubusercontent.com/leanprover/elan/227caca133724d5516bee25c2aeb3e609478f2d8/elan-init.sh --output /tmp/elan-init.sh
-          echo "a620ff1641616222c8d37c54845492004bb84d6877cdbc944dd65c1aa685bf53  /tmp/elan-init.sh" | sha256sum --check
-          sh /tmp/elan-init.sh -y --default-toolchain none
+          curl --fail --location --silent --show-error https://github.com/leanprover/elan/releases/download/v4.2.4/elan-x86_64-unknown-linux-gnu.tar.gz --output /tmp/elan.tar.gz
+          echo "42b94d4244e8353142c456ec0e4ca6528fd898a6c604d4059f494e706e431f63  /tmp/elan.tar.gz" | sha256sum --check
+          mkdir /tmp/elan-install
+          tar -xzf /tmp/elan.tar.gz -C /tmp/elan-install
+          /tmp/elan-install/elan-init -y --default-toolchain none
           echo "$HOME/.elan/bin" >> "$GITHUB_PATH"
       - name: Check verification parser
         run: python3 -m unittest discover -s scripts -p 'test_*.py' -v
+      - name: Validate submission packet
+        run: python3 scripts/check_submission.py
       - name: Reproduce full proof verification
         run: python3 scripts/verify.py --output-dir ../proof-evidence --fetch-cache --fresh-kernel
       - name: Print verification evidence

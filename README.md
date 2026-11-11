@@ -35,10 +35,18 @@ Install Elan and Python 3.9 or later. The project selects Lean 4.34.0 and fixes 
 
 ```sh
 lake exe cache get
-python3 scripts/verify.py --output-dir ../erdos-566-verification --fresh-kernel
+LEAN_NUM_THREADS=2 python3 scripts/verify.py --output-dir ../erdos-566-verification --fresh-kernel
 ```
 
-Use a new output directory for each run. The verifier checks the exact source hashes and dependency revisions, performs a clean build, checks both modules explicitly, checks the source at trust level zero, audits all 420 theorem declarations, and replays the complete imported environment through Lean's fresh kernel. It writes actual commands, exit codes, timings, and full logs to the selected evidence directory.
+In Windows PowerShell, use
+
+```powershell
+lake exe cache get
+$env:LEAN_NUM_THREADS = "2"
+python .\scripts\verify.py --output-dir ..\erdos-566-verification --fresh-kernel
+```
+
+Use a new output directory for each run. The process-local thread setting bounds build parallelism. The verifier checks the exact source hashes and dependency revisions, performs a clean build, checks both modules explicitly, checks the source at trust level zero, audits all 420 theorem declarations, and replays the complete imported environment through Lean's fresh kernel. It writes actual commands, exit codes, timings, and full logs to the selected evidence directory.
 
 Mathlib is pinned to `5ed2965256430c3649e86755f9576b54eca72435`. The permitted foundational axioms are `propext`, `Classical.choice`, and `Quot.sound`. The fresh replay uses Lean's own kernel. The verification report identifies the completed checks and their limits.
 
@@ -46,7 +54,7 @@ Mathlib is pinned to `5ed2965256430c3649e86755f9576b54eca72435`. The permitted f
 
 The [submission directory](submission/) contains the joint submission draft and the proposed catalog-only change. Claim drafts are individual documents because JSP requires each applicant to act through their own account. The [release checklist](submission/RELEASE_CHECKLIST.md) records the future publication and review steps.
 
-The current rules snapshot is Justin Sun Prize revision `f8801a856529dce27e738c6b305e46d76e7c387c`. Mathematical review, formal verification by the organizers, attribution review, personal identity confirmation, public review, and award decisions belong to the prize process. The local evidence supports that review.
+The current rules snapshot is Justin Sun Prize revision `b1bfe454d37db2838ef76756830aeb23c40de95e`. Mathematical review, formal verification by the organizers, attribution review, personal identity confirmation, public review, and award decisions belong to the prize process. The local evidence supports that review.
 
 ## Sources and licensing
 

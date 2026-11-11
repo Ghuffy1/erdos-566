@@ -1,0 +1,2155 @@
+def Erdos566.OriginalStatement : Prop :=
+∀ (p : ℕ) (G : SimpleGraph (Fin p)),
+  (∀ (S : Finset (Fin p)), 2 ≤ S.card → (SimpleGraph.induce (↑S) G).edgeSet.ncard ≤ 2 * S.card - 3) →
+    Erdos566.IsRamseySizeLinear G
+def PrizeStatement.Statement : Prop :=
+∀ (p : ℕ) (G : SimpleGraph (Fin p)),
+  (∀ (S : Finset (Fin p)), 2 ≤ S.card → (SimpleGraph.induce (↑S) G).edgeSet.ncard ≤ 2 * S.card - 3) →
+    PrizeStatement.IsRamseySizeLinear G
+def Verification.originalProblem : Prop :=
+∀ (p : ℕ) (G : SimpleGraph (Fin p)),
+  (∀ (S : Finset (Fin p)), 2 ≤ S.card → (SimpleGraph.induce (↑S) G).edgeSet.ncard ≤ 2 * S.card - 3) →
+    Verification.ramseySizeLinear G
+theorem Erdos566.original_statement_false : ¬Erdos566.OriginalStatement :=
+Erdos566.not_original_of_sampled_cube Erdos566.Spectrum.sampled_cube_statement
+theorem PrizeStatement.original_problem_false : ¬PrizeStatement.Statement :=
+Erdos566.original_statement_false
+theorem Verification.original_problem_false : ¬Verification.originalProblem :=
+Erdos566.original_statement_false
+@Erdos566.isTwoDegenerate_of_iso : ∀ {V : Type u_1} {W : Type u_2} {G : SimpleGraph V} {H : SimpleGraph W} (e : G ≃g H),
+  Erdos566.IsTwoDegenerate G → Erdos566.IsTwoDegenerate H
+'Erdos566.isTwoDegenerate_of_iso' depends on axioms: [propext, Classical.choice, Quot.sound]
+@Erdos566.isBipartite_of_iso : ∀ {V : Type u_1} {W : Type u_2} {G : SimpleGraph V} {H : SimpleGraph W} (e : G ≃g H),
+  G.IsBipartite → H.IsBipartite
+'Erdos566.isBipartite_of_iso' depends on axioms: [propext, Classical.choice, Quot.sound]
+@Erdos566.ParentSystem.graph_adj_iff : ∀ {V : Type u_1} (P : Erdos566.ParentSystem V) (v u : V),
+  P.graph.Adj v u ↔ v ≠ u ∧ (u ∈ P.parents v ∨ v ∈ P.parents u)
+'Erdos566.ParentSystem.graph_adj_iff' depends on axioms: [propext, Classical.choice, Quot.sound]
+@Erdos566.ParentSystem.graph_isBipartite : ∀ {V : Type u_1} (P : Erdos566.ParentSystem V), P.graph.IsBipartite
+'Erdos566.ParentSystem.graph_isBipartite' depends on axioms: [propext, Classical.choice, Quot.sound]
+@Erdos566.ParentSystem.graph_isTwoDegenerate : ∀ {V : Type u_1} (P : Erdos566.ParentSystem V),
+  Erdos566.IsTwoDegenerate P.graph
+'Erdos566.ParentSystem.graph_isTwoDegenerate' depends on axioms: [propext, Classical.choice, Quot.sound]
+Erdos566.pairLayer_card_zero : ∀ (baseSize : ℕ), Fintype.card (Erdos566.PairLayer baseSize 0) = baseSize
+'Erdos566.pairLayer_card_zero' depends on axioms: [propext, Classical.choice, Quot.sound]
+Erdos566.pairLayer_card_succ : ∀ (baseSize i : ℕ),
+  Fintype.card (Erdos566.PairLayer baseSize (i + 1)) = (Fintype.card (Erdos566.PairLayer baseSize i)).choose 2
+'Erdos566.pairLayer_card_succ' depends on axioms: [propext, Classical.choice, Quot.sound]
+@Erdos566.le_choose_two_of_four : ∀ {size : ℕ}, 4 ≤ size → size ≤ size.choose 2
+'Erdos566.le_choose_two_of_four' depends on axioms: [propext, Classical.choice, Quot.sound]
+Erdos566.pairLayer_card_ge_base : ∀ (baseSize i : ℕ),
+  4 ≤ baseSize → baseSize ≤ Fintype.card (Erdos566.PairLayer baseSize i)
+'Erdos566.pairLayer_card_ge_base' depends on axioms: [propext, Classical.choice, Quot.sound]
+@Erdos566.pairLayerPair_nonempty : ∀ {parentCount : ℕ}, 2 ≤ parentCount → Nonempty (Erdos566.PairLayer parentCount 1)
+'Erdos566.pairLayerPair_nonempty' depends on axioms: [propext, Classical.choice, Quot.sound]
+Erdos566.pairGraph_parent_child_adj : ∀ (baseSize depth layer : ℕ) (hlayer : layer + 1 < depth + 1)
+  (child : Erdos566.PairLayer baseSize (layer + 1)),
+  ∀ parent ∈ ↑child,
+    (Erdos566.pairParentSystem baseSize depth).graph.Adj
+      ((Erdos566.pairLayerEmbedding baseSize depth (layer + 1) hlayer) child)
+      ((Erdos566.pairLayerEmbedding baseSize depth layer ⋯) parent)
+'Erdos566.pairGraph_parent_child_adj' depends on axioms: [propext, Classical.choice, Quot.sound]
+Erdos566.pairGraph_isBipartite : ∀ (baseSize depth : ℕ), (Erdos566.pairParentSystem baseSize depth).graph.IsBipartite
+'Erdos566.pairGraph_isBipartite' depends on axioms: [propext, Classical.choice, Quot.sound]
+Erdos566.pairGraph_isTwoDegenerate : ∀ (baseSize depth : ℕ),
+  Erdos566.IsTwoDegenerate (Erdos566.pairParentSystem baseSize depth).graph
+'Erdos566.pairGraph_isTwoDegenerate' depends on axioms: [propext, Classical.choice, Quot.sound]
+Erdos566.pairLayer_reaches_base : ∀ (baseSize depth i : ℕ) (hi : i < depth + 1) (v : Erdos566.PairLayer baseSize i),
+  ∃ a,
+    (Erdos566.pairParentSystem baseSize depth).graph.Reachable ((Erdos566.pairLayerEmbedding baseSize depth i hi) v)
+      (Erdos566.pairBaseVertex baseSize depth a)
+'Erdos566.pairLayer_reaches_base' depends on axioms: [propext, Classical.choice, Quot.sound]
+Erdos566.pairBaseVertices_reachable : ∀ (baseSize depth : ℕ),
+  0 < depth →
+    ∀ (a b : Fin baseSize),
+      (Erdos566.pairParentSystem baseSize depth).graph.Reachable (Erdos566.pairBaseVertex baseSize depth a)
+        (Erdos566.pairBaseVertex baseSize depth b)
+'Erdos566.pairBaseVertices_reachable' depends on axioms: [propext, Classical.choice, Quot.sound]
+Erdos566.pairGraph_connected : ∀ (baseSize depth : ℕ),
+  0 < baseSize → 0 < depth → (Erdos566.pairParentSystem baseSize depth).graph.Connected
+'Erdos566.pairGraph_connected' depends on axioms: [propext, Classical.choice, Quot.sound]
+Erdos566.pairGraphOverFin_connected : ∀ (baseSize depth : ℕ),
+  0 < baseSize → 0 < depth → (Erdos566.pairGraphOverFin baseSize depth).Connected
+'Erdos566.pairGraphOverFin_connected' depends on axioms: [propext, Classical.choice, Quot.sound]
+Erdos566.pairGraphOverFin_isBipartite : ∀ (baseSize depth : ℕ), (Erdos566.pairGraphOverFin baseSize depth).IsBipartite
+'Erdos566.pairGraphOverFin_isBipartite' depends on axioms: [propext, Classical.choice, Quot.sound]
+Erdos566.pairGraphOverFin_isTwoDegenerate : ∀ (baseSize depth : ℕ),
+  Erdos566.IsTwoDegenerate (Erdos566.pairGraphOverFin baseSize depth)
+'Erdos566.pairGraphOverFin_isTwoDegenerate' depends on axioms: [propext, Classical.choice, Quot.sound]
+@Erdos566.card_edgesOn : ∀ {V : Type u_1} [inst : Fintype V] (G : SimpleGraph V) (S : Finset V),
+  (Erdos566.edgesOn G S).card = (SimpleGraph.induce (↑S) G).edgeSet.ncard
+'Erdos566.card_edgesOn' depends on axioms: [propext, Classical.choice, Quot.sound]
+@Erdos566.edgesOn_insert : ∀ {V : Type u_1} [inst : Fintype V] (G : SimpleGraph V) (S : Finset V) (v : V),
+  Erdos566.edgesOn G (insert v S) =
+    Erdos566.edgesOn G S ∪ Finset.image (fun w => s(v, w)) (Erdos566.neighborsWithin G S v)
+'Erdos566.edgesOn_insert' depends on axioms: [propext, Classical.choice, Quot.sound]
+@Erdos566.card_edgesOn_insert : ∀ {V : Type u_1} [inst : Fintype V] (G : SimpleGraph V) (S : Finset V),
+  ∀ v ∉ S, (Erdos566.edgesOn G (insert v S)).card = (Erdos566.edgesOn G S).card + (Erdos566.neighborsWithin G S v).card
+'Erdos566.card_edgesOn_insert' depends on axioms: [propext, Classical.choice, Quot.sound]
+@Erdos566.edgesOn_empty : ∀ {V : Type u_1} [inst : Fintype V] (G : SimpleGraph V), Erdos566.edgesOn G ∅ = ∅
+'Erdos566.edgesOn_empty' depends on axioms: [propext, Classical.choice, Quot.sound]
+@Erdos566.edgesOn_singleton : ∀ {V : Type u_1} [inst : Fintype V] (G : SimpleGraph V) (v : V),
+  Erdos566.edgesOn G {v} = ∅
+'Erdos566.edgesOn_singleton' depends on axioms: [propext, Classical.choice, Quot.sound]
+@Erdos566.local_sparsity_of_two_degenerate : ∀ {V : Type u_1} [Fintype V] (G : SimpleGraph V),
+  Erdos566.IsTwoDegenerate G → ∀ (S : Finset V), 2 ≤ S.card → (SimpleGraph.induce (↑S) G).edgeSet.ncard ≤ 2 * S.card - 3
+'Erdos566.local_sparsity_of_two_degenerate' depends on axioms: [propext, Classical.choice, Quot.sound]
+Erdos566.pairGraph_local_sparsity : ∀ (baseSize depth : ℕ) (S : Finset (Erdos566.PairVertex baseSize depth)),
+  2 ≤ S.card → (SimpleGraph.induce (↑S) (Erdos566.pairParentSystem baseSize depth).graph).edgeSet.ncard ≤ 2 * S.card - 3
+'Erdos566.pairGraph_local_sparsity' depends on axioms: [propext, Classical.choice, Quot.sound]
+Erdos566.pairGraphOverFin_local_sparsity : ∀ (baseSize depth : ℕ)
+  (S : Finset (Fin (Fintype.card (Erdos566.PairVertex baseSize depth)))),
+  2 ≤ S.card → (SimpleGraph.induce (↑S) (Erdos566.pairGraphOverFin baseSize depth)).edgeSet.ncard ≤ 2 * S.card - 3
+'Erdos566.pairGraphOverFin_local_sparsity' depends on axioms: [propext, Classical.choice, Quot.sound]
+@Erdos566.finite_ramsey_cliques : ∀ {V : Type u_1} (C : SimpleGraph V) (a b : ℕ) (S : Finset V),
+  (a + b).choose a ≤ S.card → (∃ A ⊆ S, C.IsNClique a A) ∨ ∃ B ⊆ S, Cᶜ.IsNClique b B
+'Erdos566.finite_ramsey_cliques' depends on axioms: [propext, Classical.choice, Quot.sound]
+Erdos566.ramseyProperty_exists : ∀ (p q : ℕ) (G : SimpleGraph (Fin p)) (H : SimpleGraph (Fin q)),
+  ∃ N, Erdos566.RamseyProperty G H N
+'Erdos566.ramseyProperty_exists' depends on axioms: [propext, Classical.choice, Quot.sound]
+Erdos566.ramseyProperty_graphRamsey : ∀ (p q : ℕ) (G : SimpleGraph (Fin p)) (H : SimpleGraph (Fin q)),
+  Erdos566.RamseyProperty G H (Erdos566.graphRamsey G H)
+'Erdos566.ramseyProperty_graphRamsey' depends on axioms: [propext, Classical.choice, Quot.sound]
+@Erdos566.ramseyProperty_mono : ∀ {V : Type u_1} {W : Type u_2} {G : SimpleGraph V} {H : SimpleGraph W} {n N : ℕ},
+  n ≤ N → Erdos566.RamseyProperty G H n → Erdos566.RamseyProperty G H N
+'Erdos566.ramseyProperty_mono' depends on axioms: [propext, Quot.sound]
+@Erdos566.host_order_lt_graphRamsey : ∀ {p q N : ℕ} {G : SimpleGraph (Fin p)} {H : SimpleGraph (Fin q)}
+  (C : SimpleGraph (Fin N)), G.Free C → H.Free Cᶜ → N < Erdos566.graphRamsey G H
+'Erdos566.host_order_lt_graphRamsey' depends on axioms: [propext, Classical.choice, Quot.sound]
+@Erdos566.completeGraph_has_no_isolates : ∀ {n : ℕ}, 2 ≤ n → ∀ (v : Fin n), 0 < ⊤.degree v
+'Erdos566.completeGraph_has_no_isolates' depends on axioms: [propext, Classical.choice, Quot.sound]
+Erdos566.completeGraph_edge_count : ∀ (n : ℕ), ⊤.edgeSet.ncard = n.choose 2
+'Erdos566.completeGraph_edge_count' depends on axioms: [propext, Classical.choice, Quot.sound]
+@Erdos566.not_ramseySizeLinear_of_clique_witnesses : ∀ {p : ℕ} (G : SimpleGraph (Fin p)),
+  (∀ (c : ℝ), 0 < c → ∃ n N, 2 ≤ n ∧ c * ↑(n.choose 2) < ↑N ∧ ∃ C, G.Free C ∧ ⊤.Free Cᶜ) →
+    ¬Erdos566.IsRamseySizeLinear G
+'Erdos566.not_ramseySizeLinear_of_clique_witnesses' depends on axioms: [propext, Classical.choice, Quot.sound]
+Erdos566.log_two_pos : 0 < Real.log 2
+'Erdos566.log_two_pos' depends on axioms: [propext, Classical.choice, Quot.sound]
+@Erdos566.reduced_log_bounds : ∀ {y lo hi : ℝ},
+  |(y - 1) / (y + 1)| < 1 →
+    lo <
+        2 *
+          (∑ i ∈ Finset.range 12, ((y - 1) / (y + 1)) ^ (2 * i + 1) / (2 * ↑i + 1) -
+            |(y - 1) / (y + 1)| ^ 25 / (1 - ((y - 1) / (y + 1)) ^ 2)) →
+      2 *
+            (∑ i ∈ Finset.range 12, ((y - 1) / (y + 1)) ^ (2 * i + 1) / (2 * ↑i + 1) +
+              |(y - 1) / (y + 1)| ^ 25 / (1 - ((y - 1) / (y + 1)) ^ 2)) <
+          hi →
+        y + 1 ≠ 0 → lo < Real.log y ∧ Real.log y < hi
+'Erdos566.reduced_log_bounds' depends on axioms: [propext, Classical.choice, Quot.sound]
+Erdos566.log_scaled_div : ∀ (y : ℝ) (k : ℕ), y ≠ 0 → Real.log (y / 2 ^ k) = Real.log y - ↑k * Real.log 2
+'Erdos566.log_scaled_div' depends on axioms: [propext, Classical.choice, Quot.sound]
+Erdos566.log_two_bounds : 6931471804 / 10000000000 < Real.log 2 ∧ Real.log 2 < 6931471807 / 10000000000
+'Erdos566.log_two_bounds' depends on axioms: [propext, Classical.choice, Quot.sound]
+Erdos566.log_scaled_36_bounds : 3646431134 / 10000000000 < Real.log (36 / 25) ∧
+  Real.log (36 / 25) < 3646431137 / 10000000000
+'Erdos566.log_scaled_36_bounds' depends on axioms: [propext, Classical.choice, Quot.sound]
+Erdos566.log_scaled_64_bounds : 2468600778 / 10000000000 < Real.log (32 / 25) ∧
+  Real.log (32 / 25) < 2468600781 / 10000000000
+'Erdos566.log_scaled_64_bounds' depends on axioms: [propext, Classical.choice, Quot.sound]
+Erdos566.log_scaled_43_bounds : 5423242907 / 10000000000 < Real.log (43 / 25) ∧
+  Real.log (43 / 25) < 5423242910 / 10000000000
+'Erdos566.log_scaled_43_bounds' depends on axioms: [propext, Classical.choice, Quot.sound]
+Erdos566.log_scaled_57_bounds : 1310282623 / 10000000000 < Real.log (57 / 50) ∧
+  Real.log (57 / 50) < 1310282626 / 10000000000
+'Erdos566.log_scaled_57_bounds' depends on axioms: [propext, Classical.choice, Quot.sound]
+Erdos566.log_scaled_0049_bounds : 2266573705 / 10000000000 < Real.log (784 / 625) ∧
+  Real.log (784 / 625) < 2266573708 / 10000000000
+'Erdos566.log_scaled_0049_bounds' depends on axioms: [propext, Classical.choice, Quot.sound]
+Erdos566.log_scaled_9951_bounds : 6882351360 / 10000000000 < Real.log (9951 / 5000) ∧
+  Real.log (9951 / 5000) < 6882351363 / 10000000000
+'Erdos566.log_scaled_9951_bounds' depends on axioms: [propext, Classical.choice, Quot.sound]
+Erdos566.entropy_36_bounds : 94268 / 100000 < Erdos566.binaryEntropy (9 / 25) ∧
+  Erdos566.binaryEntropy (9 / 25) < 94270 / 100000
+'Erdos566.entropy_36_bounds' depends on axioms: [propext, Classical.choice, Quot.sound]
+Erdos566.entropy_43_bounds : 98581 / 100000 < Erdos566.binaryEntropy (43 / 100) ∧
+  Erdos566.binaryEntropy (43 / 100) < 98582 / 100000
+'Erdos566.entropy_43_bounds' depends on axioms: [propext, Classical.choice, Quot.sound]
+Erdos566.entropy_0049_bounds : 4464 / 100000 < Erdos566.binaryEntropy (49 / 10000) ∧
+  Erdos566.binaryEntropy (49 / 10000) < 4465 / 100000
+'Erdos566.entropy_0049_bounds' depends on axioms: [propext, Classical.choice, Quot.sound]
+Erdos566.entropyThreshold_lt : Erdos566.entropyThreshold < 97135 / 100000
+'Erdos566.entropyThreshold_lt' depends on axioms: [propext, Classical.choice, Quot.sound]
+Erdos566.spectral_gap_margin : 19 / 1250 <
+  (Erdos566.binaryEntropy Erdos566.tau + Erdos566.binaryEntropy (49 / 10000) - 1) / 2
+'Erdos566.spectral_gap_margin' depends on axioms: [propext, Classical.choice, Quot.sound]
+Erdos566.fingerprint_exponent_margin : 1 - Erdos566.binaryEntropy Erdos566.tau < 71 / 5000
+'Erdos566.fingerprint_exponent_margin' depends on axioms: [propext, Classical.choice, Quot.sound]
+Erdos566.growth_rate_margin : 1 - Erdos566.beta - 2 * (57 / 4000) = 1 / 10000
+'Erdos566.growth_rate_margin' depends on axioms: [propext, Classical.choice, Quot.sound]
+Erdos566.ramsey_exponent : (1 - Erdos566.beta) / (57 / 4000) = 572 / 285
+'Erdos566.ramsey_exponent' depends on axioms: [propext, Classical.choice, Quot.sound]
+Erdos566.residual_sample_exponent : 197 / 200 - Erdos566.beta = 17 / 1250
+'Erdos566.residual_sample_exponent' depends on axioms: [propext, Classical.choice, Quot.sound]
+Erdos566.krawtchouk_edge_margin : 49 / 10000 < 1 / 2 - √(Erdos566.tau * (1 - Erdos566.tau))
+'Erdos566.krawtchouk_edge_margin' depends on axioms: [propext, Classical.choice, Quot.sound]
+@Erdos566.potential_increment : ∀ {before after conditional error : ℝ},
+  error < Erdos566.entropySlack →
+    Erdos566.beta - Erdos566.entropySlack < conditional →
+      conditional ≤ Erdos566.entropyThreshold + (after - before) / 2 + error → 3 / 50000 < after - before
+'Erdos566.potential_increment' depends on axioms: [propext, Classical.choice, Quot.sound]
+Erdos566.potential_steps_impossible : ∀ (potential : ℕ → ℝ),
+  (∀ i ≤ Erdos566.layerDepth, 0 ≤ potential i ∧ potential i ≤ 1) →
+    (∀ i < Erdos566.layerDepth, 3 / 50000 < potential (i + 1) - potential i) → False
+'Erdos566.potential_steps_impossible' depends on axioms: [propext, Classical.choice, Quot.sound]
+Erdos566.entropy_layers_impossible : ∀ (potential conditional error : ℕ → ℝ),
+  (∀ i ≤ Erdos566.layerDepth, 0 ≤ potential i ∧ potential i ≤ 1) →
+    (∀ i < Erdos566.layerDepth, error i < Erdos566.entropySlack) →
+      (∀ i < Erdos566.layerDepth, Erdos566.beta - Erdos566.entropySlack < conditional i) →
+        (∀ i < Erdos566.layerDepth,
+            conditional i ≤ Erdos566.entropyThreshold + (potential (i + 1) - potential i) / 2 + error i) →
+          False
+'Erdos566.entropy_layers_impossible' depends on axioms: [propext, Classical.choice, Quot.sound]
+Erdos566.counterexampleGraph_satisfies_local_premise : ∀ (S : Finset (Fin Erdos566.counterexampleOrder)),
+  2 ≤ S.card → (SimpleGraph.induce (↑S) Erdos566.counterexampleGraph).edgeSet.ncard ≤ 2 * S.card - 3
+'Erdos566.counterexampleGraph_satisfies_local_premise' depends on axioms: [propext, Classical.choice, Quot.sound]
+Erdos566.counterexampleGraph_bipartite : Erdos566.counterexampleGraph.IsBipartite
+'Erdos566.counterexampleGraph_bipartite' depends on axioms: [propext, Classical.choice, Quot.sound]
+Erdos566.counterexampleGraph_two_degenerate : Erdos566.IsTwoDegenerate Erdos566.counterexampleGraph
+'Erdos566.counterexampleGraph_two_degenerate' depends on axioms: [propext, Classical.choice, Quot.sound]
+@Erdos566.cubeGraph_adj_iff : ∀ {dimension : ℕ} (x y : Erdos566.Cube dimension),
+  (Erdos566.cubeGraph dimension).Adj x y ↔ x ≠ y ∧ hammingDist x y ≤ Erdos566.cubeCutoff dimension
+'Erdos566.cubeGraph_adj_iff' depends on axioms: [propext, Classical.choice, Quot.sound]
+Erdos566.cubeCutoff_even : ∀ (dimension : ℕ), Even (Erdos566.cubeCutoff dimension)
+'Erdos566.cubeCutoff_even' depends on axioms: [propext]
+Erdos566.cubeCutoff_multiple : ∀ (m : ℕ), Erdos566.cubeCutoff (40000 * m) = 17200 * m
+'Erdos566.cubeCutoff_multiple' depends on axioms: [propext, Quot.sound]
+Erdos566.finite_witnesses_of_sampled_cube : Erdos566.SampledCubeStatement → Erdos566.FiniteWitnessStatement
+'Erdos566.finite_witnesses_of_sampled_cube' depends on axioms: [propext, Classical.choice, Quot.sound]
+Erdos566.not_original_of_finite_witnesses : Erdos566.FiniteWitnessStatement → ¬Erdos566.OriginalStatement
+'Erdos566.not_original_of_finite_witnesses' depends on axioms: [propext, Classical.choice, Quot.sound]
+Erdos566.not_original_of_sampled_cube : Erdos566.SampledCubeStatement → ¬Erdos566.OriginalStatement
+'Erdos566.not_original_of_sampled_cube' depends on axioms: [propext, Classical.choice, Quot.sound]
+Erdos566.Retuned.log_two_pos : 0 < Real.log 2
+'Erdos566.Retuned.log_two_pos' depends on axioms: [propext, Classical.choice, Quot.sound]
+@Erdos566.Retuned.binaryEntropy_nonneg : ∀ {x : ℝ}, 0 ≤ x → x ≤ 1 → 0 ≤ Erdos566.Retuned.binaryEntropy x
+'Erdos566.Retuned.binaryEntropy_nonneg' depends on axioms: [propext, Classical.choice, Quot.sound]
+Erdos566.Retuned.binaryEntropy_le_one : ∀ (x : ℝ), Erdos566.Retuned.binaryEntropy x ≤ 1
+'Erdos566.Retuned.binaryEntropy_le_one' depends on axioms: [propext, Classical.choice, Quot.sound]
+Erdos566.Retuned.binaryEntropy_zero : Erdos566.Retuned.binaryEntropy 0 = 0
+'Erdos566.Retuned.binaryEntropy_zero' depends on axioms: [propext, Classical.choice, Quot.sound]
+Erdos566.Retuned.binaryEntropy_one_sub : ∀ (x : ℝ),
+  Erdos566.Retuned.binaryEntropy (1 - x) = Erdos566.Retuned.binaryEntropy x
+'Erdos566.Retuned.binaryEntropy_one_sub' depends on axioms: [propext, Classical.choice, Quot.sound]
+Erdos566.Retuned.binaryEntropy_continuous : Continuous Erdos566.Retuned.binaryEntropy
+'Erdos566.Retuned.binaryEntropy_continuous' depends on axioms: [propext, Classical.choice, Quot.sound]
+Erdos566.Retuned.binaryEntropy_scale_le : ∀ (probability scale : ℝ),
+  0 ≤ probability →
+    probability ≤ 1 →
+      0 ≤ scale →
+        scale ≤ 1 →
+          scale * Erdos566.Retuned.binaryEntropy probability ≤ Erdos566.Retuned.binaryEntropy (scale * probability)
+'Erdos566.Retuned.binaryEntropy_scale_le' depends on axioms: [propext, Classical.choice, Quot.sound]
+Erdos566.Retuned.binaryEntropy_subadditive : ∀ (x y : ℝ),
+  0 ≤ x →
+    0 ≤ y →
+      x + y ≤ 1 →
+        Erdos566.Retuned.binaryEntropy (x + y) ≤ Erdos566.Retuned.binaryEntropy x + Erdos566.Retuned.binaryEntropy y
+'Erdos566.Retuned.binaryEntropy_subadditive' depends on axioms: [propext, Classical.choice, Quot.sound]
+Erdos566.Retuned.abs_binaryEntropy_sub_le_binaryEntropy_abs_sub : ∀ (x y : ℝ),
+  0 ≤ x →
+    x ≤ 1 →
+      0 ≤ y →
+        y ≤ 1 →
+          |Erdos566.Retuned.binaryEntropy x - Erdos566.Retuned.binaryEntropy y| ≤ Erdos566.Retuned.binaryEntropy |x - y|
+'Erdos566.Retuned.abs_binaryEntropy_sub_le_binaryEntropy_abs_sub' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+Erdos566.Retuned.binaryEntropy_mono_on_half : ∀ (x y : ℝ),
+  0 ≤ x → x ≤ y → y ≤ 2⁻¹ → Erdos566.Retuned.binaryEntropy x ≤ Erdos566.Retuned.binaryEntropy y
+'Erdos566.Retuned.binaryEntropy_mono_on_half' depends on axioms: [propext, Classical.choice, Quot.sound]
+Erdos566.Retuned.binaryPinskerGap_continuous : Continuous Erdos566.Retuned.binaryPinskerGap
+'Erdos566.Retuned.binaryPinskerGap_continuous' depends on axioms: [propext, Classical.choice, Quot.sound]
+@Erdos566.Retuned.binaryPinskerGap_hasDerivAt : ∀ {q : ℝ},
+  q ≠ 0 → q ≠ 1 → HasDerivAt Erdos566.Retuned.binaryPinskerGap (Erdos566.Retuned.binaryPinskerGapDeriv q) q
+'Erdos566.Retuned.binaryPinskerGap_hasDerivAt' depends on axioms: [propext, Classical.choice, Quot.sound]
+@Erdos566.Retuned.binaryPinskerGapDeriv_hasDerivAt : ∀ {q : ℝ},
+  q ≠ 0 → q ≠ 1 → HasDerivAt Erdos566.Retuned.binaryPinskerGapDeriv (Erdos566.Retuned.binaryPinskerGapDerivTwo q) q
+'Erdos566.Retuned.binaryPinskerGapDeriv_hasDerivAt' depends on axioms: [propext, Classical.choice, Quot.sound]
+@Erdos566.Retuned.binaryPinskerGapDerivTwo_nonneg : ∀ {q : ℝ},
+  0 < q → q < 1 → 0 ≤ Erdos566.Retuned.binaryPinskerGapDerivTwo q
+'Erdos566.Retuned.binaryPinskerGapDerivTwo_nonneg' depends on axioms: [propext, Classical.choice, Quot.sound]
+Erdos566.Retuned.binaryPinskerGap_convex : ConvexOn ℝ (Set.Icc 0 1) Erdos566.Retuned.binaryPinskerGap
+'Erdos566.Retuned.binaryPinskerGap_convex' depends on axioms: [propext, Classical.choice, Quot.sound]
+Erdos566.Retuned.binaryPinskerGap_half : Erdos566.Retuned.binaryPinskerGap 2⁻¹ = 0
+'Erdos566.Retuned.binaryPinskerGap_half' depends on axioms: [propext, Classical.choice, Quot.sound]
+Erdos566.Retuned.binaryPinskerGapDeriv_half : Erdos566.Retuned.binaryPinskerGapDeriv 2⁻¹ = 0
+'Erdos566.Retuned.binaryPinskerGapDeriv_half' depends on axioms: [propext, Classical.choice, Quot.sound]
+Erdos566.Retuned.binary_pinsker : ∀ (q : ℝ), 0 ≤ q → q ≤ 1 → Real.binEntropy q ≤ Real.log 2 - (2 * q - 1) ^ 2 / 2
+'Erdos566.Retuned.binary_pinsker' depends on axioms: [propext, Classical.choice, Quot.sound]
+@Erdos566.Retuned.log_le_tangent : ∀ {x c : ℝ}, 0 < x → 0 < c → Real.log x ≤ Real.log c + x / c - 1
+'Erdos566.Retuned.log_le_tangent' depends on axioms: [propext, Classical.choice, Quot.sound]
+Erdos566.Retuned.log_four_thirds_lt_one_third : Real.log (4 / 3) < 1 / 3
+'Erdos566.Retuned.log_four_thirds_lt_one_third' depends on axioms: [propext, Classical.choice, Quot.sound]
+Erdos566.Retuned.sqrt_one_add_le : ∀ (x : ℝ), 0 ≤ x → √(1 + x) ≤ 1 + x / 2
+'Erdos566.Retuned.sqrt_one_add_le' depends on axioms: [propext, Classical.choice, Quot.sound]
+Erdos566.Retuned.normalized_binary_cauchy : ∀ (a b x y : ℝ), a ^ 2 + b ^ 2 = 1 → a * x + b * y ≤ √(x ^ 2 + y ^ 2)
+'Erdos566.Retuned.normalized_binary_cauchy' depends on axioms: [propext, Classical.choice, Quot.sound]
+Erdos566.Retuned.binary_log_sum_bound : ∀ (probability zeroWeight oneWeight : ℝ),
+  0 ≤ probability →
+    probability ≤ 1 →
+      0 < zeroWeight →
+        0 < oneWeight →
+          Real.binEntropy probability + (1 - probability) * Real.log zeroWeight + probability * Real.log oneWeight ≤
+            Real.log (zeroWeight + oneWeight)
+'Erdos566.Retuned.binary_log_sum_bound' depends on axioms: [propext, Classical.choice, Quot.sound]
+@Erdos566.Retuned.binaryCoinMass_nonneg : ∀ {q : ℝ},
+  0 ≤ q → q ≤ 1 → ∀ (outcome : Bool), 0 ≤ Erdos566.Retuned.binaryCoinMass q outcome
+'Erdos566.Retuned.binaryCoinMass_nonneg' depends on axioms: [propext, Classical.choice, Quot.sound]
+@Erdos566.Retuned.independentBinaryPairMass_nonneg : ∀ {q : ℝ},
+  0 ≤ q → q ≤ 1 → ∀ (left right : Bool), 0 ≤ Erdos566.Retuned.independentBinaryPairMass q left right
+'Erdos566.Retuned.independentBinaryPairMass_nonneg' depends on axioms: [propext, Classical.choice, Quot.sound]
+Erdos566.Retuned.independentBinaryPairMass_sum : ∀ (q : ℝ),
+  ∑ left, ∑ right, Erdos566.Retuned.independentBinaryPairMass q left right = 1
+'Erdos566.Retuned.independentBinaryPairMass_sum' depends on axioms: [propext, Classical.choice, Quot.sound]
+Erdos566.Retuned.BinaryPairKernel.childMarginal_nonneg : ∀ (kernel : Erdos566.Retuned.BinaryPairKernel),
+  0 ≤ kernel.childMarginal
+'Erdos566.Retuned.BinaryPairKernel.childMarginal_nonneg' depends on axioms: [propext, Classical.choice, Quot.sound]
+Erdos566.Retuned.BinaryPairKernel.childMarginal_le_one : ∀ (kernel : Erdos566.Retuned.BinaryPairKernel),
+  kernel.childMarginal ≤ 1
+'Erdos566.Retuned.BinaryPairKernel.childMarginal_le_one' depends on axioms: [propext, Classical.choice, Quot.sound]
+Erdos566.Retuned.BinaryPairKernel.childMarginal_eq_four_outcomes : ∀ (kernel : Erdos566.Retuned.BinaryPairKernel),
+  kernel.childMarginal =
+    (1 - kernel.parentProbability) ^ 2 * kernel.childProbability false false +
+          (1 - kernel.parentProbability) * kernel.parentProbability * kernel.childProbability false true +
+        kernel.parentProbability * (1 - kernel.parentProbability) * kernel.childProbability true false +
+      kernel.parentProbability ^ 2 * kernel.childProbability true true
+'Erdos566.Retuned.BinaryPairKernel.childMarginal_eq_four_outcomes' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+Erdos566.Retuned.BinaryPairKernel.conditionalEntropy_mul_log_two : ∀ (kernel : Erdos566.Retuned.BinaryPairKernel),
+  kernel.conditionalEntropy * Real.log 2 =
+    (1 - kernel.parentProbability) ^ 2 * Real.binEntropy (kernel.childProbability false false) +
+          (1 - kernel.parentProbability) * kernel.parentProbability *
+            Real.binEntropy (kernel.childProbability false true) +
+        kernel.parentProbability * (1 - kernel.parentProbability) *
+          Real.binEntropy (kernel.childProbability true false) +
+      kernel.parentProbability ^ 2 * Real.binEntropy (kernel.childProbability true true)
+'Erdos566.Retuned.BinaryPairKernel.conditionalEntropy_mul_log_two' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+Erdos566.Retuned.BinaryPairKernel.bitDisagreementProbability_mem_Icc : ∀ (parent : Bool) (childProbability : ℝ),
+  0 ≤ childProbability →
+    childProbability ≤ 1 →
+      0 ≤ Erdos566.Retuned.BinaryPairKernel.bitDisagreementProbability parent childProbability ∧
+        Erdos566.Retuned.BinaryPairKernel.bitDisagreementProbability parent childProbability ≤ 1
+'Erdos566.Retuned.BinaryPairKernel.bitDisagreementProbability_mem_Icc' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+Erdos566.Retuned.BinaryPairKernel.averageDisagreement_eq_four_outcomes : ∀ (kernel : Erdos566.Retuned.BinaryPairKernel),
+  kernel.averageDisagreement =
+    (1 - kernel.parentProbability) ^ 2 * kernel.childProbability false false +
+        kernel.parentProbability * (1 - kernel.parentProbability) +
+      kernel.parentProbability ^ 2 * (1 - kernel.childProbability true true)
+'Erdos566.Retuned.BinaryPairKernel.averageDisagreement_eq_four_outcomes' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+Erdos566.Retuned.BinaryPairKernel.smoothed_childMarginal : ∀ (kernel : Erdos566.Retuned.BinaryPairKernel) (mixing : ℝ)
+  (hmixing_zero : 0 ≤ mixing) (hmixing_one : mixing ≤ 1),
+  (kernel.smoothed mixing hmixing_zero hmixing_one).childMarginal = (1 - mixing) * kernel.childMarginal + mixing / 2
+'Erdos566.Retuned.BinaryPairKernel.smoothed_childMarginal' depends on axioms: [propext, Classical.choice, Quot.sound]
+Erdos566.Retuned.BinaryPairKernel.smoothed_averageDisagreement : ∀ (kernel : Erdos566.Retuned.BinaryPairKernel)
+  (mixing : ℝ) (hmixing_zero : 0 ≤ mixing) (hmixing_one : mixing ≤ 1),
+  (kernel.smoothed mixing hmixing_zero hmixing_one).averageDisagreement =
+    (1 - mixing) * kernel.averageDisagreement + mixing / 2
+'Erdos566.Retuned.BinaryPairKernel.smoothed_averageDisagreement' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+Erdos566.Retuned.BinaryPairKernel.smoothedConditionalEntropy_continuous : ∀
+  (kernel : Erdos566.Retuned.BinaryPairKernel), Continuous kernel.smoothedConditionalEntropy
+'Erdos566.Retuned.BinaryPairKernel.smoothedConditionalEntropy_continuous' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+Erdos566.Retuned.BinaryPairKernel.smoothed_conditionalEntropy : ∀ (kernel : Erdos566.Retuned.BinaryPairKernel)
+  (mixing : ℝ) (hmixing_zero : 0 ≤ mixing) (hmixing_one : mixing ≤ 1),
+  (kernel.smoothed mixing hmixing_zero hmixing_one).conditionalEntropy = kernel.smoothedConditionalEntropy mixing
+'Erdos566.Retuned.BinaryPairKernel.smoothed_conditionalEntropy' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+Erdos566.Retuned.sqrt_two_pos : 0 < √2
+'Erdos566.Retuned.sqrt_two_pos' depends on axioms: [propext, Classical.choice, Quot.sound]
+Erdos566.Retuned.sqrt_two_sq : √2 ^ 2 = 2
+'Erdos566.Retuned.sqrt_two_sq' depends on axioms: [propext, Classical.choice, Quot.sound]
+Erdos566.Retuned.tangentSame_pos : 0 < Erdos566.Retuned.tangentSame
+'Erdos566.Retuned.tangentSame_pos' depends on axioms: [propext, Classical.choice, Quot.sound]
+Erdos566.Retuned.tangentMixed_pos : 0 < Erdos566.Retuned.tangentMixed
+'Erdos566.Retuned.tangentMixed_pos' depends on axioms: [propext, Classical.choice, Quot.sound]
+Erdos566.Retuned.log_tangentSame : Real.log Erdos566.Retuned.tangentSame = Real.log (25 / 16) - Real.log 2 / 2
+'Erdos566.Retuned.log_tangentSame' depends on axioms: [propext, Classical.choice, Quot.sound]
+Erdos566.Retuned.log_tangentMixed : Real.log Erdos566.Retuned.tangentMixed = Real.log (9 / 16) / 2 + Real.log 2 / 2
+'Erdos566.Retuned.log_tangentMixed' depends on axioms: [propext, Classical.choice, Quot.sound]
+Erdos566.Retuned.log_tangent_ratio : Real.log Erdos566.Retuned.tangentSame - Real.log Erdos566.Retuned.tangentMixed =
+  Real.log (25 / 24)
+'Erdos566.Retuned.log_tangent_ratio' depends on axioms: [propext, Classical.choice, Quot.sound]
+Erdos566.Retuned.tangent_constant : ∀ (q : ℝ),
+  ((1 - q) ^ 2 + q ^ 2) * Real.log Erdos566.Retuned.tangentSame +
+      2 * q * (1 - q) * Real.log Erdos566.Retuned.tangentMixed =
+    Real.log (25 / 16) / 2 + Real.log (9 / 16) / 4 + (2 * q - 1) ^ 2 * Real.log (25 / 24) / 2
+'Erdos566.Retuned.tangent_constant' depends on axioms: [propext, Classical.choice, Quot.sound]
+Erdos566.Retuned.tangent_linear : ∀ (q a b : ℝ),
+  (1 - q) ^ 2 * ((a + Erdos566.Retuned.weight * b) / Erdos566.Retuned.tangentSame - 1) +
+        q ^ 2 * ((Erdos566.Retuned.weight * a + b) / Erdos566.Retuned.tangentSame - 1) +
+      2 * q * (1 - q) * (3 / 4 * (a + b) / Erdos566.Retuned.tangentMixed - 1) =
+    a * ((1 - Erdos566.Retuned.bias * (2 * q - 1)) / √2) + b * ((1 + Erdos566.Retuned.bias * (2 * q - 1)) / √2) - 1
+'Erdos566.Retuned.tangent_linear' depends on axioms: [propext, Classical.choice, Quot.sound]
+Erdos566.Retuned.tangent_linear_bound : ∀ (q a b : ℝ),
+  a ^ 2 + b ^ 2 = 1 →
+    a * ((1 - Erdos566.Retuned.bias * (2 * q - 1)) / √2) + b * ((1 + Erdos566.Retuned.bias * (2 * q - 1)) / √2) - 1 ≤
+      Erdos566.Retuned.bias ^ 2 * (2 * q - 1) ^ 2 / 2
+'Erdos566.Retuned.tangent_linear_bound' depends on axioms: [propext, Classical.choice, Quot.sound]
+Erdos566.Retuned.logPotential_le : ∀ (q a b : ℝ),
+  0 ≤ q →
+    q ≤ 1 →
+      0 < a →
+        0 < b → a ^ 2 + b ^ 2 = 1 → Erdos566.Retuned.logPotential q a b ≤ Erdos566.Retuned.entropyConstant * Real.log 2
+'Erdos566.Retuned.logPotential_le' depends on axioms: [propext, Classical.choice, Quot.sound]
+Erdos566.Retuned.entropySlope_pos : 0 < Erdos566.Retuned.entropySlope
+'Erdos566.Retuned.entropySlope_pos' depends on axioms: [propext, Classical.choice, Quot.sound]
+Erdos566.Retuned.entropyConstant_add_radius : Erdos566.Retuned.entropyConstant +
+    Erdos566.Retuned.entropySlope * Erdos566.tau =
+  Erdos566.entropyThreshold
+'Erdos566.Retuned.entropyConstant_add_radius' depends on axioms: [propext, Classical.choice, Quot.sound]
+Erdos566.Retuned.BinaryPairKernel.conditionalEntropy_logsum_reduction : ∀ (kernel : Erdos566.Retuned.BinaryPairKernel),
+  0 < kernel.childMarginal →
+    kernel.childMarginal < 1 →
+      kernel.conditionalEntropy * Real.log 2 - Real.binEntropy kernel.childMarginal / 2 -
+          -Real.log (9 / 16) * kernel.averageDisagreement ≤
+        Erdos566.Retuned.logPotential kernel.parentProbability √(1 - kernel.childMarginal) √kernel.childMarginal -
+          Real.binEntropy kernel.parentProbability / 2
+'Erdos566.Retuned.BinaryPairKernel.conditionalEntropy_logsum_reduction' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+Erdos566.Retuned.BinaryPairKernel.conditionalEntropy_bound_of_marginal_interior : ∀
+  (kernel : Erdos566.Retuned.BinaryPairKernel),
+  0 < kernel.childMarginal →
+    kernel.childMarginal < 1 →
+      kernel.conditionalEntropy ≤
+        Erdos566.Retuned.entropyConstant + Erdos566.Retuned.entropySlope * kernel.averageDisagreement +
+          (Erdos566.Retuned.binaryEntropy kernel.childMarginal -
+              Erdos566.Retuned.binaryEntropy kernel.parentProbability) /
+            2
+'Erdos566.Retuned.BinaryPairKernel.conditionalEntropy_bound_of_marginal_interior' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+Erdos566.Retuned.BinaryPairKernel.conditionalEntropy_bound : ∀ (kernel : Erdos566.Retuned.BinaryPairKernel),
+  kernel.conditionalEntropy ≤
+    Erdos566.Retuned.entropyConstant + Erdos566.Retuned.entropySlope * kernel.averageDisagreement +
+      (Erdos566.Retuned.binaryEntropy kernel.childMarginal - Erdos566.Retuned.binaryEntropy kernel.parentProbability) /
+        2
+'Erdos566.Retuned.BinaryPairKernel.conditionalEntropy_bound' depends on axioms: [propext, Classical.choice, Quot.sound]
+Erdos566.Retuned.withoutReplacementBinaryPairMass_nonneg : ∀ (parentCount oneCount : ℕ),
+  2 ≤ parentCount →
+    oneCount ≤ parentCount →
+      ∀ (left right : Bool), 0 ≤ Erdos566.Retuned.withoutReplacementBinaryPairMass parentCount oneCount left right
+'Erdos566.Retuned.withoutReplacementBinaryPairMass_nonneg' depends on axioms: [propext, Classical.choice, Quot.sound]
+Erdos566.Retuned.withoutReplacementBinaryPairMass_sum : ∀ (parentCount oneCount : ℕ),
+  2 ≤ parentCount →
+    ∑ left, ∑ right, Erdos566.Retuned.withoutReplacementBinaryPairMass parentCount oneCount left right = 1
+'Erdos566.Retuned.withoutReplacementBinaryPairMass_sum' depends on axioms: [propext, Classical.choice, Quot.sound]
+Erdos566.Retuned.withoutReplacementBinaryPairExpectation_sub : ∀ (parentCount oneCount : ℕ),
+  2 ≤ parentCount →
+    ∀ (f : Bool → Bool → ℝ),
+      Erdos566.Retuned.withoutReplacementBinaryPairExpectation parentCount oneCount f -
+          ∑ left,
+            ∑ right, Erdos566.Retuned.independentBinaryPairMass (↑oneCount / ↑parentCount) left right * f left right =
+        ↑oneCount / ↑parentCount * (1 - ↑oneCount / ↑parentCount) / (↑parentCount - 1) *
+          (f false true + f true false - f false false - f true true)
+'Erdos566.Retuned.withoutReplacementBinaryPairExpectation_sub' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+Erdos566.Retuned.withoutReplacementBinaryPairExpectation_error : ∀ (parentCount oneCount : ℕ),
+  2 ≤ parentCount →
+    oneCount ≤ parentCount →
+      ∀ (f : Bool → Bool → ℝ),
+        (∀ (left right : Bool), 0 ≤ f left right ∧ f left right ≤ 1) →
+          |Erdos566.Retuned.withoutReplacementBinaryPairExpectation parentCount oneCount f -
+                ∑ left,
+                  ∑ right,
+                    Erdos566.Retuned.independentBinaryPairMass (↑oneCount / ↑parentCount) left right * f left right| ≤
+            1 / ↑parentCount
+'Erdos566.Retuned.withoutReplacementBinaryPairExpectation_error' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+Erdos566.Retuned.withoutReplacementBinaryPairExpectation_nonneg : ∀ (parentCount oneCount : ℕ),
+  2 ≤ parentCount →
+    oneCount ≤ parentCount →
+      ∀ (f : Bool → Bool → ℝ),
+        (∀ (left right : Bool), 0 ≤ f left right) →
+          0 ≤ Erdos566.Retuned.withoutReplacementBinaryPairExpectation parentCount oneCount f
+'Erdos566.Retuned.withoutReplacementBinaryPairExpectation_nonneg' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+Erdos566.Retuned.withoutReplacementBinaryPairExpectation_le_one : ∀ (parentCount oneCount : ℕ),
+  2 ≤ parentCount →
+    oneCount ≤ parentCount →
+      ∀ (f : Bool → Bool → ℝ),
+        (∀ (left right : Bool), f left right ≤ 1) →
+          Erdos566.Retuned.withoutReplacementBinaryPairExpectation parentCount oneCount f ≤ 1
+'Erdos566.Retuned.withoutReplacementBinaryPairExpectation_le_one' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+Erdos566.Retuned.empiricalChildMarginal_mem_Icc : ∀ (parentCount oneCount : ℕ),
+  2 ≤ parentCount →
+    oneCount ≤ parentCount →
+      ∀ (kernel : Erdos566.Retuned.BinaryPairKernel),
+        0 ≤ Erdos566.Retuned.empiricalChildMarginal parentCount oneCount kernel ∧
+          Erdos566.Retuned.empiricalChildMarginal parentCount oneCount kernel ≤ 1
+'Erdos566.Retuned.empiricalChildMarginal_mem_Icc' depends on axioms: [propext, Classical.choice, Quot.sound]
+Erdos566.Retuned.empiricalChildMarginal_error : ∀ (parentCount oneCount : ℕ),
+  2 ≤ parentCount →
+    oneCount ≤ parentCount →
+      ∀ (kernel : Erdos566.Retuned.BinaryPairKernel),
+        kernel.parentProbability = ↑oneCount / ↑parentCount →
+          |Erdos566.Retuned.empiricalChildMarginal parentCount oneCount kernel - kernel.childMarginal| ≤
+            1 / ↑parentCount
+'Erdos566.Retuned.empiricalChildMarginal_error' depends on axioms: [propext, Classical.choice, Quot.sound]
+Erdos566.Retuned.empiricalConditionalEntropy_error : ∀ (parentCount oneCount : ℕ),
+  2 ≤ parentCount →
+    oneCount ≤ parentCount →
+      ∀ (kernel : Erdos566.Retuned.BinaryPairKernel),
+        kernel.parentProbability = ↑oneCount / ↑parentCount →
+          |Erdos566.Retuned.empiricalConditionalEntropy parentCount oneCount kernel - kernel.conditionalEntropy| ≤
+            1 / ↑parentCount
+'Erdos566.Retuned.empiricalConditionalEntropy_error' depends on axioms: [propext, Classical.choice, Quot.sound]
+Erdos566.Retuned.empiricalAverageDisagreement_error : ∀ (parentCount oneCount : ℕ),
+  2 ≤ parentCount →
+    oneCount ≤ parentCount →
+      ∀ (kernel : Erdos566.Retuned.BinaryPairKernel),
+        kernel.parentProbability = ↑oneCount / ↑parentCount →
+          |Erdos566.Retuned.empiricalAverageDisagreement parentCount oneCount kernel - kernel.averageDisagreement| ≤
+            1 / ↑parentCount
+'Erdos566.Retuned.empiricalAverageDisagreement_error' depends on axioms: [propext, Classical.choice, Quot.sound]
+Erdos566.Retuned.empiricalChildMarginal_entropy_error : ∀ (parentCount oneCount : ℕ),
+  4 ≤ parentCount →
+    oneCount ≤ parentCount →
+      ∀ (kernel : Erdos566.Retuned.BinaryPairKernel),
+        kernel.parentProbability = ↑oneCount / ↑parentCount →
+          |Erdos566.Retuned.binaryEntropy (Erdos566.Retuned.empiricalChildMarginal parentCount oneCount kernel) -
+                Erdos566.Retuned.binaryEntropy kernel.childMarginal| ≤
+            Erdos566.Retuned.binaryEntropy (1 / ↑parentCount)
+'Erdos566.Retuned.empiricalChildMarginal_entropy_error' depends on axioms: [propext, Classical.choice, Quot.sound]
+Erdos566.Retuned.empiricalConditionalEntropy_bound : ∀ (parentCount oneCount : ℕ),
+  4 ≤ parentCount →
+    oneCount ≤ parentCount →
+      ∀ (kernel : Erdos566.Retuned.BinaryPairKernel),
+        kernel.parentProbability = ↑oneCount / ↑parentCount →
+          Erdos566.Retuned.empiricalConditionalEntropy parentCount oneCount kernel ≤
+            Erdos566.Retuned.entropyConstant +
+                  Erdos566.Retuned.entropySlope *
+                    Erdos566.Retuned.empiricalAverageDisagreement parentCount oneCount kernel +
+                (Erdos566.Retuned.binaryEntropy (Erdos566.Retuned.empiricalChildMarginal parentCount oneCount kernel) -
+                    Erdos566.Retuned.binaryEntropy kernel.parentProbability) /
+                  2 +
+              Erdos566.Retuned.empiricalEntropyError parentCount
+'Erdos566.Retuned.empiricalConditionalEntropy_bound' depends on axioms: [propext, Classical.choice, Quot.sound]
+Erdos566.Retuned.empiricalEntropyError_tendsto_zero : Filter.Tendsto Erdos566.Retuned.empiricalEntropyError Filter.atTop
+  (nhds 0)
+'Erdos566.Retuned.empiricalEntropyError_tendsto_zero' depends on axioms: [propext, Classical.choice, Quot.sound]
+Erdos566.Retuned.empiricalConditionalEntropy_at_radius : ∀ (parentCount oneCount : ℕ),
+  4 ≤ parentCount →
+    oneCount ≤ parentCount →
+      ∀ (kernel : Erdos566.Retuned.BinaryPairKernel),
+        kernel.parentProbability = ↑oneCount / ↑parentCount →
+          Erdos566.Retuned.empiricalAverageDisagreement parentCount oneCount kernel ≤ Erdos566.tau →
+            Erdos566.Retuned.empiricalConditionalEntropy parentCount oneCount kernel ≤
+              Erdos566.entropyThreshold +
+                  (Erdos566.Retuned.binaryEntropy
+                        (Erdos566.Retuned.empiricalChildMarginal parentCount oneCount kernel) -
+                      Erdos566.Retuned.binaryEntropy kernel.parentProbability) /
+                    2 +
+                Erdos566.Retuned.empiricalEntropyError parentCount
+'Erdos566.Retuned.empiricalConditionalEntropy_at_radius' depends on axioms: [propext, Classical.choice, Quot.sound]
+Erdos566.Retuned.eventually_empiricalEntropyError_lt_slack : ∀ᶠ (L : ℕ) in Filter.atTop,
+  Erdos566.Retuned.empiricalEntropyError L < Erdos566.entropySlack
+'Erdos566.Retuned.eventually_empiricalEntropyError_lt_slack' depends on axioms: [propext, Classical.choice, Quot.sound]
+@Erdos566.Retuned.binEntropy_upper : ∀ {x : ℝ}, 0 < x → x < 1 → Real.binEntropy x ≤ -x * Real.log x + x
+'Erdos566.Retuned.binEntropy_upper' depends on axioms: [propext, Classical.choice, Quot.sound]
+Erdos566.Retuned.entropySlope_lt_one : Erdos566.Retuned.entropySlope < 1
+'Erdos566.Retuned.entropySlope_lt_one' depends on axioms: [propext, Classical.choice, Quot.sound]
+Erdos566.Retuned.base_entropy_small : Erdos566.Retuned.binaryEntropy (1 / ↑Erdos566.baseSize) < 26 / ↑Erdos566.baseSize
+'Erdos566.Retuned.base_entropy_small' depends on axioms: [propext, Classical.choice, Quot.sound]
+Erdos566.Retuned.base_empiricalEntropyError_lt_slack : Erdos566.Retuned.empiricalEntropyError Erdos566.baseSize <
+  Erdos566.entropySlack
+'Erdos566.Retuned.base_empiricalEntropyError_lt_slack' depends on axioms: [propext, Classical.choice, Quot.sound]
+Erdos566.Retuned.empiricalEntropyError_lt_slack : ∀ (L : ℕ),
+  Erdos566.baseSize ≤ L → Erdos566.Retuned.empiricalEntropyError L < Erdos566.entropySlack
+'Erdos566.Retuned.empiricalEntropyError_lt_slack' depends on axioms: [propext, Classical.choice, Quot.sound]
+Erdos566.Krawtchouk.recurrence_positive_above_cap : ∀ (coefficient : ℕ → ℝ) (x c : ℝ) (k : ℕ),
+  0 < c →
+    2 * c ≤ x →
+      (∀ (j : ℕ), j + 2 ≤ k → coefficient j ≤ c ^ 2) → ∀ m ≤ k, 0 < Erdos566.Krawtchouk.recurrence coefficient x m
+'Erdos566.Krawtchouk.recurrence_positive_above_cap' depends on axioms: [propext, Classical.choice, Quot.sound]
+Erdos566.Krawtchouk.coefficient_le_cap : ∀ (n k j : ℕ),
+  2 * k ≤ n + 1 → j + 1 ≤ k → (↑j + 1) * (↑n - ↑j) ≤ ↑k * (↑n - ↑k + 1)
+'Erdos566.Krawtchouk.coefficient_le_cap' depends on axioms: [propext, Classical.choice, Quot.sound]
+Erdos566.Krawtchouk.monic_positive : ∀ (n k : ℕ) (x : ℝ),
+  0 < k → 2 * k ≤ n + 1 → 2 * √(↑k * (↑n - ↑k + 1)) ≤ x → 0 < Erdos566.Krawtchouk.monic n x k
+'Erdos566.Krawtchouk.monic_positive' depends on axioms: [propext, Classical.choice, Quot.sound]
+Erdos566.Krawtchouk.recurrence_neg : ∀ (coefficient : ℕ → ℝ) (x : ℝ) (k : ℕ),
+  Erdos566.Krawtchouk.recurrence coefficient (-x) k = (-1) ^ k * Erdos566.Krawtchouk.recurrence coefficient x k
+'Erdos566.Krawtchouk.recurrence_neg' depends on axioms: [propext, Classical.choice, Quot.sound]
+Erdos566.Krawtchouk.monic_neg : ∀ (n k : ℕ) (x : ℝ),
+  Erdos566.Krawtchouk.monic n (-x) k = (-1) ^ k * Erdos566.Krawtchouk.monic n x k
+'Erdos566.Krawtchouk.monic_neg' depends on axioms: [propext, Classical.choice, Quot.sound]
+Erdos566.Krawtchouk.negative_implies_inside : ∀ (n k : ℕ) (x : ℝ),
+  0 < k → 2 * k ≤ n + 1 → Even k → Erdos566.Krawtchouk.monic n x k < 0 → |x| < 2 * √(↑k * (↑n - ↑k + 1))
+'Erdos566.Krawtchouk.negative_implies_inside' depends on axioms: [propext, Classical.choice, Quot.sound]
+Erdos566.Retuned.binomialProbabilityMass_nonneg : ∀ (trialCount successCount : ℕ) (probability : ℝ),
+  0 ≤ probability → probability ≤ 1 → 0 ≤ Erdos566.Retuned.binomialProbabilityMass trialCount successCount probability
+'Erdos566.Retuned.binomialProbabilityMass_nonneg' depends on axioms: [propext, Classical.choice, Quot.sound]
+Erdos566.Retuned.binomialProbabilityMass_succ_mul : ∀ (trialCount successCount : ℕ) (probability : ℝ),
+  successCount < trialCount →
+    Erdos566.Retuned.binomialProbabilityMass trialCount (successCount + 1) probability * ↑(successCount + 1) *
+        (1 - probability) =
+      Erdos566.Retuned.binomialProbabilityMass trialCount successCount probability * ↑(trialCount - successCount) *
+        probability
+'Erdos566.Retuned.binomialProbabilityMass_succ_mul' depends on axioms: [propext, Classical.choice, Quot.sound]
+Erdos566.Retuned.binomialModeRatio_le_of_lt : ∀ (trialCount mode successCount : ℕ),
+  mode ≤ trialCount →
+    successCount < mode →
+      ↑(successCount + 1) * (1 - ↑mode / ↑trialCount) ≤ ↑(trialCount - successCount) * (↑mode / ↑trialCount)
+'Erdos566.Retuned.binomialModeRatio_le_of_lt' depends on axioms: [propext, Classical.choice, Quot.sound]
+Erdos566.Retuned.binomialModeRatio_le_of_ge : ∀ (trialCount mode successCount : ℕ),
+  0 < trialCount →
+    mode ≤ trialCount →
+      mode ≤ successCount →
+        successCount < trialCount →
+          ↑(trialCount - successCount) * (↑mode / ↑trialCount) ≤ ↑(successCount + 1) * (1 - ↑mode / ↑trialCount)
+'Erdos566.Retuned.binomialModeRatio_le_of_ge' depends on axioms: [propext, Classical.choice, Quot.sound]
+Erdos566.Retuned.binomialProbabilityMass_le_succ_of_lt_mode : ∀ (trialCount mode successCount : ℕ),
+  mode < trialCount →
+    successCount < mode →
+      Erdos566.Retuned.binomialProbabilityMass trialCount successCount (↑mode / ↑trialCount) ≤
+        Erdos566.Retuned.binomialProbabilityMass trialCount (successCount + 1) (↑mode / ↑trialCount)
+'Erdos566.Retuned.binomialProbabilityMass_le_succ_of_lt_mode' depends on axioms: [propext, Classical.choice, Quot.sound]
+Erdos566.Retuned.binomialProbabilityMass_succ_le_of_ge_mode : ∀ (trialCount mode successCount : ℕ),
+  mode < trialCount →
+    mode ≤ successCount →
+      successCount < trialCount →
+        Erdos566.Retuned.binomialProbabilityMass trialCount (successCount + 1) (↑mode / ↑trialCount) ≤
+          Erdos566.Retuned.binomialProbabilityMass trialCount successCount (↑mode / ↑trialCount)
+'Erdos566.Retuned.binomialProbabilityMass_succ_le_of_ge_mode' depends on axioms: [propext, Classical.choice, Quot.sound]
+Erdos566.Retuned.binomialProbabilityMass_le_mode : ∀ (trialCount mode successCount : ℕ),
+  mode ≤ trialCount →
+    successCount ≤ trialCount →
+      Erdos566.Retuned.binomialProbabilityMass trialCount successCount (↑mode / ↑trialCount) ≤
+        Erdos566.Retuned.binomialProbabilityMass trialCount mode (↑mode / ↑trialCount)
+'Erdos566.Retuned.binomialProbabilityMass_le_mode' depends on axioms: [propext, Classical.choice, Quot.sound]
+Erdos566.Retuned.binomialProbabilityMass_sum_eq_one : ∀ (trialCount : ℕ) (probability : ℝ),
+  ∑ successCount ∈ Finset.range (trialCount + 1),
+      Erdos566.Retuned.binomialProbabilityMass trialCount successCount probability =
+    1
+'Erdos566.Retuned.binomialProbabilityMass_sum_eq_one' depends on axioms: [propext, Classical.choice, Quot.sound]
+Erdos566.Retuned.binomialProbabilityMass_mode_ge_inverse : ∀ (trialCount mode : ℕ),
+  mode ≤ trialCount →
+    1 / ↑(trialCount + 1) ≤ Erdos566.Retuned.binomialProbabilityMass trialCount mode (↑mode / ↑trialCount)
+'Erdos566.Retuned.binomialProbabilityMass_mode_ge_inverse' depends on axioms: [propext, Classical.choice, Quot.sound]
+Erdos566.Retuned.binomialProbabilityMass_mode_mul_exp_entropy : ∀ (trialCount mode : ℕ),
+  mode ≤ trialCount →
+    Erdos566.Retuned.binomialProbabilityMass trialCount mode (↑mode / ↑trialCount) *
+        Real.exp (↑trialCount * Real.binEntropy (↑mode / ↑trialCount)) =
+      ↑(trialCount.choose mode)
+'Erdos566.Retuned.binomialProbabilityMass_mode_mul_exp_entropy' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+Erdos566.Retuned.exp_binary_entropy_div_le_choose : ∀ (trialCount successCount : ℕ),
+  successCount ≤ trialCount →
+    Real.exp (↑trialCount * Real.binEntropy (↑successCount / ↑trialCount)) / ↑(trialCount + 1) ≤
+      ↑(trialCount.choose successCount)
+'Erdos566.Retuned.exp_binary_entropy_div_le_choose' depends on axioms: [propext, Classical.choice, Quot.sound]
+Erdos566.Retuned.binomial_probability_term_le_one : ∀ (trialCount successCount : ℕ) (probability : ℝ),
+  successCount ≤ trialCount →
+    0 ≤ probability →
+      probability ≤ 1 →
+        ↑(trialCount.choose successCount) * probability ^ successCount *
+            (1 - probability) ^ (trialCount - successCount) ≤
+          1
+'Erdos566.Retuned.binomial_probability_term_le_one' depends on axioms: [propext, Classical.choice, Quot.sound]
+Erdos566.Retuned.log_choose_le_binary_entropy : ∀ (trialCount successCount : ℕ),
+  successCount ≤ trialCount →
+    Real.log ↑(trialCount.choose successCount) ≤ ↑trialCount * Real.binEntropy (↑successCount / ↑trialCount)
+'Erdos566.Retuned.log_choose_le_binary_entropy' depends on axioms: [propext, Classical.choice, Quot.sound]
+Erdos566.Retuned.choose_le_exp_binary_entropy : ∀ (trialCount successCount : ℕ),
+  successCount ≤ trialCount →
+    ↑(trialCount.choose successCount) ≤ Real.exp (↑trialCount * Real.binEntropy (↑successCount / ↑trialCount))
+'Erdos566.Retuned.choose_le_exp_binary_entropy' depends on axioms: [propext, Classical.choice, Quot.sound]
+@Erdos566.Retuned.choose_product_le_exp_binary_entropy : ∀ {ι : Type u_1} [inst : Fintype ι]
+  (population success : ι → ℕ),
+  (∀ (index : ι), success index ≤ population index) →
+    ∏ index, ↑((population index).choose (success index)) ≤
+      Real.exp (∑ index, ↑(population index) * Real.binEntropy (↑(success index) / ↑(population index)))
+'Erdos566.Retuned.choose_product_le_exp_binary_entropy' depends on axioms: [propext, Classical.choice, Quot.sound]
+@Erdos566.Retuned.booleanWordOnes_card_equiv : ∀ {ι : Type u_1} {κ : Type u_2} [inst : Fintype ι] [inst_1 : Fintype κ]
+  (equivalence : ι ≃ κ) (word : κ → Bool),
+  (Erdos566.Retuned.booleanWordOnes fun index => word (equivalence index)).card =
+    (Erdos566.Retuned.booleanWordOnes word).card
+'Erdos566.Retuned.booleanWordOnes_card_equiv' depends on axioms: [propext, Classical.choice, Quot.sound]
+Erdos566.Retuned.booleanWordsOfWeight_card : ∀ (ι : Type u_1) [inst : Fintype ι] (weight : ℕ),
+  (Erdos566.Retuned.booleanWordsOfWeight ι weight).card = (Fintype.card ι).choose weight
+'Erdos566.Retuned.booleanWordsOfWeight_card' depends on axioms: [propext, Classical.choice, Quot.sound]
+@Erdos566.Retuned.classifiedWordOnes_card : ∀ {ι : Type u_1} {γ : Type u_2} [inst : Fintype ι] [inst_1 : DecidableEq γ]
+  (classify : ι → γ) (group : γ) (word : ι → Bool),
+  (Erdos566.Retuned.classifiedWordOnes classify group word).card =
+    (Erdos566.Retuned.booleanWordOnes fun index => word ↑index).card
+'Erdos566.Retuned.classifiedWordOnes_card' depends on axioms: [propext, Classical.choice, Quot.sound]
+@Erdos566.Retuned.classifiedBooleanWords_card : ∀ {ι : Type u_1} {γ : Type u_2} [inst : Fintype ι] [inst_1 : Fintype γ]
+  [inst_2 : DecidableEq γ] (classify : ι → γ) (counts : γ → ℕ),
+  (Erdos566.Retuned.classifiedBooleanWords classify counts).card =
+    ∏ group, (Fintype.card (Erdos566.Retuned.ClassificationFiber classify group)).choose (counts group)
+'Erdos566.Retuned.classifiedBooleanWords_card' depends on axioms: [propext, Classical.choice, Quot.sound]
+Erdos566.Retuned.pairTypeCountProfile_card : ∀ (parentCount dimension : ℕ),
+  Fintype.card (Erdos566.Retuned.PairTypeCountProfile parentCount dimension) =
+    (parentCount.choose 2 + 1) ^ (3 * dimension)
+'Erdos566.Retuned.pairTypeCountProfile_card' depends on axioms: [propext, Classical.choice, Quot.sound]
+@Erdos566.Retuned.pairCoordinateClassificationFiber_card : ∀ {parentCount dimension : ℕ}
+  (parents : Fin parentCount → Erdos566.Retuned.HammingWord dimension) (bitType : Erdos566.Retuned.PairBitType)
+  (coordinate : Fin dimension),
+  Fintype.card
+      (Erdos566.Retuned.ClassificationFiber (Erdos566.Retuned.pairCoordinateClassification parents)
+        (bitType, coordinate)) =
+    (Erdos566.Retuned.pairTypeGroup parents coordinate bitType).card
+'Erdos566.Retuned.pairCoordinateClassificationFiber_card' depends on axioms: [propext, Classical.choice, Quot.sound]
+@Erdos566.Retuned.sum_pairTypeGroup_card : ∀ {parentCount dimension : ℕ}
+  (parents : Fin parentCount → Erdos566.Retuned.HammingWord dimension) (coordinate : Fin dimension),
+  ∑ bitType, (Erdos566.Retuned.pairTypeGroup parents coordinate bitType).card = parentCount.choose 2
+'Erdos566.Retuned.sum_pairTypeGroup_card' depends on axioms: [propext, Classical.choice, Quot.sound]
+@Erdos566.Retuned.pairTypeGroup_card_le : ∀ {parentCount dimension : ℕ}
+  (parents : Fin parentCount → Erdos566.Retuned.HammingWord dimension) (coordinate : Fin dimension)
+  (bitType : Erdos566.Retuned.PairBitType),
+  (Erdos566.Retuned.pairTypeGroup parents coordinate bitType).card ≤ parentCount.choose 2
+'Erdos566.Retuned.pairTypeGroup_card_le' depends on axioms: [propext, Classical.choice, Quot.sound]
+@Erdos566.Retuned.pairTypeGroupChildOnes_card_le : ∀ {parentCount dimension : ℕ}
+  (parents : Fin parentCount → Erdos566.Retuned.HammingWord dimension)
+  (children : Erdos566.PairLayer parentCount 1 → Erdos566.Retuned.HammingWord dimension) (coordinate : Fin dimension)
+  (bitType : Erdos566.Retuned.PairBitType),
+  (Erdos566.Retuned.pairTypeGroupChildOnes parents children coordinate bitType).card ≤
+    (Erdos566.Retuned.pairTypeGroup parents coordinate bitType).card
+'Erdos566.Retuned.pairTypeGroupChildOnes_card_le' depends on axioms: [propext, Classical.choice, Quot.sound]
+@Erdos566.Retuned.pairChildClassificationOnes_card : ∀ {parentCount dimension : ℕ}
+  (parents : Fin parentCount → Erdos566.Retuned.HammingWord dimension)
+  (children : Erdos566.PairLayer parentCount 1 → Erdos566.Retuned.HammingWord dimension)
+  (bitType : Erdos566.Retuned.PairBitType) (coordinate : Fin dimension),
+  (Erdos566.Retuned.classifiedWordOnes (Erdos566.Retuned.pairCoordinateClassification parents) (bitType, coordinate)
+        (Erdos566.Retuned.flattenPairChildArray children)).card =
+    (Erdos566.Retuned.pairTypeGroupChildOnes parents children coordinate bitType).card
+'Erdos566.Retuned.pairChildClassificationOnes_card' depends on axioms: [propext, Classical.choice, Quot.sound]
+@Erdos566.Retuned.pairChildArraysOfProfile_card : ∀ {parentCount dimension : ℕ}
+  (parents : Fin parentCount → Erdos566.Retuned.HammingWord dimension)
+  (profile : Erdos566.Retuned.PairTypeCountProfile parentCount dimension),
+  (Erdos566.Retuned.pairChildArraysOfProfile parents profile).card =
+    ∏ index, (Erdos566.Retuned.pairTypeGroup parents index.2 index.1).card.choose ↑(profile index.1 index.2)
+'Erdos566.Retuned.pairChildArraysOfProfile_card' depends on axioms: [propext, Classical.choice, Quot.sound]
+@Erdos566.Retuned.pairParentCoordinateOneCount_le : ∀ {parentCount dimension : ℕ}
+  (parents : Fin parentCount → Erdos566.Retuned.HammingWord dimension) (coordinate : Fin dimension),
+  Erdos566.Retuned.pairParentCoordinateOneCount parents coordinate ≤ parentCount
+'Erdos566.Retuned.pairParentCoordinateOneCount_le' depends on axioms: [propext, Classical.choice, Quot.sound]
+@Erdos566.Retuned.pairParentCoordinateSupport_true_card : ∀ {parentCount dimension : ℕ}
+  (parents : Fin parentCount → Erdos566.Retuned.HammingWord dimension) (coordinate : Fin dimension),
+  (Erdos566.Retuned.pairParentCoordinateSupport parents coordinate true).card =
+    Erdos566.Retuned.pairParentCoordinateOneCount parents coordinate
+'Erdos566.Retuned.pairParentCoordinateSupport_true_card' depends on axioms: [propext, Classical.choice, Quot.sound]
+@Erdos566.Retuned.pairParentCoordinateSupport_card_add : ∀ {parentCount dimension : ℕ}
+  (parents : Fin parentCount → Erdos566.Retuned.HammingWord dimension) (coordinate : Fin dimension),
+  (Erdos566.Retuned.pairParentCoordinateSupport parents coordinate false).card +
+      (Erdos566.Retuned.pairParentCoordinateSupport parents coordinate true).card =
+    parentCount
+'Erdos566.Retuned.pairParentCoordinateSupport_card_add' depends on axioms: [propext, Classical.choice, Quot.sound]
+@Erdos566.Retuned.pairParentCoordinateSupport_false_card : ∀ {parentCount dimension : ℕ}
+  (parents : Fin parentCount → Erdos566.Retuned.HammingWord dimension) (coordinate : Fin dimension),
+  (Erdos566.Retuned.pairParentCoordinateSupport parents coordinate false).card =
+    parentCount - Erdos566.Retuned.pairParentCoordinateOneCount parents coordinate
+'Erdos566.Retuned.pairParentCoordinateSupport_false_card' depends on axioms: [propext, Classical.choice, Quot.sound]
+@Erdos566.Retuned.pairCoordinateBitType_homogeneous_iff : ∀ {parentCount dimension : ℕ}
+  (parents : Fin parentCount → Erdos566.Retuned.HammingWord dimension) (coordinate : Fin dimension)
+  (pair : Erdos566.PairLayer parentCount 1) (outcome : Bool),
+  (Erdos566.Retuned.pairCoordinateBitType parents coordinate pair = if outcome = true then 1 else 0) ↔
+    ∀ parent ∈ ↑pair, parents parent coordinate = outcome
+'Erdos566.Retuned.pairCoordinateBitType_homogeneous_iff' depends on axioms: [propext, Classical.choice, Quot.sound]
+@Erdos566.Retuned.pairTypeGroup_homogeneous_card : ∀ {parentCount dimension : ℕ}
+  (parents : Fin parentCount → Erdos566.Retuned.HammingWord dimension) (coordinate : Fin dimension) (outcome : Bool),
+  (Erdos566.Retuned.pairTypeGroup parents coordinate (if outcome = true then 1 else 0)).card =
+    (Erdos566.Retuned.pairParentCoordinateSupport parents coordinate outcome).card.choose 2
+'Erdos566.Retuned.pairTypeGroup_homogeneous_card' depends on axioms: [propext, Classical.choice, Quot.sound]
+@Erdos566.Retuned.pairTypeGroup_false_card : ∀ {parentCount dimension : ℕ}
+  (parents : Fin parentCount → Erdos566.Retuned.HammingWord dimension) (coordinate : Fin dimension),
+  (Erdos566.Retuned.pairTypeGroup parents coordinate 0).card =
+    (parentCount - Erdos566.Retuned.pairParentCoordinateOneCount parents coordinate).choose 2
+'Erdos566.Retuned.pairTypeGroup_false_card' depends on axioms: [propext, Classical.choice, Quot.sound]
+@Erdos566.Retuned.pairTypeGroup_true_card : ∀ {parentCount dimension : ℕ}
+  (parents : Fin parentCount → Erdos566.Retuned.HammingWord dimension) (coordinate : Fin dimension),
+  (Erdos566.Retuned.pairTypeGroup parents coordinate 1).card =
+    (Erdos566.Retuned.pairParentCoordinateOneCount parents coordinate).choose 2
+'Erdos566.Retuned.pairTypeGroup_true_card' depends on axioms: [propext, Classical.choice, Quot.sound]
+@Erdos566.Retuned.pairTypeGroup_mixed_card : ∀ {parentCount dimension : ℕ}
+  (parents : Fin parentCount → Erdos566.Retuned.HammingWord dimension) (coordinate : Fin dimension),
+  (Erdos566.Retuned.pairTypeGroup parents coordinate 2).card =
+    (parentCount - Erdos566.Retuned.pairParentCoordinateOneCount parents coordinate) *
+      Erdos566.Retuned.pairParentCoordinateOneCount parents coordinate
+'Erdos566.Retuned.pairTypeGroup_mixed_card' depends on axioms: [propext, Classical.choice, Quot.sound]
+@Erdos566.Retuned.pairCoordinateKernel_parentProbability : ∀ {parentCount dimension : ℕ} (hparents : 0 < parentCount)
+  (parents : Fin parentCount → Erdos566.Retuned.HammingWord dimension)
+  (children : Erdos566.PairLayer parentCount 1 → Erdos566.Retuned.HammingWord dimension) (coordinate : Fin dimension),
+  (Erdos566.Retuned.pairCoordinateKernel hparents parents children coordinate).parentProbability =
+    ↑(Erdos566.Retuned.pairParentCoordinateOneCount parents coordinate) / ↑parentCount
+'Erdos566.Retuned.pairCoordinateKernel_parentProbability' depends on axioms: [propext, Classical.choice, Quot.sound]
+@Erdos566.Retuned.pairCoordinateKernel_childProbability : ∀ {parentCount dimension : ℕ} (hparents : 0 < parentCount)
+  (parents : Fin parentCount → Erdos566.Retuned.HammingWord dimension)
+  (children : Erdos566.PairLayer parentCount 1 → Erdos566.Retuned.HammingWord dimension) (coordinate : Fin dimension)
+  (left right : Bool),
+  (Erdos566.Retuned.pairCoordinateKernel hparents parents children coordinate).childProbability left right =
+    ↑(Erdos566.Retuned.pairTypeGroupChildOnes parents children coordinate
+            (Erdos566.Retuned.pairBitTypeOfOutcomes left right)).card /
+      ↑(Erdos566.Retuned.pairTypeGroup parents coordinate (Erdos566.Retuned.pairBitTypeOfOutcomes left right)).card
+'Erdos566.Retuned.pairCoordinateKernel_childProbability' depends on axioms: [propext, Classical.choice, Quot.sound]
+@Erdos566.Retuned.sum_pairTypeGroupChildOnes_card : ∀ {parentCount dimension : ℕ}
+  (parents : Fin parentCount → Erdos566.Retuned.HammingWord dimension)
+  (children : Erdos566.PairLayer parentCount 1 → Erdos566.Retuned.HammingWord dimension) (coordinate : Fin dimension),
+  ∑ bitType, (Erdos566.Retuned.pairTypeGroupChildOnes parents children coordinate bitType).card =
+    Erdos566.Retuned.pairChildCoordinateOneCount children coordinate
+'Erdos566.Retuned.sum_pairTypeGroupChildOnes_card' depends on axioms: [propext, Classical.choice, Quot.sound]
+@Erdos566.Retuned.pairTypeGroup_probability_mul_childRatio : ∀ {parentCount dimension : ℕ},
+  2 ≤ parentCount →
+    ∀ (parents : Fin parentCount → Erdos566.Retuned.HammingWord dimension)
+      (children : Erdos566.PairLayer parentCount 1 → Erdos566.Retuned.HammingWord dimension)
+      (coordinate : Fin dimension) (bitType : Erdos566.Retuned.PairBitType),
+      ↑(Erdos566.Retuned.pairTypeGroup parents coordinate bitType).card / ↑(parentCount.choose 2) *
+          (↑(Erdos566.Retuned.pairTypeGroupChildOnes parents children coordinate bitType).card /
+            ↑(Erdos566.Retuned.pairTypeGroup parents coordinate bitType).card) =
+        ↑(Erdos566.Retuned.pairTypeGroupChildOnes parents children coordinate bitType).card / ↑(parentCount.choose 2)
+'Erdos566.Retuned.pairTypeGroup_probability_mul_childRatio' depends on axioms: [propext, Classical.choice, Quot.sound]
+@Erdos566.Retuned.withoutReplacementBinaryPairMass_eq_pairTypeGroup : ∀ {parentCount dimension : ℕ},
+  2 ≤ parentCount →
+    ∀ (parents : Fin parentCount → Erdos566.Retuned.HammingWord dimension) (coordinate : Fin dimension)
+      (left right : Bool),
+      Erdos566.Retuned.withoutReplacementBinaryPairMass parentCount
+          (Erdos566.Retuned.pairParentCoordinateOneCount parents coordinate) left right =
+        ↑(Erdos566.Retuned.pairTypeGroup parents coordinate (Erdos566.Retuned.pairBitTypeOfOutcomes left right)).card /
+            ↑(parentCount.choose 2) *
+          if left = right then 1 else 1 / 2
+'Erdos566.Retuned.withoutReplacementBinaryPairMass_eq_pairTypeGroup' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+@Erdos566.Retuned.pairCoordinateKernel_empiricalConditionalEntropy : ∀ {parentCount dimension : ℕ}
+  (hparents : 2 ≤ parentCount) (parents : Fin parentCount → Erdos566.Retuned.HammingWord dimension)
+  (children : Erdos566.PairLayer parentCount 1 → Erdos566.Retuned.HammingWord dimension) (coordinate : Fin dimension),
+  Erdos566.Retuned.empiricalConditionalEntropy parentCount
+      (Erdos566.Retuned.pairParentCoordinateOneCount parents coordinate)
+      (Erdos566.Retuned.pairCoordinateKernel ⋯ parents children coordinate) =
+    Erdos566.Retuned.pairCoordinateConditionalEntropy parents children coordinate
+'Erdos566.Retuned.pairCoordinateKernel_empiricalConditionalEntropy' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+@Erdos566.Retuned.pairCoordinateKernel_empiricalChildMarginal : ∀ {parentCount dimension : ℕ}
+  (hparents : 2 ≤ parentCount) (parents : Fin parentCount → Erdos566.Retuned.HammingWord dimension)
+  (children : Erdos566.PairLayer parentCount 1 → Erdos566.Retuned.HammingWord dimension) (coordinate : Fin dimension),
+  Erdos566.Retuned.empiricalChildMarginal parentCount (Erdos566.Retuned.pairParentCoordinateOneCount parents coordinate)
+      (Erdos566.Retuned.pairCoordinateKernel ⋯ parents children coordinate) =
+    ↑(Erdos566.Retuned.pairChildCoordinateOneCount children coordinate) / ↑(parentCount.choose 2)
+'Erdos566.Retuned.pairCoordinateKernel_empiricalChildMarginal' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+@Erdos566.Retuned.pairTypeGroup_probability_mul_childComplement : ∀ {parentCount dimension : ℕ},
+  2 ≤ parentCount →
+    ∀ (parents : Fin parentCount → Erdos566.Retuned.HammingWord dimension)
+      (children : Erdos566.PairLayer parentCount 1 → Erdos566.Retuned.HammingWord dimension)
+      (coordinate : Fin dimension) (bitType : Erdos566.Retuned.PairBitType),
+      ↑(Erdos566.Retuned.pairTypeGroup parents coordinate bitType).card / ↑(parentCount.choose 2) *
+          (1 -
+            ↑(Erdos566.Retuned.pairTypeGroupChildOnes parents children coordinate bitType).card /
+              ↑(Erdos566.Retuned.pairTypeGroup parents coordinate bitType).card) =
+        (↑(Erdos566.Retuned.pairTypeGroup parents coordinate bitType).card -
+            ↑(Erdos566.Retuned.pairTypeGroupChildOnes parents children coordinate bitType).card) /
+          ↑(parentCount.choose 2)
+'Erdos566.Retuned.pairTypeGroup_probability_mul_childComplement' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+@Erdos566.Retuned.pairCoordinateKernel_empiricalAverageDisagreement : ∀ {parentCount dimension : ℕ}
+  (hparents : 2 ≤ parentCount) (parents : Fin parentCount → Erdos566.Retuned.HammingWord dimension)
+  (children : Erdos566.PairLayer parentCount 1 → Erdos566.Retuned.HammingWord dimension) (coordinate : Fin dimension),
+  Erdos566.Retuned.empiricalAverageDisagreement parentCount
+      (Erdos566.Retuned.pairParentCoordinateOneCount parents coordinate)
+      (Erdos566.Retuned.pairCoordinateKernel ⋯ parents children coordinate) =
+    (↑(Erdos566.Retuned.pairTypeGroupChildOnes parents children coordinate 0).card +
+          ↑(Erdos566.Retuned.pairTypeGroup parents coordinate 2).card / 2 +
+        (↑(Erdos566.Retuned.pairTypeGroup parents coordinate 1).card -
+          ↑(Erdos566.Retuned.pairTypeGroupChildOnes parents children coordinate 1).card)) /
+      ↑(parentCount.choose 2)
+'Erdos566.Retuned.pairCoordinateKernel_empiricalAverageDisagreement' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+@Erdos566.Retuned.pairCoordinatePairMismatchCount_homogeneous : ∀ {parentCount dimension : ℕ}
+  (parents : Fin parentCount → Erdos566.Retuned.HammingWord dimension)
+  (children : Erdos566.PairLayer parentCount 1 → Erdos566.Retuned.HammingWord dimension) (coordinate : Fin dimension)
+  (pair : Erdos566.PairLayer parentCount 1) (outcome : Bool),
+  (Erdos566.Retuned.pairCoordinateBitType parents coordinate pair = if outcome = true then 1 else 0) →
+    Erdos566.Retuned.pairCoordinatePairMismatchCount parents children coordinate pair =
+      if children pair coordinate = outcome then 0 else 2
+'Erdos566.Retuned.pairCoordinatePairMismatchCount_homogeneous' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+@Erdos566.Retuned.pairCoordinatePairMismatchCount_mixed : ∀ {parentCount dimension : ℕ}
+  (parents : Fin parentCount → Erdos566.Retuned.HammingWord dimension)
+  (children : Erdos566.PairLayer parentCount 1 → Erdos566.Retuned.HammingWord dimension) (coordinate : Fin dimension)
+  (pair : Erdos566.PairLayer parentCount 1),
+  Erdos566.Retuned.pairCoordinateBitType parents coordinate pair = 2 →
+    Erdos566.Retuned.pairCoordinatePairMismatchCount parents children coordinate pair = 1
+'Erdos566.Retuned.pairCoordinatePairMismatchCount_mixed' depends on axioms: [propext, Classical.choice, Quot.sound]
+@Erdos566.Retuned.pairCoordinatePairMismatchCount_sum_false : ∀ {parentCount dimension : ℕ}
+  (parents : Fin parentCount → Erdos566.Retuned.HammingWord dimension)
+  (children : Erdos566.PairLayer parentCount 1 → Erdos566.Retuned.HammingWord dimension) (coordinate : Fin dimension),
+  ∑ pair ∈ Erdos566.Retuned.pairTypeGroup parents coordinate 0,
+      Erdos566.Retuned.pairCoordinatePairMismatchCount parents children coordinate pair =
+    2 * (Erdos566.Retuned.pairTypeGroupChildOnes parents children coordinate 0).card
+'Erdos566.Retuned.pairCoordinatePairMismatchCount_sum_false' depends on axioms: [propext, Classical.choice, Quot.sound]
+@Erdos566.Retuned.pairCoordinatePairMismatchCount_sum_true : ∀ {parentCount dimension : ℕ}
+  (parents : Fin parentCount → Erdos566.Retuned.HammingWord dimension)
+  (children : Erdos566.PairLayer parentCount 1 → Erdos566.Retuned.HammingWord dimension) (coordinate : Fin dimension),
+  ∑ pair ∈ Erdos566.Retuned.pairTypeGroup parents coordinate 1,
+      Erdos566.Retuned.pairCoordinatePairMismatchCount parents children coordinate pair =
+    2 *
+      ((Erdos566.Retuned.pairTypeGroup parents coordinate 1).card -
+        (Erdos566.Retuned.pairTypeGroupChildOnes parents children coordinate 1).card)
+'Erdos566.Retuned.pairCoordinatePairMismatchCount_sum_true' depends on axioms: [propext, Classical.choice, Quot.sound]
+@Erdos566.Retuned.pairCoordinatePairMismatchCount_sum_mixed : ∀ {parentCount dimension : ℕ}
+  (parents : Fin parentCount → Erdos566.Retuned.HammingWord dimension)
+  (children : Erdos566.PairLayer parentCount 1 → Erdos566.Retuned.HammingWord dimension) (coordinate : Fin dimension),
+  ∑ pair ∈ Erdos566.Retuned.pairTypeGroup parents coordinate 2,
+      Erdos566.Retuned.pairCoordinatePairMismatchCount parents children coordinate pair =
+    (Erdos566.Retuned.pairTypeGroup parents coordinate 2).card
+'Erdos566.Retuned.pairCoordinatePairMismatchCount_sum_mixed' depends on axioms: [propext, Classical.choice, Quot.sound]
+@Erdos566.Retuned.sum_pairCoordinatePairMismatchCount : ∀ {parentCount dimension : ℕ}
+  (parents : Fin parentCount → Erdos566.Retuned.HammingWord dimension)
+  (children : Erdos566.PairLayer parentCount 1 → Erdos566.Retuned.HammingWord dimension) (coordinate : Fin dimension),
+  ∑ pair, Erdos566.Retuned.pairCoordinatePairMismatchCount parents children coordinate pair =
+    2 * (Erdos566.Retuned.pairTypeGroupChildOnes parents children coordinate 0).card +
+        (Erdos566.Retuned.pairTypeGroup parents coordinate 2).card +
+      2 *
+        ((Erdos566.Retuned.pairTypeGroup parents coordinate 1).card -
+          (Erdos566.Retuned.pairTypeGroupChildOnes parents children coordinate 1).card)
+'Erdos566.Retuned.sum_pairCoordinatePairMismatchCount' depends on axioms: [propext, Classical.choice, Quot.sound]
+@Erdos566.Retuned.sum_pairCoordinatePairMismatchCount_eq_hammingDist : ∀ {parentCount dimension : ℕ}
+  (parents : Fin parentCount → Erdos566.Retuned.HammingWord dimension)
+  (children : Erdos566.PairLayer parentCount 1 → Erdos566.Retuned.HammingWord dimension),
+  ∑ coordinate, ∑ pair, Erdos566.Retuned.pairCoordinatePairMismatchCount parents children coordinate pair =
+    ∑ pair, ∑ parent ∈ ↑pair, hammingDist (parents parent) (children pair)
+'Erdos566.Retuned.sum_pairCoordinatePairMismatchCount_eq_hammingDist' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+@Erdos566.Retuned.pairCoordinateKernel_empiricalAverageDisagreement_eq_mismatches : ∀ {parentCount dimension : ℕ}
+  (hparents : 2 ≤ parentCount) (parents : Fin parentCount → Erdos566.Retuned.HammingWord dimension)
+  (children : Erdos566.PairLayer parentCount 1 → Erdos566.Retuned.HammingWord dimension) (coordinate : Fin dimension),
+  Erdos566.Retuned.empiricalAverageDisagreement parentCount
+      (Erdos566.Retuned.pairParentCoordinateOneCount parents coordinate)
+      (Erdos566.Retuned.pairCoordinateKernel ⋯ parents children coordinate) =
+    ↑(∑ pair, Erdos566.Retuned.pairCoordinatePairMismatchCount parents children coordinate pair) /
+      (2 * ↑(parentCount.choose 2))
+'Erdos566.Retuned.pairCoordinateKernel_empiricalAverageDisagreement_eq_mismatches' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+@Erdos566.Retuned.pairCoordinateConditionalEntropy_empirical_bound : ∀ {parentCount dimension : ℕ}
+  (hparents : 4 ≤ parentCount) (parents : Fin parentCount → Erdos566.Retuned.HammingWord dimension)
+  (children : Erdos566.PairLayer parentCount 1 → Erdos566.Retuned.HammingWord dimension) (coordinate : Fin dimension),
+  Erdos566.Retuned.pairCoordinateConditionalEntropy parents children coordinate ≤
+    Erdos566.Retuned.entropyConstant +
+          Erdos566.Retuned.entropySlope *
+            Erdos566.Retuned.empiricalAverageDisagreement parentCount
+              (Erdos566.Retuned.pairParentCoordinateOneCount parents coordinate)
+              (Erdos566.Retuned.pairCoordinateKernel ⋯ parents children coordinate) +
+        (Erdos566.Retuned.binaryEntropy
+              (↑(Erdos566.Retuned.pairChildCoordinateOneCount children coordinate) / ↑(parentCount.choose 2)) -
+            Erdos566.Retuned.binaryEntropy
+              (↑(Erdos566.Retuned.pairParentCoordinateOneCount parents coordinate) / ↑parentCount)) /
+          2 +
+      Erdos566.Retuned.empiricalEntropyError parentCount
+'Erdos566.Retuned.pairCoordinateConditionalEntropy_empirical_bound' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+@Erdos566.Retuned.pairChildArrayAverageDisagreement_le_radius : ∀ {parentCount dimension : ℕ}
+  (hparents : 4 ≤ parentCount),
+  0 < dimension →
+    ∀ (parents : Fin parentCount → Erdos566.Retuned.HammingWord dimension)
+      (children : Erdos566.PairLayer parentCount 1 → Erdos566.Retuned.HammingWord dimension) (radius : ℕ),
+      (∀ (pair : Erdos566.PairLayer parentCount 1),
+          ∀ parent ∈ ↑pair, hammingDist (parents parent) (children pair) ≤ radius) →
+        Erdos566.Retuned.pairChildArrayAverageDisagreement hparents parents children ≤ ↑radius / ↑dimension
+'Erdos566.Retuned.pairChildArrayAverageDisagreement_le_radius' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+@Erdos566.Retuned.pairChildArrayEntropy_empirical_bound : ∀ {parentCount dimension : ℕ} (hparents : 4 ≤ parentCount),
+  0 < dimension →
+    ∀ (parents : Fin parentCount → Erdos566.Retuned.HammingWord dimension)
+      (children : Erdos566.PairLayer parentCount 1 → Erdos566.Retuned.HammingWord dimension),
+      Erdos566.Retuned.pairChildArrayEntropy parents children ≤
+        Erdos566.Retuned.entropyConstant +
+              Erdos566.Retuned.entropySlope *
+                Erdos566.Retuned.pairChildArrayAverageDisagreement hparents parents children +
+            (Erdos566.Retuned.pairChildArrayEntropyPotential children -
+                Erdos566.Retuned.pairParentArrayEntropyPotential parents) /
+              2 +
+          Erdos566.Retuned.empiricalEntropyError parentCount
+'Erdos566.Retuned.pairChildArrayEntropy_empirical_bound' depends on axioms: [propext, Classical.choice, Quot.sound]
+@Erdos566.Retuned.pairCoordinateConditionalEntropy_mass : ∀ {parentCount dimension : ℕ},
+  2 ≤ parentCount →
+    ∀ (parents : Fin parentCount → Erdos566.Retuned.HammingWord dimension)
+      (children : Erdos566.PairLayer parentCount 1 → Erdos566.Retuned.HammingWord dimension)
+      (coordinate : Fin dimension),
+      ↑(parentCount.choose 2) * Erdos566.Retuned.pairCoordinateConditionalEntropy parents children coordinate =
+        ∑ bitType,
+          ↑(Erdos566.Retuned.pairTypeGroup parents coordinate bitType).card *
+            Erdos566.Retuned.binaryEntropy
+              (↑(Erdos566.Retuned.pairTypeGroupChildOnes parents children coordinate bitType).card /
+                ↑(Erdos566.Retuned.pairTypeGroup parents coordinate bitType).card)
+'Erdos566.Retuned.pairCoordinateConditionalEntropy_mass' depends on axioms: [propext, Classical.choice, Quot.sound]
+@Erdos566.Retuned.pairCoordinateConditionalEntropy_log_mass : ∀ {parentCount dimension : ℕ},
+  2 ≤ parentCount →
+    ∀ (parents : Fin parentCount → Erdos566.Retuned.HammingWord dimension)
+      (children : Erdos566.PairLayer parentCount 1 → Erdos566.Retuned.HammingWord dimension)
+      (coordinate : Fin dimension),
+      ∑ bitType,
+          ↑(Erdos566.Retuned.pairTypeGroup parents coordinate bitType).card *
+            Real.binEntropy
+              (↑(Erdos566.Retuned.pairTypeGroupChildOnes parents children coordinate bitType).card /
+                ↑(Erdos566.Retuned.pairTypeGroup parents coordinate bitType).card) =
+        ↑(parentCount.choose 2) * Real.log 2 *
+          Erdos566.Retuned.pairCoordinateConditionalEntropy parents children coordinate
+'Erdos566.Retuned.pairCoordinateConditionalEntropy_log_mass' depends on axioms: [propext, Classical.choice, Quot.sound]
+@Erdos566.Retuned.pairChildGroup_choose_product_entropy_bound : ∀ {parentCount dimension : ℕ},
+  2 ≤ parentCount →
+    ∀ (parents : Fin parentCount → Erdos566.Retuned.HammingWord dimension)
+      (children : Erdos566.PairLayer parentCount 1 → Erdos566.Retuned.HammingWord dimension),
+      ∏ index,
+          ↑((Erdos566.Retuned.pairTypeGroup parents index.2 index.1).card.choose
+              (Erdos566.Retuned.pairTypeGroupChildOnes parents children index.2 index.1).card) ≤
+        Real.exp
+          (↑(parentCount.choose 2) * Real.log 2 *
+            ∑ coordinate, Erdos566.Retuned.pairCoordinateConditionalEntropy parents children coordinate)
+'Erdos566.Retuned.pairChildGroup_choose_product_entropy_bound' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+@Erdos566.Retuned.pairChildArraysOfRealizedProfile_card_le : ∀ {parentCount dimension : ℕ},
+  2 ≤ parentCount →
+    ∀ (parents : Fin parentCount → Erdos566.Retuned.HammingWord dimension)
+      (children : Erdos566.PairLayer parentCount 1 → Erdos566.Retuned.HammingWord dimension),
+      ↑(Erdos566.Retuned.pairChildArraysOfProfile parents
+              (Erdos566.Retuned.pairChildCountProfile parents children)).card ≤
+        Real.exp
+          (↑(parentCount.choose 2) * Real.log 2 *
+            ∑ coordinate, Erdos566.Retuned.pairCoordinateConditionalEntropy parents children coordinate)
+'Erdos566.Retuned.pairChildArraysOfRealizedProfile_card_le' depends on axioms: [propext, Classical.choice, Quot.sound]
+@Erdos566.Retuned.badPairChildArrays_card_le : ∀ {parentCount dimension : ℕ},
+  2 ≤ parentCount →
+    0 < dimension →
+      ∀ (parents : Fin parentCount → Erdos566.Retuned.HammingWord dimension) (threshold : ℝ),
+        ↑(Erdos566.Retuned.badPairChildArrays parents threshold).card ≤
+          ↑((parentCount.choose 2 + 1) ^ (3 * dimension)) *
+            Real.exp (↑(parentCount.choose 2) * Real.log 2 * ↑dimension * threshold)
+'Erdos566.Retuned.badPairChildArrays_card_le' depends on axioms: [propext, Classical.choice, Quot.sound]
+Erdos566.Retuned.sampling_beta_pos : 0 < Erdos566.beta
+'Erdos566.Retuned.sampling_beta_pos' depends on axioms: [propext, Classical.choice, Quot.sound]
+Erdos566.Retuned.sampling_beta_lt_one : Erdos566.beta < 1
+'Erdos566.Retuned.sampling_beta_lt_one' depends on axioms: [propext, Classical.choice, Quot.sound]
+Erdos566.Retuned.hammingRetentionProbability_pos : ∀ (dimension : ℕ),
+  0 < Erdos566.Retuned.hammingRetentionProbability dimension
+'Erdos566.Retuned.hammingRetentionProbability_pos' depends on axioms: [propext, Classical.choice, Quot.sound]
+Erdos566.Retuned.hammingRetentionProbability_le_one : ∀ (dimension : ℕ),
+  Erdos566.Retuned.hammingRetentionProbability dimension ≤ 1
+'Erdos566.Retuned.hammingRetentionProbability_le_one' depends on axioms: [propext, Classical.choice, Quot.sound]
+Erdos566.Retuned.hammingRetentionProbability_mul_wordCount_eq_exp : ∀ (dimension : ℕ),
+  Erdos566.Retuned.hammingRetentionProbability dimension * ↑(2 ^ dimension) =
+    Real.exp ((1 - Erdos566.beta) * ↑dimension * Real.log 2)
+'Erdos566.Retuned.hammingRetentionProbability_mul_wordCount_eq_exp' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+Erdos566.Retuned.hammingRetentionProbability_sq_mul_wordCount_eq_exp : ∀ (dimension : ℕ),
+  Erdos566.Retuned.hammingRetentionProbability dimension ^ 2 * ↑(2 ^ dimension) =
+    Real.exp ((1 - 2 * Erdos566.beta) * ↑dimension * Real.log 2)
+'Erdos566.Retuned.hammingRetentionProbability_sq_mul_wordCount_eq_exp' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+Erdos566.Retuned.hammingRetentionProbability_mul_wordCount_tendsto_atTop : Filter.Tendsto
+  (fun dimension => Erdos566.Retuned.hammingRetentionProbability dimension * ↑(2 ^ dimension)) Filter.atTop Filter.atTop
+'Erdos566.Retuned.hammingRetentionProbability_mul_wordCount_tendsto_atTop' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+Erdos566.Retuned.hammingRetentionProbability_mul_wordCount_inv_tendsto_zero : Filter.Tendsto
+  (fun dimension => 1 / (Erdos566.Retuned.hammingRetentionProbability dimension * ↑(2 ^ dimension))) Filter.atTop
+  (nhds 0)
+'Erdos566.Retuned.hammingRetentionProbability_mul_wordCount_inv_tendsto_zero' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+Erdos566.Retuned.exp_mul_div_nat_succ_tendsto_atTop : ∀ (rate : ℝ),
+  0 < rate → Filter.Tendsto (fun dimension => Real.exp (rate * ↑dimension) / ↑(dimension + 1)) Filter.atTop Filter.atTop
+'Erdos566.Retuned.exp_mul_div_nat_succ_tendsto_atTop' depends on axioms: [propext, Classical.choice, Quot.sound]
+Erdos566.Retuned.hammingRetentionMeasure_isProbability : ∀ (dimension : ℕ),
+  MeasureTheory.IsProbabilityMeasure (Erdos566.Retuned.hammingRetentionMeasure dimension)
+'Erdos566.Retuned.hammingRetentionMeasure_isProbability' depends on axioms: [propext, Classical.choice, Quot.sound]
+Erdos566.Retuned.hammingRetentionMeasure_integrable : ∀ (dimension : ℕ)
+  (observable : Set (Bool × Erdos566.Retuned.HammingWord dimension) → ℝ),
+  MeasureTheory.Integrable observable (Erdos566.Retuned.hammingRetentionMeasure dimension)
+'Erdos566.Retuned.hammingRetentionMeasure_integrable' depends on axioms: [propext, Classical.choice, Quot.sound]
+Erdos566.Retuned.hammingRetentionMeasure_memLp_two : ∀ (dimension : ℕ)
+  (observable : Set (Bool × Erdos566.Retuned.HammingWord dimension) → ℝ),
+  MeasureTheory.MemLp observable 2 (Erdos566.Retuned.hammingRetentionMeasure dimension)
+'Erdos566.Retuned.hammingRetentionMeasure_memLp_two' depends on axioms: [propext, Classical.choice, Quot.sound]
+Erdos566.Retuned.hammingRetentionMeasure_integral_eq_sum : ∀ (dimension : ℕ)
+  (observable : Set (Bool × Erdos566.Retuned.HammingWord dimension) → ℝ),
+  ∫ (retained : Set (Bool × Erdos566.Retuned.HammingWord dimension)),
+      observable retained ∂Erdos566.Retuned.hammingRetentionMeasure dimension =
+    ∑ retained, (Erdos566.Retuned.hammingRetentionMeasure dimension).real {retained} * observable retained
+'Erdos566.Retuned.hammingRetentionMeasure_integral_eq_sum' depends on axioms: [propext, Classical.choice, Quot.sound]
+Erdos566.Retuned.hammingRetentionMeasure_real_event_eq_sum : ∀ (dimension : ℕ)
+  (event : Set (Set (Bool × Erdos566.Retuned.HammingWord dimension))),
+  (Erdos566.Retuned.hammingRetentionMeasure dimension).real event =
+    ∑ retained, if retained ∈ event then (Erdos566.Retuned.hammingRetentionMeasure dimension).real {retained} else 0
+'Erdos566.Retuned.hammingRetentionMeasure_real_event_eq_sum' depends on axioms: [propext, Classical.choice, Quot.sound]
+Erdos566.Retuned.hammingRetentionMeasure_integral_event_indicator : ∀ (dimension : ℕ)
+  (event : Set (Set (Bool × Erdos566.Retuned.HammingWord dimension))),
+  ∫ (retained : Set (Bool × Erdos566.Retuned.HammingWord dimension)),
+      if retained ∈ event then 1 else 0 ∂Erdos566.Retuned.hammingRetentionMeasure dimension =
+    (Erdos566.Retuned.hammingRetentionMeasure dimension).real event
+'Erdos566.Retuned.hammingRetentionMeasure_integral_event_indicator' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+Erdos566.Retuned.hammingRetentionMeasure_real_deviation_le : ∀ (dimension : ℕ)
+  (observable : Set (Bool × Erdos566.Retuned.HammingWord dimension) → ℝ) (threshold : ℝ),
+  0 < threshold →
+    (Erdos566.Retuned.hammingRetentionMeasure dimension).real
+        {retained |
+          threshold ≤
+            |observable retained -
+                ∫ (candidate : Set (Bool × Erdos566.Retuned.HammingWord dimension)),
+                  observable candidate ∂Erdos566.Retuned.hammingRetentionMeasure dimension|} ≤
+      ProbabilityTheory.variance observable (Erdos566.Retuned.hammingRetentionMeasure dimension) / threshold ^ 2
+'Erdos566.Retuned.hammingRetentionMeasure_real_deviation_le' depends on axioms: [propext, Classical.choice, Quot.sound]
+Erdos566.Retuned.hammingRetentionMeasure_real_contains_finset : ∀ (dimension : ℕ)
+  (required : Finset (Bool × Erdos566.Retuned.HammingWord dimension)),
+  (Erdos566.Retuned.hammingRetentionMeasure dimension).real {retained | ∀ vertex ∈ required, vertex ∈ retained} =
+    Erdos566.Retuned.hammingRetentionProbability dimension ^ required.card
+'Erdos566.Retuned.hammingRetentionMeasure_real_contains_finset' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+Erdos566.Retuned.hammingRetentionMeasure_real_contains_pair : ∀ (dimension : ℕ)
+  (first second : Bool × Erdos566.Retuned.HammingWord dimension),
+  first ≠ second →
+    (Erdos566.Retuned.hammingRetentionMeasure dimension).real {retained | first ∈ retained ∧ second ∈ retained} =
+      Erdos566.Retuned.hammingRetentionProbability dimension ^ 2
+'Erdos566.Retuned.hammingRetentionMeasure_real_contains_pair' depends on axioms: [propext, Classical.choice, Quot.sound]
+Erdos566.Retuned.hammingRetentionMeasure_real_contains_vertex : ∀ (dimension : ℕ)
+  (vertex : Bool × Erdos566.Retuned.HammingWord dimension),
+  (Erdos566.Retuned.hammingRetentionMeasure dimension).real {retained | vertex ∈ retained} =
+    Erdos566.Retuned.hammingRetentionProbability dimension
+'Erdos566.Retuned.hammingRetentionMeasure_real_contains_vertex' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+Erdos566.Retuned.hammingRetentionMeasure_real_contains_edgePair : ∀ (dimension : ℕ)
+  (firstLeft firstRight secondLeft secondRight : Erdos566.Retuned.HammingWord dimension),
+  (Erdos566.Retuned.hammingRetentionMeasure dimension).real
+      {retained |
+        (false, firstLeft) ∈ retained ∧
+          (true, firstRight) ∈ retained ∧ (false, secondLeft) ∈ retained ∧ (true, secondRight) ∈ retained} =
+    Erdos566.Retuned.hammingRetentionProbability dimension ^
+      ((2 + if firstLeft = secondLeft then 0 else 1) + if firstRight = secondRight then 0 else 1)
+'Erdos566.Retuned.hammingRetentionMeasure_real_contains_edgePair' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+Erdos566.Retuned.hammingRetentionMeasure_real_contains_edgePair_le : ∀ (dimension : ℕ)
+  (firstLeft firstRight secondLeft secondRight : Erdos566.Retuned.HammingWord dimension),
+  (Erdos566.Retuned.hammingRetentionMeasure dimension).real
+      {retained |
+        (false, firstLeft) ∈ retained ∧
+          (true, firstRight) ∈ retained ∧ (false, secondLeft) ∈ retained ∧ (true, secondRight) ∈ retained} ≤
+    ((Erdos566.Retuned.hammingRetentionProbability dimension ^ 4 +
+          if firstLeft = secondLeft then Erdos566.Retuned.hammingRetentionProbability dimension ^ 3 else 0) +
+        if firstRight = secondRight then Erdos566.Retuned.hammingRetentionProbability dimension ^ 3 else 0) +
+      if firstLeft = secondLeft ∧ firstRight = secondRight then
+        Erdos566.Retuned.hammingRetentionProbability dimension ^ 2
+      else 0
+'Erdos566.Retuned.hammingRetentionMeasure_real_contains_edgePair_le' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+Erdos566.Retuned.hammingExpectedRetainedVertexCount_eq : ∀ (dimension : ℕ),
+  Erdos566.Retuned.hammingExpectedRetainedVertexCount dimension =
+    2 * Erdos566.Retuned.hammingRetentionProbability dimension * ↑(2 ^ dimension)
+'Erdos566.Retuned.hammingExpectedRetainedVertexCount_eq' depends on axioms: [propext, Classical.choice, Quot.sound]
+Erdos566.Retuned.hammingExpectedRetainedVertexCount_pos : ∀ (dimension : ℕ),
+  0 < Erdos566.Retuned.hammingExpectedRetainedVertexCount dimension
+'Erdos566.Retuned.hammingExpectedRetainedVertexCount_pos' depends on axioms: [propext, Classical.choice, Quot.sound]
+Erdos566.Retuned.hammingExpectedRetainedVertexCount_tendsto_atTop : Filter.Tendsto
+  Erdos566.Retuned.hammingExpectedRetainedVertexCount Filter.atTop Filter.atTop
+'Erdos566.Retuned.hammingExpectedRetainedVertexCount_tendsto_atTop' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+Erdos566.Retuned.hammingExpectedRetainedVertexCount_inv_tendsto_zero : Filter.Tendsto
+  (fun dimension => 1 / Erdos566.Retuned.hammingExpectedRetainedVertexCount dimension) Filter.atTop (nhds 0)
+'Erdos566.Retuned.hammingExpectedRetainedVertexCount_inv_tendsto_zero' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+Erdos566.Retuned.hammingRetentionMeasure_real_vertexPair : ∀ (dimension : ℕ)
+  (first second : Bool × Erdos566.Retuned.HammingWord dimension),
+  (Erdos566.Retuned.hammingRetentionMeasure dimension).real {retained | first ∈ retained ∧ second ∈ retained} =
+    if first = second then Erdos566.Retuned.hammingRetentionProbability dimension
+    else Erdos566.Retuned.hammingRetentionProbability dimension ^ 2
+'Erdos566.Retuned.hammingRetentionMeasure_real_vertexPair' depends on axioms: [propext, Classical.choice, Quot.sound]
+Erdos566.Retuned.hammingExpectedRetainedVertexSquare_eq : ∀ (dimension : ℕ),
+  Erdos566.Retuned.hammingExpectedRetainedVertexSquare dimension =
+    ↑(2 * 2 ^ dimension) ^ 2 * Erdos566.Retuned.hammingRetentionProbability dimension ^ 2 +
+      ↑(2 * 2 ^ dimension) *
+        (Erdos566.Retuned.hammingRetentionProbability dimension -
+          Erdos566.Retuned.hammingRetentionProbability dimension ^ 2)
+'Erdos566.Retuned.hammingExpectedRetainedVertexSquare_eq' depends on axioms: [propext, Classical.choice, Quot.sound]
+Erdos566.Retuned.hammingExpectedRetainedVertexVariance_eq : ∀ (dimension : ℕ),
+  Erdos566.Retuned.hammingExpectedRetainedVertexSquare dimension -
+      Erdos566.Retuned.hammingExpectedRetainedVertexCount dimension ^ 2 =
+    ↑(2 * 2 ^ dimension) * Erdos566.Retuned.hammingRetentionProbability dimension *
+      (1 - Erdos566.Retuned.hammingRetentionProbability dimension)
+'Erdos566.Retuned.hammingExpectedRetainedVertexVariance_eq' depends on axioms: [propext, Classical.choice, Quot.sound]
+Erdos566.Retuned.hammingExpectedRetainedVertexVariance_le_mean : ∀ (dimension : ℕ),
+  Erdos566.Retuned.hammingExpectedRetainedVertexSquare dimension -
+      Erdos566.Retuned.hammingExpectedRetainedVertexCount dimension ^ 2 ≤
+    Erdos566.Retuned.hammingExpectedRetainedVertexCount dimension
+'Erdos566.Retuned.hammingExpectedRetainedVertexVariance_le_mean' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+Erdos566.Retuned.hammingRetainedVertexCount_eq_card : ∀ (dimension : ℕ)
+  (retained : Set (Bool × Erdos566.Retuned.HammingWord dimension)),
+  Erdos566.Retuned.hammingRetainedVertexCount dimension retained = ↑(Fintype.card ↑retained)
+'Erdos566.Retuned.hammingRetainedVertexCount_eq_card' depends on axioms: [propext, Classical.choice, Quot.sound]
+Erdos566.Retuned.hammingRetainedVertexCount_integral_eq : ∀ (dimension : ℕ),
+  ∫ (retained : Set (Bool × Erdos566.Retuned.HammingWord dimension)),
+      Erdos566.Retuned.hammingRetainedVertexCount dimension
+        retained ∂Erdos566.Retuned.hammingRetentionMeasure dimension =
+    Erdos566.Retuned.hammingExpectedRetainedVertexCount dimension
+'Erdos566.Retuned.hammingRetainedVertexCount_integral_eq' depends on axioms: [propext, Classical.choice, Quot.sound]
+Erdos566.Retuned.hammingRetainedVertexCount_sq : ∀ (dimension : ℕ)
+  (retained : Set (Bool × Erdos566.Retuned.HammingWord dimension)),
+  Erdos566.Retuned.hammingRetainedVertexCount dimension retained ^ 2 =
+    ∑ first, ∑ second, if first ∈ retained ∧ second ∈ retained then 1 else 0
+'Erdos566.Retuned.hammingRetainedVertexCount_sq' depends on axioms: [propext, Classical.choice, Quot.sound]
+Erdos566.Retuned.hammingRetainedVertexCount_sq_integral_eq : ∀ (dimension : ℕ),
+  ∫ (retained : Set (Bool × Erdos566.Retuned.HammingWord dimension)),
+      Erdos566.Retuned.hammingRetainedVertexCount dimension retained ^
+        2 ∂Erdos566.Retuned.hammingRetentionMeasure dimension =
+    Erdos566.Retuned.hammingExpectedRetainedVertexSquare dimension
+'Erdos566.Retuned.hammingRetainedVertexCount_sq_integral_eq' depends on axioms: [propext, Classical.choice, Quot.sound]
+Erdos566.Retuned.hammingRetainedVertexCount_variance_eq : ∀ (dimension : ℕ),
+  ProbabilityTheory.variance (Erdos566.Retuned.hammingRetainedVertexCount dimension)
+      (Erdos566.Retuned.hammingRetentionMeasure dimension) =
+    Erdos566.Retuned.hammingExpectedRetainedVertexSquare dimension -
+      Erdos566.Retuned.hammingExpectedRetainedVertexCount dimension ^ 2
+'Erdos566.Retuned.hammingRetainedVertexCount_variance_eq' depends on axioms: [propext, Classical.choice, Quot.sound]
+Erdos566.Retuned.hammingRetainedVertexCount_variance_le : ∀ (dimension : ℕ),
+  ProbabilityTheory.variance (Erdos566.Retuned.hammingRetainedVertexCount dimension)
+      (Erdos566.Retuned.hammingRetentionMeasure dimension) ≤
+    Erdos566.Retuned.hammingExpectedRetainedVertexCount dimension
+'Erdos566.Retuned.hammingRetainedVertexCount_variance_le' depends on axioms: [propext, Classical.choice, Quot.sound]
+Erdos566.Retuned.hammingRetainedVertexCount_deviation_probability_le : ∀ (dimension : ℕ) (threshold : ℝ),
+  0 < threshold →
+    (Erdos566.Retuned.hammingRetentionMeasure dimension).real
+        {retained |
+          threshold ≤
+            |Erdos566.Retuned.hammingRetainedVertexCount dimension retained -
+                Erdos566.Retuned.hammingExpectedRetainedVertexCount dimension|} ≤
+      Erdos566.Retuned.hammingExpectedRetainedVertexCount dimension / threshold ^ 2
+'Erdos566.Retuned.hammingRetainedVertexCount_deviation_probability_le' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+Erdos566.Retuned.hammingRetainedVertexCount_upper_tail_probability_le : ∀ (dimension : ℕ),
+  (Erdos566.Retuned.hammingRetentionMeasure dimension).real
+      {retained |
+        3 * Erdos566.Retuned.hammingRetentionProbability dimension * ↑(2 ^ dimension) ≤
+          Erdos566.Retuned.hammingRetainedVertexCount dimension retained} ≤
+    4 / Erdos566.Retuned.hammingExpectedRetainedVertexCount dimension
+'Erdos566.Retuned.hammingRetainedVertexCount_upper_tail_probability_le' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+@Erdos566.Retuned.pairChildVertexFinset_card : ∀ {parentCount dimension : ℕ} (side : Bool)
+  (children : Erdos566.PairLayer parentCount 1 → Erdos566.Retuned.HammingWord dimension),
+  Function.Injective children → (Erdos566.Retuned.pairChildVertexFinset side children).card = parentCount.choose 2
+'Erdos566.Retuned.pairChildVertexFinset_card' depends on axioms: [propext, Classical.choice, Quot.sound]
+@Erdos566.Retuned.hammingRetentionMeasure_real_pairChildren : ∀ {parentCount dimension : ℕ} (side : Bool)
+  (children : Erdos566.PairLayer parentCount 1 → Erdos566.Retuned.HammingWord dimension),
+  Function.Injective children →
+    (Erdos566.Retuned.hammingRetentionMeasure dimension).real (Erdos566.Retuned.pairChildRetentionEvent side children) =
+      Erdos566.Retuned.hammingRetentionProbability dimension ^ parentCount.choose 2
+'Erdos566.Retuned.hammingRetentionMeasure_real_pairChildren' depends on axioms: [propext, Classical.choice, Quot.sound]
+@Erdos566.Retuned.badPairChildRetentionEvent_real_le : ∀ {parentCount dimension : ℕ},
+  2 ≤ parentCount →
+    0 < dimension →
+      ∀ (parents : Fin parentCount → Erdos566.Retuned.HammingWord dimension) (side : Bool) (threshold : ℝ),
+        (Erdos566.Retuned.hammingRetentionMeasure dimension).real
+            (Erdos566.Retuned.badPairChildRetentionEvent parents side threshold) ≤
+          ↑((parentCount.choose 2 + 1) ^ (3 * dimension)) *
+              Real.exp (↑(parentCount.choose 2) * Real.log 2 * ↑dimension * threshold) *
+            Erdos566.Retuned.hammingRetentionProbability dimension ^ parentCount.choose 2
+'Erdos566.Retuned.badPairChildRetentionEvent_real_le' depends on axioms: [propext, Classical.choice, Quot.sound]
+Erdos566.Retuned.hammingParentTuple_card : ∀ (parentCount dimension : ℕ),
+  Fintype.card (Fin parentCount → Erdos566.Retuned.HammingWord dimension) = 2 ^ (dimension * parentCount)
+'Erdos566.Retuned.hammingParentTuple_card' depends on axioms: [propext, Classical.choice, Quot.sound]
+@Erdos566.Retuned.badPairLayerRetentionEvent_real_le : ∀ {parentCount dimension : ℕ},
+  2 ≤ parentCount →
+    0 < dimension →
+      ∀ (side : Bool) (threshold : ℝ),
+        (Erdos566.Retuned.hammingRetentionMeasure dimension).real
+            (Erdos566.Retuned.badPairLayerRetentionEvent parentCount dimension side threshold) ≤
+          ↑(2 ^ (dimension * parentCount)) * ↑((parentCount.choose 2 + 1) ^ (3 * dimension)) *
+              Real.exp (↑(parentCount.choose 2) * Real.log 2 * ↑dimension * threshold) *
+            Erdos566.Retuned.hammingRetentionProbability dimension ^ parentCount.choose 2
+'Erdos566.Retuned.badPairLayerRetentionEvent_real_le' depends on axioms: [propext, Classical.choice, Quot.sound]
+Erdos566.Retuned.badPairLayerRetentionBound_eq_exp : ∀ (parentCount dimension : ℕ),
+  ↑(2 ^ (dimension * parentCount)) * ↑((parentCount.choose 2 + 1) ^ (3 * dimension)) *
+        Real.exp (↑(parentCount.choose 2) * Real.log 2 * ↑dimension * (Erdos566.beta - Erdos566.entropySlack)) *
+      Erdos566.Retuned.hammingRetentionProbability dimension ^ parentCount.choose 2 =
+    Real.exp
+      (↑dimension * Real.log 2 *
+        (↑parentCount + 3 * Erdos566.Retuned.logTwo ↑(parentCount.choose 2 + 1) -
+          Erdos566.entropySlack * ↑(parentCount.choose 2)))
+'Erdos566.Retuned.badPairLayerRetentionBound_eq_exp' depends on axioms: [propext, Classical.choice, Quot.sound]
+@Erdos566.Retuned.badPairLayerRetentionEvent_real_lt_exp_neg : ∀ {parentCount dimension : ℕ},
+  4 ≤ parentCount →
+    0 < dimension →
+      ↑parentCount + 3 * Erdos566.Retuned.logTwo ↑(parentCount.choose 2 + 1) -
+            Erdos566.entropySlack * ↑(parentCount.choose 2) <
+          -1 →
+        ∀ (side : Bool),
+          (Erdos566.Retuned.hammingRetentionMeasure dimension).real
+              (Erdos566.Retuned.badPairLayerRetentionEvent parentCount dimension side
+                (Erdos566.beta - Erdos566.entropySlack)) <
+            Real.exp (-↑dimension * Real.log 2)
+'Erdos566.Retuned.badPairLayerRetentionEvent_real_lt_exp_neg' depends on axioms: [propext, Classical.choice, Quot.sound]
+@Erdos566.Retuned.badPairLayersRetentionEvent_real_le : ∀ {depth dimension : ℕ} (layerSizes : Fin depth → ℕ),
+  0 < dimension →
+    (∀ (layer : Fin depth), 4 ≤ layerSizes layer) →
+      (∀ (layer : Fin depth),
+          ↑(layerSizes layer) + 3 * Erdos566.Retuned.logTwo ↑((layerSizes layer).choose 2 + 1) -
+              Erdos566.entropySlack * ↑((layerSizes layer).choose 2) <
+            -1) →
+        (Erdos566.Retuned.hammingRetentionMeasure dimension).real
+            (Erdos566.Retuned.badPairLayersRetentionEvent layerSizes dimension) ≤
+          ↑(2 * depth) * Real.exp (-↑dimension * Real.log 2)
+'Erdos566.Retuned.badPairLayersRetentionEvent_real_le' depends on axioms: [propext, Classical.choice, Quot.sound]
+Erdos566.Retuned.exp_neg_dimension_log_two : ∀ (dimension : ℕ),
+  Real.exp (-↑dimension * Real.log 2) = (1 / 2) ^ dimension
+'Erdos566.Retuned.exp_neg_dimension_log_two' depends on axioms: [propext, Classical.choice, Quot.sound]
+Erdos566.Retuned.pairLayerExclusionProbability_tendsto_zero : ∀ (depth : ℕ),
+  Filter.Tendsto (fun dimension => ↑(2 * depth) * Real.exp (-↑dimension * Real.log 2)) Filter.atTop (nhds 0)
+'Erdos566.Retuned.pairLayerExclusionProbability_tendsto_zero' depends on axioms: [propext, Classical.choice, Quot.sound]
+Erdos566.Retuned.exists_hammingRetention_outside_event : ∀ (dimension : ℕ)
+  (event : Set (Set (Bool × Erdos566.Retuned.HammingWord dimension))),
+  (Erdos566.Retuned.hammingRetentionMeasure dimension).real event < 1 → ∃ retained, retained ∉ event
+'Erdos566.Retuned.exists_hammingRetention_outside_event' depends on axioms: [propext, Classical.choice, Quot.sound]
+@Erdos566.Retuned.singleCubeHost_adj_iff : ∀ {dimension radius : ℕ}
+  (retained : Set (Bool × Erdos566.Retuned.HammingWord dimension)) (side : Bool)
+  (x y : { word // (side, word) ∈ retained }),
+  (Erdos566.Retuned.singleCubeHost dimension radius retained side).Adj x y ↔ ↑x ≠ ↑y ∧ hammingDist ↑x ↑y ≤ radius
+'Erdos566.Retuned.singleCubeHost_adj_iff' depends on axioms: [propext, Classical.choice, Quot.sound]
+@Erdos566.Retuned.pairGraphCopy_parentPotential_eq : ∀ {baseSize depth dimension radius : ℕ}
+  (retained : Set (Bool × Erdos566.Retuned.HammingWord dimension)) (side : Bool)
+  (copy :
+    (Erdos566.pairParentSystem baseSize depth).graph.Copy
+      (Erdos566.Retuned.singleCubeHost dimension radius retained side))
+  (layer : Fin depth),
+  Erdos566.Retuned.pairParentArrayEntropyPotential
+      (Erdos566.Retuned.pairGraphCopyParentWords retained side copy layer) =
+    Erdos566.Retuned.pairGraphCopyLayerPotential retained side copy ⟨↑layer, ⋯⟩
+'Erdos566.Retuned.pairGraphCopy_parentPotential_eq' depends on axioms: [propext, Classical.choice, Quot.sound]
+@Erdos566.Retuned.pairGraphCopy_childPotential_eq : ∀ {baseSize depth dimension radius : ℕ}
+  (retained : Set (Bool × Erdos566.Retuned.HammingWord dimension)) (side : Bool)
+  (copy :
+    (Erdos566.pairParentSystem baseSize depth).graph.Copy
+      (Erdos566.Retuned.singleCubeHost dimension radius retained side))
+  (layer : Fin depth),
+  Erdos566.Retuned.pairChildArrayEntropyPotential (Erdos566.Retuned.pairGraphCopyChildWords retained side copy layer) =
+    Erdos566.Retuned.pairGraphCopyLayerPotential retained side copy ⟨↑layer + 1, ⋯⟩
+'Erdos566.Retuned.pairGraphCopy_childPotential_eq' depends on axioms: [propext, Classical.choice, Quot.sound]
+@Erdos566.Retuned.pairGraphCopyLayerPotential_mem_Icc : ∀ {baseSize depth dimension radius : ℕ},
+  4 ≤ baseSize →
+    0 < dimension →
+      ∀ (retained : Set (Bool × Erdos566.Retuned.HammingWord dimension)) (side : Bool)
+        (copy :
+          (Erdos566.pairParentSystem baseSize depth).graph.Copy
+            (Erdos566.Retuned.singleCubeHost dimension radius retained side))
+        (layer : Fin (depth + 1)),
+        0 ≤ Erdos566.Retuned.pairGraphCopyLayerPotential retained side copy layer ∧
+          Erdos566.Retuned.pairGraphCopyLayerPotential retained side copy layer ≤ 1
+'Erdos566.Retuned.pairGraphCopyLayerPotential_mem_Icc' depends on axioms: [propext, Classical.choice, Quot.sound]
+@Erdos566.Retuned.pairGraphCopy_layer_entropy_upper_of_disagreement : ∀ {baseSize depth dimension radius : ℕ}
+  (hbase : 4 ≤ baseSize),
+  0 < dimension →
+    ∀ (retained : Set (Bool × Erdos566.Retuned.HammingWord dimension)) (side : Bool)
+      (copy :
+        (Erdos566.pairParentSystem baseSize depth).graph.Copy
+          (Erdos566.Retuned.singleCubeHost dimension radius retained side))
+      (layer : Fin depth),
+      Erdos566.Retuned.pairChildArrayAverageDisagreement ⋯
+            (Erdos566.Retuned.pairGraphCopyParentWords retained side copy layer)
+            (Erdos566.Retuned.pairGraphCopyChildWords retained side copy layer) ≤
+          Erdos566.tau →
+        Erdos566.Retuned.pairChildArrayEntropy (Erdos566.Retuned.pairGraphCopyParentWords retained side copy layer)
+            (Erdos566.Retuned.pairGraphCopyChildWords retained side copy layer) ≤
+          Erdos566.entropyThreshold +
+              (Erdos566.Retuned.pairGraphCopyLayerPotential retained side copy ⟨↑layer + 1, ⋯⟩ -
+                  Erdos566.Retuned.pairGraphCopyLayerPotential retained side copy ⟨↑layer, ⋯⟩) /
+                2 +
+            Erdos566.Retuned.empiricalEntropyError (Fintype.card (Erdos566.PairLayer baseSize ↑layer))
+'Erdos566.Retuned.pairGraphCopy_layer_entropy_upper_of_disagreement' depends on axioms: [propext,
+ Classical.choice,
+ Quot.sound]
+@Erdos566.Retuned.pairGraphCopyChildWords_injective : ∀ {baseSize depth dimension radius : ℕ}
+  (retained : Set (Bool × Erdos566.Retuned.HammingWord dimension)) (side : Bool)
+  (copy :
+    (Erdos566.pairParentSystem baseSize depth).graph.Copy
+      (Erdos566.Retuned.singleCubeHost dimension radius retained side))
+  (layer : Fin depth), Function.Injective (Erdos566.Retuned.pairGraphCopyChildWords retained side copy layer)
+'Erdos566.Retuned.pairGraphCopyChildWords_injective' depends on axioms: [propext, Classical.choice, Quot.sound]
+@Erdos566.Retuned.pairGraphCopyChildWords_retained : ∀ {baseSize depth dimension radius : ℕ}
+  (retained : Set (Bool × Erdos566.Retuned.HammingWord dimension)) (side : Bool)
+  (copy :
+    (Erdos566.pairParentSystem baseSize depth).graph.Copy
+      (Erdos566.Retuned.singleCubeHost dimension radius retained side))
+  (layer : Fin depth),
+  retained ∈
+    Erdos566.Retuned.pairChildRetentionEvent side (Erdos566.Retuned.pairGraphCopyChildWords retained side copy layer)
+'Erdos566.Retuned.pairGraphCopyChildWords_retained' depends on axioms: [propext, Classical.choice, Quot.sound]
+@Erdos566.Retuned.pairGraphCopy_parent_child_hammingDist_le : ∀ {baseSize depth dimension radius : ℕ}
+  (retained : Set (Bool × Erdos566.Retuned.HammingWord dimension)) (side : Bool)
+  (copy :
+    (Erdos566.pairParentSystem baseSize depth).graph.Copy
+      (Erdos566.Retuned.singleCubeHost dimension radius retained side))
+  (layer : Fin depth) (pair : Erdos566.PairLayer (Fintype.card (Erdos566.PairLayer baseSize ↑layer)) 1),
+  ∀ parent ∈ ↑pair,
+    hammingDist (Erdos566.Retuned.pairGraphCopyParentWords retained side copy layer parent)
+        (Erdos566.Retuned.pairGraphCopyChildWords retained side copy layer pair) ≤
+      radius
+'Erdos566.Retuned.pairGraphCopy_parent_child_hammingDist_le' depends on axioms: [propext, Classical.choice, Quot.sound]
+@Erdos566.Retuned.pairGraphCopy_averageDisagreement_le_tau : ∀ {baseSize depth dimension radius : ℕ}
+  (hbase : 4 ≤ baseSize),
+  0 < dimension →
+    ↑radius ≤ Erdos566.tau * ↑dimension →
+      ∀ (retained : Set (Bool × Erdos566.Retuned.HammingWord dimension)) (side : Bool)
+        (copy :
+          (Erdos566.pairParentSystem baseSize depth).graph.Copy
+            (Erdos566.Retuned.singleCubeHost dimension radius retained side))
+        (layer : Fin depth),
+        Erdos566.Retuned.pairChildArrayAverageDisagreement ⋯
+            (Erdos566.Retuned.pairGraphCopyParentWords retained side copy layer)
+            (Erdos566.Retuned.pairGraphCopyChildWords retained side copy layer) ≤
+          Erdos566.tau
+'Erdos566.Retuned.pairGraphCopy_averageDisagreement_le_tau' depends on axioms: [propext, Classical.choice, Quot.sound]
+@Erdos566.Retuned.pairGraphCopy_entropy_lower_of_exclusion : ∀ {baseSize depth dimension radius : ℕ}
+  (retained : Set (Bool × Erdos566.Retuned.HammingWord dimension)) (side : Bool)
+  (copy :
+    (Erdos566.pairParentSystem baseSize depth).graph.Copy
+      (Erdos566.Retuned.singleCubeHost dimension radius retained side))
+  (layer : Fin depth) (threshold : ℝ),
+  retained ∉
+      Erdos566.Retuned.badPairLayerRetentionEvent (Fintype.card (Erdos566.PairLayer baseSize ↑layer)) dimension side
+        threshold →
+    threshold <
+      Erdos566.Retuned.pairChildArrayEntropy (Erdos566.Retuned.pairGraphCopyParentWords retained side copy layer)
+        (Erdos566.Retuned.pairGraphCopyChildWords retained side copy layer)
+'Erdos566.Retuned.pairGraphCopy_entropy_lower_of_exclusion' depends on axioms: [propext, Classical.choice, Quot.sound]
+@Erdos566.Retuned.counterexample_free_of_exclusion : ∀ {dimension radius : ℕ},
+  0 < dimension →
+    ↑radius ≤ Erdos566.tau * ↑dimension →
+      ∀ (retained : Set (Bool × Erdos566.Retuned.HammingWord dimension)) (side : Bool),
+        (∀ (layer : Fin Erdos566.layerDepth),
+            retained ∉
+              Erdos566.Retuned.badPairLayerRetentionEvent (Fintype.card (Erdos566.PairLayer Erdos566.baseSize ↑layer))
+                dimension side (Erdos566.beta - Erdos566.entropySlack)) →
+          Erdos566.counterexampleGraph.Free (Erdos566.Retuned.singleCubeHost dimension radius retained side)
+'Erdos566.Retuned.counterexample_free_of_exclusion' depends on axioms: [propext, Classical.choice, Quot.sound]
+Erdos566.Retuned.logTwo_pairLayer_card_add_one_le : ∀ (L : ℕ),
+  2 ≤ L → Erdos566.Retuned.logTwo ↑(L.choose 2 + 1) ≤ 2 * ↑L / Real.log 2
+'Erdos566.Retuned.logTwo_pairLayer_card_add_one_le' depends on axioms: [propext, Classical.choice, Quot.sound]
+Erdos566.Retuned.fixed_base_first_moment_bound : ∀ (L : ℕ),
+  Erdos566.baseSize ≤ L →
+    ↑L + 3 * Erdos566.Retuned.logTwo ↑(L.choose 2 + 1) - Erdos566.entropySlack * ↑(L.choose 2) < -1
+'Erdos566.Retuned.fixed_base_first_moment_bound' depends on axioms: [propext, Classical.choice, Quot.sound]
+Erdos566.Retuned.fixedLayerSizes_ge_base : ∀ (layer : Fin Erdos566.layerDepth),
+  Erdos566.baseSize ≤ Erdos566.Retuned.fixedLayerSizes layer
+'Erdos566.Retuned.fixedLayerSizes_ge_base' depends on axioms: [propext, Classical.choice, Quot.sound]
+Erdos566.Retuned.redFailure_probability_bound : ∀ (dimension : ℕ),
+  0 < dimension →
+    (Erdos566.Retuned.hammingRetentionMeasure dimension).real (Erdos566.Retuned.redFailure dimension) ≤
+      ↑(2 * Erdos566.layerDepth) * Real.exp (-↑dimension * Real.log 2)
+'Erdos566.Retuned.redFailure_probability_bound' depends on axioms: [propext, Classical.choice, Quot.sound]
+Erdos566.Retuned.cubeCutoff_le_radius : ∀ (dimension : ℕ), ↑(Erdos566.cubeCutoff dimension) ≤ Erdos566.tau * ↑dimension
+'Erdos566.Retuned.cubeCutoff_le_radius' depends on axioms: [propext, Classical.choice, Quot.sound]
+Erdos566.Retuned.both_sides_free_outside_redFailure : ∀ (dimension : ℕ),
+  0 < dimension →
+    ∀ retained ∉ Erdos566.Retuned.redFailure dimension,
+      ∀ (side : Bool),
+        Erdos566.counterexampleGraph.Free
+          (Erdos566.Retuned.singleCubeHost dimension (Erdos566.cubeCutoff dimension) retained side)
+'Erdos566.Retuned.both_sides_free_outside_redFailure' depends on axioms: [propext, Classical.choice, Quot.sound]
+Erdos566.CubeFourier.bitSign_comm : ∀ (a b : Bool), Erdos566.CubeFourier.bitSign a b = Erdos566.CubeFourier.bitSign b a
+'Erdos566.CubeFourier.bitSign_comm' depends on axioms: [propext, Classical.choice, Quot.sound]
+Erdos566.CubeFourier.bitSign_mul_xor : ∀ (a b c : Bool),
+  Erdos566.CubeFourier.bitSign a (b ^^ c) = Erdos566.CubeFourier.bitSign a b * Erdos566.CubeFourier.bitSign a c
+'Erdos566.CubeFourier.bitSign_mul_xor' depends on axioms: [propext, Classical.choice, Quot.sound]
+Erdos566.CubeFourier.bitSign_sq : ∀ (a b : Bool), Erdos566.CubeFourier.bitSign a b ^ 2 = 1
+'Erdos566.CubeFourier.bitSign_sq' depends on axioms: [propext, Classical.choice, Quot.sound]
+Erdos566.CubeFourier.bitSign_inner : ∀ (a b : Bool),
+  ∑ x, Erdos566.CubeFourier.bitSign a x * Erdos566.CubeFourier.bitSign b x = if a = b then 2 else 0
+'Erdos566.CubeFourier.bitSign_inner' depends on axioms: [propext, Classical.choice, Quot.sound]
+@Erdos566.CubeFourier.character_comm : ∀ {n : ℕ} (a b : Erdos566.CubeFourier.Word n),
+  Erdos566.CubeFourier.character a b = Erdos566.CubeFourier.character b a
+'Erdos566.CubeFourier.character_comm' depends on axioms: [propext, Classical.choice, Quot.sound]
+@Erdos566.CubeFourier.character_mul_xor : ∀ {n : ℕ} (a b c : Erdos566.CubeFourier.Word n),
+  (Erdos566.CubeFourier.character a fun i => b i ^^ c i) =
+    Erdos566.CubeFourier.character a b * Erdos566.CubeFourier.character a c
+'Erdos566.CubeFourier.character_mul_xor' depends on axioms: [propext, Classical.choice, Quot.sound]
+@Erdos566.CubeFourier.character_sq : ∀ {n : ℕ} (a b : Erdos566.CubeFourier.Word n),
+  Erdos566.CubeFourier.character a b ^ 2 = 1
+'Erdos566.CubeFourier.character_sq' depends on axioms: [propext, Classical.choice, Quot.sound]
+@Erdos566.CubeFourier.character_zero : ∀ {n : ℕ} (x : Erdos566.CubeFourier.Word n),
+  Erdos566.CubeFourier.character (fun x => false) x = 1
+'Erdos566.CubeFourier.character_zero' depends on axioms: [propext, Classical.choice, Quot.sound]
+@Erdos566.CubeFourier.character_orthogonality : ∀ {n : ℕ} (a b : Erdos566.CubeFourier.Word n),
+  ∑ x, Erdos566.CubeFourier.character a x * Erdos566.CubeFourier.character b x = if a = b then 2 ^ n else 0
+'Erdos566.CubeFourier.character_orthogonality' depends on axioms: [propext, Classical.choice, Quot.sound]
+@Erdos566.CubeFourier.character_dual_orthogonality : ∀ {n : ℕ} (x y : Erdos566.CubeFourier.Word n),
+  ∑ b, Erdos566.CubeFourier.character b x * Erdos566.CubeFourier.character b y = if x = y then 2 ^ n else 0
+'Erdos566.CubeFourier.character_dual_orthogonality' depends on axioms: [propext, Classical.choice, Quot.sound]
+@Erdos566.CubeFourier.transform_zero : ∀ {n : ℕ} (f : Erdos566.CubeFourier.Word n → ℝ),
+  (Erdos566.CubeFourier.transform f fun x => false) = ∑ x, f x
+'Erdos566.CubeFourier.transform_zero' depends on axioms: [propext, Classical.choice, Quot.sound]
+@Erdos566.CubeFourier.transform_pair : ∀ {n : ℕ} (f g : Erdos566.CubeFourier.Word n → ℝ),
+  ∑ b, Erdos566.CubeFourier.transform f b * Erdos566.CubeFourier.transform g b = 2 ^ n * ∑ x, f x * g x
+'Erdos566.CubeFourier.transform_pair' depends on axioms: [propext, Classical.choice, Quot.sound]
+@Erdos566.CubeFourier.parseval : ∀ {n : ℕ} (f : Erdos566.CubeFourier.Word n → ℝ),
+  ∑ b, Erdos566.CubeFourier.transform f b ^ 2 = 2 ^ n * ∑ x, f x ^ 2
+'Erdos566.CubeFourier.parseval' depends on axioms: [propext, Classical.choice, Quot.sound]
+@Erdos566.CubeFourier.xorWord_self_cancel : ∀ {n : ℕ} (x y : Erdos566.CubeFourier.Word n),
+  Erdos566.CubeFourier.xorWord x (Erdos566.CubeFourier.xorWord x y) = y
+'Erdos566.CubeFourier.xorWord_self_cancel' depends on axioms: [Quot.sound]
+@Erdos566.CubeFourier.transform_translate : ∀ {n : ℕ} (f : Erdos566.CubeFourier.Word n → ℝ)
+  (z b : Erdos566.CubeFourier.Word n),
+  ∑ x, f (Erdos566.CubeFourier.xorWord z x) * Erdos566.CubeFourier.character b x =
+    Erdos566.CubeFourier.character b z * Erdos566.CubeFourier.transform f b
+'Erdos566.CubeFourier.transform_translate' depends on axioms: [propext, Classical.choice, Quot.sound]
+@Erdos566.CubeFourier.transform_convolution : ∀ {n : ℕ} (g f : Erdos566.CubeFourier.Word n → ℝ)
+  (b : Erdos566.CubeFourier.Word n),
+  Erdos566.CubeFourier.transform (Erdos566.CubeFourier.convolution g f) b =
+    Erdos566.CubeFourier.transform g b * Erdos566.CubeFourier.transform f b
+'Erdos566.CubeFourier.transform_convolution' depends on axioms: [propext, Classical.choice, Quot.sound]
+@Erdos566.CubeFourier.quadratic_fourier : ∀ {n : ℕ} (g f : Erdos566.CubeFourier.Word n → ℝ),
+  2 ^ n * Erdos566.CubeFourier.quadratic g f =
+    ∑ b, Erdos566.CubeFourier.transform g b * Erdos566.CubeFourier.transform f b ^ 2
+'Erdos566.CubeFourier.quadratic_fourier' depends on axioms: [propext, Classical.choice, Quot.sound]
+@Erdos566.CubeFourier.quadratic_lower_bound : ∀ {n : ℕ} (g f : Erdos566.CubeFourier.Word n → ℝ) (D bound : ℝ),
+  0 ≤ bound →
+    (Erdos566.CubeFourier.transform g fun x => false) = D →
+      (∀ (b : Erdos566.CubeFourier.Word n), -bound ≤ Erdos566.CubeFourier.transform g b) →
+        D * (∑ x, f x) ^ 2 - bound * 2 ^ n * ∑ x, f x ^ 2 ≤ 2 ^ n * Erdos566.CubeFourier.quadratic g f
+'Erdos566.CubeFourier.quadratic_lower_bound' depends on axioms: [propext, Classical.choice, Quot.sound]
+Erdos566.Krawtchouk.derivative_minus_power : ∀ (a : ℕ),
+  (1 - Polynomial.X) * Polynomial.derivative ((1 - Polynomial.X) ^ a) = Polynomial.C (-↑a) * (1 - Polynomial.X) ^ a
+'Erdos566.Krawtchouk.derivative_minus_power' depends on axioms: [propext, Classical.choice, Quot.sound]
+Erdos566.Krawtchouk.derivative_plus_power : ∀ (a : ℕ),
+  (1 + Polynomial.X) * Polynomial.derivative ((1 + Polynomial.X) ^ a) = Polynomial.C ↑a * (1 + Polynomial.X) ^ a
+'Erdos566.Krawtchouk.derivative_plus_power' depends on axioms: [propext, Classical.choice, Quot.sound]
+Erdos566.Krawtchouk.generating_differential : ∀ (a b : ℕ),
+  (1 - Polynomial.X ^ 2) * Polynomial.derivative (Erdos566.Krawtchouk.generating a b) =
+    (Polynomial.C (↑b - ↑a) - Polynomial.C (↑a + ↑b) * Polynomial.X) * Erdos566.Krawtchouk.generating a b
+'Erdos566.Krawtchouk.generating_differential' depends on axioms: [propext, Classical.choice, Quot.sound]
+Erdos566.Krawtchouk.coeff_square_derivative : ∀ (p : Polynomial ℝ) (k : ℕ),
+  (Polynomial.X ^ 2 * Polynomial.derivative p).coeff (k + 1) = p.coeff k * ↑k
+'Erdos566.Krawtchouk.coeff_square_derivative' depends on axioms: [propext, Classical.choice, Quot.sound]
+Erdos566.Krawtchouk.generating_coeff_zero : ∀ (a b : ℕ), (Erdos566.Krawtchouk.generating a b).coeff 0 = 1
+'Erdos566.Krawtchouk.generating_coeff_zero' depends on axioms: [propext, Classical.choice, Quot.sound]
+Erdos566.Krawtchouk.generating_coeff_one : ∀ (a b : ℕ), (Erdos566.Krawtchouk.generating a b).coeff 1 = ↑b - ↑a
+'Erdos566.Krawtchouk.generating_coeff_one' depends on axioms: [propext, Classical.choice, Quot.sound]
+Erdos566.Krawtchouk.generating_coeff_recurrence : ∀ (a b k : ℕ),
+  (↑k + 2) * (Erdos566.Krawtchouk.generating a b).coeff (k + 2) =
+    (↑b - ↑a) * (Erdos566.Krawtchouk.generating a b).coeff (k + 1) -
+      (↑a + ↑b - ↑k) * (Erdos566.Krawtchouk.generating a b).coeff k
+'Erdos566.Krawtchouk.generating_coeff_recurrence' depends on axioms: [propext, Classical.choice, Quot.sound]
+Erdos566.Krawtchouk.generating_coeff_monic : ∀ (a b k : ℕ),
+  ↑k.factorial * (Erdos566.Krawtchouk.generating a b).coeff k = Erdos566.Krawtchouk.monic (a + b) (↑b - ↑a) k
+'Erdos566.Krawtchouk.generating_coeff_monic' depends on axioms: [propext, Classical.choice, Quot.sound]
+Erdos566.Krawtchouk.generating_negative_inside : ∀ (a b k : ℕ),
+  0 < k →
+    2 * k ≤ a + b + 1 →
+      Even k → (Erdos566.Krawtchouk.generating a b).coeff k < 0 → |↑b - ↑a| < 2 * √(↑k * (↑a + ↑b - ↑k + 1))
+'Erdos566.Krawtchouk.generating_negative_inside' depends on axioms: [propext, Classical.choice, Quot.sound]
+@Erdos566.CubeFourier.weight_le : ∀ {n : ℕ} (x : Erdos566.CubeFourier.Word n), Erdos566.CubeFourier.weight x ≤ n
+'Erdos566.CubeFourier.weight_le' depends on axioms: [propext, Classical.choice, Quot.sound]
+@Erdos566.CubeFourier.weight_eq_sum : ∀ {n : ℕ} (x : Erdos566.CubeFourier.Word n),
+  Erdos566.CubeFourier.weight x = ∑ i, if x i = true then 1 else 0
+'Erdos566.CubeFourier.weight_eq_sum' depends on axioms: [propext, Classical.choice, Quot.sound]
+@Erdos566.CubeFourier.weight_eq_ones : ∀ {n : ℕ} (x : Erdos566.CubeFourier.Word n),
+  Erdos566.CubeFourier.weight x = (Erdos566.Retuned.booleanWordOnes x).card
+'Erdos566.CubeFourier.weight_eq_ones' depends on axioms: [propext, Classical.choice, Quot.sound]
+Erdos566.CubeFourier.weight_class_card : ∀ (n k : ℕ), {x | Erdos566.CubeFourier.weight x = k}.card = n.choose k
+'Erdos566.CubeFourier.weight_class_card' depends on axioms: [propext, Classical.choice, Quot.sound]
+Erdos566.CubeFourier.coordinateFactor_as_sum : ∀ (b : Bool),
+  Erdos566.CubeFourier.coordinateFactor b =
+    ∑ x, Polynomial.C (Erdos566.CubeFourier.bitSign b x) * Polynomial.X ^ if x = true then 1 else 0
+'Erdos566.CubeFourier.coordinateFactor_as_sum' depends on axioms: [propext, Classical.choice, Quot.sound]
+@Erdos566.CubeFourier.product_term : ∀ {n : ℕ} (b x : Erdos566.CubeFourier.Word n),
+  (∏ i, Polynomial.C (Erdos566.CubeFourier.bitSign (b i) (x i)) * Polynomial.X ^ if x i = true then 1 else 0) =
+    Polynomial.C (Erdos566.CubeFourier.character b x) * Polynomial.X ^ Erdos566.CubeFourier.weight x
+'Erdos566.CubeFourier.product_term' depends on axioms: [propext, Classical.choice, Quot.sound]
+@Erdos566.CubeFourier.productPolynomial_expansion : ∀ {n : ℕ} (b : Erdos566.CubeFourier.Word n),
+  Erdos566.CubeFourier.productPolynomial b =
+    ∑ x, Polynomial.C (Erdos566.CubeFourier.character b x) * Polynomial.X ^ Erdos566.CubeFourier.weight x
+'Erdos566.CubeFourier.productPolynomial_expansion' depends on axioms: [propext, Classical.choice, Quot.sound]
+@Erdos566.CubeFourier.productPolynomial_coefficient : ∀ {n : ℕ} (b : Erdos566.CubeFourier.Word n) (k : ℕ),
+  (Erdos566.CubeFourier.productPolynomial b).coeff k =
+    Erdos566.CubeFourier.transform (Erdos566.CubeFourier.sphereIndicator k) b
+'Erdos566.CubeFourier.productPolynomial_coefficient' depends on axioms: [propext, Classical.choice, Quot.sound]
+@Erdos566.CubeFourier.productPolynomial_generating : ∀ {n : ℕ} (b : Erdos566.CubeFourier.Word n),
+  Erdos566.CubeFourier.productPolynomial b =
+    Erdos566.Krawtchouk.generating (Erdos566.CubeFourier.weight b) (n - Erdos566.CubeFourier.weight b)
+'Erdos566.CubeFourier.productPolynomial_generating' depends on axioms: [propext, Classical.choice, Quot.sound]
+@Erdos566.CubeFourier.sphere_transform : ∀ {n : ℕ} (b : Erdos566.CubeFourier.Word n) (k : ℕ),
+  Erdos566.CubeFourier.transform (Erdos566.CubeFourier.sphereIndicator k) b =
+    (Erdos566.Krawtchouk.generating (Erdos566.CubeFourier.weight b) (n - Erdos566.CubeFourier.weight b)).coeff k
+'Erdos566.CubeFourier.sphere_transform' depends on axioms: [propext, Classical.choice, Quot.sound]
+Erdos566.CubeFourier.sphere_parseval : ∀ (n k : ℕ),
+  ∑ b, Erdos566.CubeFourier.transform (Erdos566.CubeFourier.sphereIndicator k) b ^ 2 = 2 ^ n * ↑(n.choose k)
+'Erdos566.CubeFourier.sphere_parseval' depends on axioms: [propext, Classical.choice, Quot.sound]
+Erdos566.CubeFourier.generating_coefficient_square_bound : ∀ (n v k : ℕ),
+  v ≤ n → ↑(n.choose v) * (Erdos566.Krawtchouk.generating v (n - v)).coeff k ^ 2 ≤ 2 ^ n * ↑(n.choose k)
+'Erdos566.CubeFourier.generating_coefficient_square_bound' depends on axioms: [propext, Classical.choice, Quot.sound]
+@Erdos566.CubeFourier.ballIndicator_eq_sum : ∀ {n : ℕ} (k : ℕ) (x : Erdos566.CubeFourier.Word n),
+  Erdos566.CubeFourier.ballIndicator k x = ∑ j ∈ Finset.range (k + 1), Erdos566.CubeFourier.sphereIndicator j x
+'Erdos566.CubeFourier.ballIndicator_eq_sum' depends on axioms: [propext, Classical.choice, Quot.sound]
+@Erdos566.CubeFourier.ball_transform_eq_sum : ∀ {n : ℕ} (b : Erdos566.CubeFourier.Word n) (k : ℕ),
+  Erdos566.CubeFourier.transform (Erdos566.CubeFourier.ballIndicator k) b =
+    ∑ j ∈ Finset.range (k + 1), (Erdos566.CubeFourier.productPolynomial b).coeff j
+'Erdos566.CubeFourier.ball_transform_eq_sum' depends on axioms: [propext, Classical.choice, Quot.sound]
+Erdos566.CubeFourier.sum_coeff_one_sub_X : ∀ (p : Polynomial ℝ) (k : ℕ),
+  ∑ j ∈ Finset.range (k + 1), ((1 - Polynomial.X) * p).coeff j = p.coeff k
+'Erdos566.CubeFourier.sum_coeff_one_sub_X' depends on axioms: [propext, Classical.choice, Quot.sound]
+@Erdos566.CubeFourier.weight_zero_iff : ∀ {n : ℕ} (b : Erdos566.CubeFourier.Word n),
+  Erdos566.CubeFourier.weight b = 0 ↔ b = fun x => false
+'Erdos566.CubeFourier.weight_zero_iff' depends on axioms: [propext, Classical.choice, Quot.sound]
+@Erdos566.CubeFourier.ball_transform_nontrivial : ∀ {n : ℕ} (b : Erdos566.CubeFourier.Word n) (k : ℕ),
+  (b ≠ fun x => false) →
+    Erdos566.CubeFourier.transform (Erdos566.CubeFourier.ballIndicator k) b =
+      (Erdos566.Krawtchouk.generating (Erdos566.CubeFourier.weight b - 1) (n - Erdos566.CubeFourier.weight b)).coeff k
+'Erdos566.CubeFourier.ball_transform_nontrivial' depends on axioms: [propext, Classical.choice, Quot.sound]
+Erdos566.Spectrum.reducedDimension_cast : ∀ (m : ℕ), 0 < m → ↑(Erdos566.Spectrum.reducedDimension m) = 40000 * ↑m - 1
+'Erdos566.Spectrum.reducedDimension_cast' depends on axioms: [propext, Classical.choice, Quot.sound]
+Erdos566.Spectrum.radius_cast : ∀ (m : ℕ), ↑(Erdos566.Spectrum.radius m) = 17200 * ↑m
+'Erdos566.Spectrum.radius_cast' depends on axioms: [propext, Classical.choice, Quot.sound]
+Erdos566.Spectrum.radius_reduced_le : ∀ (m : ℕ),
+  0 < m → Erdos566.Spectrum.radius m ≤ Erdos566.Spectrum.reducedDimension m
+'Erdos566.Spectrum.radius_reduced_le' depends on axioms: [propext, Quot.sound]
+Erdos566.Spectrum.root_separation : ∀ (m : ℕ),
+  0 < m →
+    2 *
+        √(↑(Erdos566.Spectrum.radius m) *
+            (↑(Erdos566.Spectrum.reducedDimension m) - ↑(Erdos566.Spectrum.radius m) + 1)) <
+      4951 / 5000 * ↑(Erdos566.Spectrum.reducedDimension m)
+'Erdos566.Spectrum.root_separation' depends on axioms: [propext, Classical.choice, Quot.sound]
+Erdos566.Spectrum.negative_coefficient_index_bounds : ∀ (m v : ℕ),
+  0 < m →
+    v ≤ Erdos566.Spectrum.reducedDimension m →
+      (Erdos566.Krawtchouk.generating v (Erdos566.Spectrum.reducedDimension m - v)).coeff (Erdos566.Spectrum.radius m) <
+          0 →
+        49 / 10000 ≤ ↑v / ↑(Erdos566.Spectrum.reducedDimension m) ∧
+          ↑v / ↑(Erdos566.Spectrum.reducedDimension m) ≤ 9951 / 10000
+'Erdos566.Spectrum.negative_coefficient_index_bounds' depends on axioms: [propext, Classical.choice, Quot.sound]
+Erdos566.Spectrum.negative_coefficient_entropy_lower : ∀ (m v : ℕ),
+  0 < m →
+    v ≤ Erdos566.Spectrum.reducedDimension m →
+      (Erdos566.Krawtchouk.generating v (Erdos566.Spectrum.reducedDimension m - v)).coeff (Erdos566.Spectrum.radius m) <
+          0 →
+        4464 / 100000 < Erdos566.Retuned.binaryEntropy (↑v / ↑(Erdos566.Spectrum.reducedDimension m))
+'Erdos566.Spectrum.negative_coefficient_entropy_lower' depends on axioms: [propext, Classical.choice, Quot.sound]
+Erdos566.Spectrum.radius_entropy_upper : ∀ (m : ℕ),
+  1000 ≤ m →
+    Erdos566.Retuned.binaryEntropy (↑(Erdos566.Spectrum.radius m) / ↑(Erdos566.Spectrum.reducedDimension m)) <
+      98583 / 100000
+'Erdos566.Spectrum.radius_entropy_upper' depends on axioms: [propext, Classical.choice, Quot.sound]
+Erdos566.Spectrum.eventually_dimension_le_exp : ∀ᶠ (m : ℕ) in Filter.atTop,
+  ↑(Erdos566.Spectrum.dimension m) + 1 ≤ Real.exp (↑(Erdos566.Spectrum.dimension m) * Real.log 2 / 100000)
+'Erdos566.Spectrum.eventually_dimension_le_exp' depends on axioms: [propext, Classical.choice, Quot.sound]
+Erdos566.Spectrum.binEntropy_normalization : ∀ (x : ℝ),
+  Real.binEntropy x = Erdos566.Retuned.binaryEntropy x * Real.log 2
+'Erdos566.Spectrum.binEntropy_normalization' depends on axioms: [propext, Classical.choice, Quot.sound]
+Erdos566.Spectrum.coefficient_square_entropy_bound : ∀ (n v k : ℕ),
+  v ≤ n →
+    k ≤ n →
+      ∀ (lower upper : ℝ),
+        lower ≤ Erdos566.Retuned.binaryEntropy (↑v / ↑n) →
+          Erdos566.Retuned.binaryEntropy (↑k / ↑n) ≤ upper →
+            (Erdos566.Krawtchouk.generating v (n - v)).coeff k ^ 2 ≤
+              (↑n + 1) * Real.exp ((1 + upper - lower) * ↑n * Real.log 2)
+'Erdos566.Spectrum.coefficient_square_entropy_bound' depends on axioms: [propext, Classical.choice, Quot.sound]
+Erdos566.Spectrum.negativeBound_pos : ∀ (m : ℕ), 0 < Erdos566.Spectrum.negativeBound m
+'Erdos566.Spectrum.negativeBound_pos' depends on axioms: [propext, Classical.choice, Quot.sound]
+Erdos566.Spectrum.negative_coefficient_lower : ∀ (m v : ℕ),
+  1000 ≤ m →
+    v ≤ Erdos566.Spectrum.reducedDimension m →
+      ↑(Erdos566.Spectrum.dimension m) + 1 ≤ Real.exp (↑(Erdos566.Spectrum.dimension m) * Real.log 2 / 100000) →
+        (Erdos566.Krawtchouk.generating v (Erdos566.Spectrum.reducedDimension m - v)).coeff
+              (Erdos566.Spectrum.radius m) <
+            0 →
+          -Erdos566.Spectrum.negativeBound m ≤
+            (Erdos566.Krawtchouk.generating v (Erdos566.Spectrum.reducedDimension m - v)).coeff
+              (Erdos566.Spectrum.radius m)
+'Erdos566.Spectrum.negative_coefficient_lower' depends on axioms: [propext, Classical.choice, Quot.sound]
+Erdos566.Spectrum.spectrum_lower : ∀ (m : ℕ),
+  1000 ≤ m →
+    ↑(Erdos566.Spectrum.dimension m) + 1 ≤ Real.exp (↑(Erdos566.Spectrum.dimension m) * Real.log 2 / 100000) →
+      ∀ (b : Erdos566.CubeFourier.Word (Erdos566.Spectrum.dimension m)),
+        -Erdos566.Spectrum.negativeBound m ≤
+          Erdos566.CubeFourier.transform (Erdos566.CubeFourier.ballIndicator (Erdos566.Spectrum.radius m)) b
+'Erdos566.Spectrum.spectrum_lower' depends on axioms: [propext, Classical.choice, Quot.sound]
+Erdos566.Spectrum.eventually_spectrum_lower : ∀ᶠ (m : ℕ) in Filter.atTop,
+  ∀ (b : Erdos566.CubeFourier.Word (Erdos566.Spectrum.dimension m)),
+    -Erdos566.Spectrum.negativeBound m ≤
+      Erdos566.CubeFourier.transform (Erdos566.CubeFourier.ballIndicator (Erdos566.Spectrum.radius m)) b
+'Erdos566.Spectrum.eventually_spectrum_lower' depends on axioms: [propext, Classical.choice, Quot.sound]
+Erdos566.Spectrum.choose_le_ballMass : ∀ (m : ℕ),
+  ↑((Erdos566.Spectrum.dimension m).choose (Erdos566.Spectrum.radius m)) ≤ Erdos566.Spectrum.ballMass m
+'Erdos566.Spectrum.choose_le_ballMass' depends on axioms: [propext, Classical.choice, Quot.sound]
+Erdos566.Spectrum.ballMass_lower : ∀ (m : ℕ),
+  0 < m →
+    Real.exp (98581 / 100000 * ↑(Erdos566.Spectrum.dimension m) * Real.log 2) / (↑(Erdos566.Spectrum.dimension m) + 1) ≤
+      Erdos566.Spectrum.ballMass m
+'Erdos566.Spectrum.ballMass_lower' depends on axioms: [propext, Classical.choice, Quot.sound]
+Erdos566.Spectrum.ballMass_pos : ∀ (m : ℕ), 0 < m → 0 < Erdos566.Spectrum.ballMass m
+'Erdos566.Spectrum.ballMass_pos' depends on axioms: [propext, Classical.choice, Quot.sound]
+Erdos566.Spectrum.negativeBound_le_mass_decay : ∀ (m : ℕ),
+  0 < m →
+    ↑(Erdos566.Spectrum.dimension m) + 1 ≤ Real.exp (↑(Erdos566.Spectrum.dimension m) * Real.log 2 / 100000) →
+      Erdos566.Spectrum.negativeBound m ≤ Erdos566.Spectrum.ballMass m * Erdos566.Spectrum.spectralDecay m
+'Erdos566.Spectrum.negativeBound_le_mass_decay' depends on axioms: [propext, Classical.choice, Quot.sound]
+Erdos566.Spectrum.eventually_negativeBound_le_mass_decay : ∀ᶠ (m : ℕ) in Filter.atTop,
+  Erdos566.Spectrum.negativeBound m ≤ Erdos566.Spectrum.ballMass m * Erdos566.Spectrum.spectralDecay m
+'Erdos566.Spectrum.eventually_negativeBound_le_mass_decay' depends on axioms: [propext, Classical.choice, Quot.sound]
+@Erdos566.CubeFourier.sum_mul_indicator : ∀ {n : ℕ} (W : Finset (Erdos566.CubeFourier.Word n))
+  (f : Erdos566.CubeFourier.Word n → ℝ), ∑ x, f x * Erdos566.CubeFourier.setIndicator W x = ∑ x ∈ W, f x
+'Erdos566.CubeFourier.sum_mul_indicator' depends on axioms: [propext, Classical.choice, Quot.sound]
+@Erdos566.CubeFourier.sum_indicator : ∀ {n : ℕ} (W : Finset (Erdos566.CubeFourier.Word n)),
+  ∑ x, Erdos566.CubeFourier.setIndicator W x = ↑W.card
+'Erdos566.CubeFourier.sum_indicator' depends on axioms: [propext, Classical.choice, Quot.sound]
+@Erdos566.CubeFourier.sum_indicator_sq : ∀ {n : ℕ} (W : Finset (Erdos566.CubeFourier.Word n)),
+  ∑ x, Erdos566.CubeFourier.setIndicator W x ^ 2 = ↑W.card
+'Erdos566.CubeFourier.sum_indicator_sq' depends on axioms: [propext, Classical.choice, Quot.sound]
+@Erdos566.CubeFourier.xorWord_comm : ∀ {n : ℕ} (x y : Erdos566.CubeFourier.Word n),
+  Erdos566.CubeFourier.xorWord x y = Erdos566.CubeFourier.xorWord y x
+'Erdos566.CubeFourier.xorWord_comm' depends on axioms: [Quot.sound]
+@Erdos566.CubeFourier.hammingDist_eq_weight_xor : ∀ {n : ℕ} (x y : Erdos566.CubeFourier.Word n),
+  hammingDist x y = Erdos566.CubeFourier.weight (Erdos566.CubeFourier.xorWord x y)
+'Erdos566.CubeFourier.hammingDist_eq_weight_xor' depends on axioms: [propext, Classical.choice, Quot.sound]
+@Erdos566.CubeFourier.convolution_change_variables : ∀ {n : ℕ} (g f : Erdos566.CubeFourier.Word n → ℝ)
+  (x : Erdos566.CubeFourier.Word n),
+  Erdos566.CubeFourier.convolution g f x = ∑ y, g (Erdos566.CubeFourier.xorWord y x) * f y
+'Erdos566.CubeFourier.convolution_change_variables' depends on axioms: [propext, Classical.choice, Quot.sound]
+@Erdos566.CubeFourier.convolution_indicator_count : ∀ {n : ℕ} (W : Finset (Erdos566.CubeFourier.Word n)) (k : ℕ)
+  (x : Erdos566.CubeFourier.Word n),
+  Erdos566.CubeFourier.convolution (Erdos566.CubeFourier.ballIndicator k) (Erdos566.CubeFourier.setIndicator W) x =
+    ↑{y ∈ W | hammingDist x y ≤ k}.card
+'Erdos566.CubeFourier.convolution_indicator_count' depends on axioms: [propext, Classical.choice, Quot.sound]
+@Erdos566.CubeFourier.ballGraph_adj_iff : ∀ {n k : ℕ} (x y : Erdos566.CubeFourier.Word n),
+  (Erdos566.Retuned.ballGraph n k).Adj x y ↔ x ≠ y ∧ hammingDist x y ≤ k
+'Erdos566.CubeFourier.ballGraph_adj_iff' depends on axioms: [propext, Classical.choice, Quot.sound]
+@Erdos566.CubeFourier.closed_ball_filter : ∀ {n : ℕ} (W : Finset (Erdos566.CubeFourier.Word n)) (k : ℕ),
+  ∀ x ∈ W, {y ∈ W | hammingDist x y ≤ k} = insert x (Erdos566.neighborsWithin (Erdos566.Retuned.ballGraph n k) W x)
+'Erdos566.CubeFourier.closed_ball_filter' depends on axioms: [propext, Classical.choice, Quot.sound]
+@Erdos566.CubeFourier.convolution_indicator_degree : ∀ {n : ℕ} (W : Finset (Erdos566.CubeFourier.Word n)) (k : ℕ),
+  ∀ x ∈ W,
+    Erdos566.CubeFourier.convolution (Erdos566.CubeFourier.ballIndicator k) (Erdos566.CubeFourier.setIndicator W) x =
+      ↑(Erdos566.neighborsWithin (Erdos566.Retuned.ballGraph n k) W x).card + 1
+'Erdos566.CubeFourier.convolution_indicator_degree' depends on axioms: [propext, Classical.choice, Quot.sound]
+@Erdos566.CubeFourier.quadratic_indicator_degree_sum : ∀ {n : ℕ} (W : Finset (Erdos566.CubeFourier.Word n)) (k : ℕ),
+  Erdos566.CubeFourier.quadratic (Erdos566.CubeFourier.ballIndicator k) (Erdos566.CubeFourier.setIndicator W) =
+    ∑ x ∈ W, ↑(Erdos566.neighborsWithin (Erdos566.Retuned.ballGraph n k) W x).card + ↑W.card
+'Erdos566.CubeFourier.quadratic_indicator_degree_sum' depends on axioms: [propext, Classical.choice, Quot.sound]
+@Erdos566.CubeFourier.exists_large_degree : ∀ {n k : ℕ} (W : Finset (Erdos566.CubeFourier.Word n)),
+  W.Nonempty →
+    ∀ (D bound : ℝ),
+      0 ≤ bound →
+        (Erdos566.CubeFourier.transform (Erdos566.CubeFourier.ballIndicator k) fun x => false) = D →
+          (∀ (b : Erdos566.CubeFourier.Word n),
+              -bound ≤ Erdos566.CubeFourier.transform (Erdos566.CubeFourier.ballIndicator k) b) →
+            2 * bound * 2 ^ n ≤ D * ↑W.card →
+              4 * 2 ^ n ≤ D * ↑W.card →
+                ∃ x ∈ W,
+                  D / (4 * 2 ^ n) * ↑W.card ≤ ↑(Erdos566.neighborsWithin (Erdos566.Retuned.ballGraph n k) W x).card
+'Erdos566.CubeFourier.exists_large_degree' depends on axioms: [propext, Classical.choice, Quot.sound]
+@Erdos566.Containers.step_small : ∀ {V : Type u_1} [Fintype V] [inst : DecidableEq V] (G : SimpleGraph V)
+  (threshold : ℕ) (select : Finset V → V) (independent : Finset V) (state : Erdos566.Containers.State V),
+  ¬threshold ≤ state.remaining.card → Erdos566.Containers.step G threshold select independent state = state
+'Erdos566.Containers.step_small' depends on axioms: [propext, Classical.choice, Quot.sound]
+@Erdos566.Containers.step_remaining_subset : ∀ {V : Type u_1} [Fintype V] [inst : DecidableEq V] (G : SimpleGraph V)
+  (threshold : ℕ) (select : Finset V → V) (independent : Finset V) (state : Erdos566.Containers.State V),
+  (Erdos566.Containers.step G threshold select independent state).remaining ⊆ state.remaining
+'Erdos566.Containers.step_remaining_subset' depends on axioms: [propext, Classical.choice, Quot.sound]
+@Erdos566.Containers.step_fingerprint_subset : ∀ {V : Type u_1} [Fintype V] [inst : DecidableEq V] (G : SimpleGraph V)
+  (threshold : ℕ) (select : Finset V → V) (independent : Finset V) (state : Erdos566.Containers.State V),
+  state.fingerprint ⊆ (Erdos566.Containers.step G threshold select independent state).fingerprint
+'Erdos566.Containers.step_fingerprint_subset' depends on axioms: [propext, Classical.choice, Quot.sound]
+@Erdos566.Containers.step_card_lt : ∀ {V : Type u_1} [Fintype V] [inst : DecidableEq V] (G : SimpleGraph V)
+  (threshold : ℕ) (select : Finset V → V) (independent : Finset V) (state : Erdos566.Containers.State V),
+  threshold ≤ state.remaining.card →
+    select state.remaining ∈ state.remaining →
+      (Erdos566.Containers.step G threshold select independent state).remaining.card < state.remaining.card
+'Erdos566.Containers.step_card_lt' depends on axioms: [propext, Classical.choice, Quot.sound]
+@Erdos566.Containers.active_card_bound : ∀ {V : Type u_1} [inst : Fintype V] [inst_1 : DecidableEq V]
+  (G : SimpleGraph V) (threshold : ℕ) (select : Finset V → V),
+  (∀ (remaining : Finset V), threshold ≤ remaining.card → select remaining ∈ remaining) →
+    ∀ (independent : Finset V) (t : ℕ),
+      threshold ≤ (Erdos566.Containers.run G threshold select independent t).remaining.card →
+        (Erdos566.Containers.run G threshold select independent t).remaining.card + t ≤ Fintype.card V
+'Erdos566.Containers.active_card_bound' depends on axioms: [propext, Classical.choice, Quot.sound]
+@Erdos566.Containers.run_stops : ∀ {V : Type u_1} [inst : Fintype V] [inst_1 : DecidableEq V] (G : SimpleGraph V)
+  (threshold : ℕ),
+  0 < threshold →
+    ∀ (select : Finset V → V),
+      (∀ (remaining : Finset V), threshold ≤ remaining.card → select remaining ∈ remaining) →
+        ∀ (independent : Finset V),
+          (Erdos566.Containers.run G threshold select independent (Fintype.card V)).remaining.card < threshold
+'Erdos566.Containers.run_stops' depends on axioms: [propext, Classical.choice, Quot.sound]
+@Erdos566.Containers.step_fingerprint_subset_input : ∀ {V : Type u_1} [Fintype V] [inst : DecidableEq V]
+  (G : SimpleGraph V) (threshold : ℕ) (select : Finset V → V) (I : Finset V) (state : Erdos566.Containers.State V),
+  state.fingerprint ⊆ I → (Erdos566.Containers.step G threshold select I state).fingerprint ⊆ I
+'Erdos566.Containers.step_fingerprint_subset_input' depends on axioms: [propext, Classical.choice, Quot.sound]
+@Erdos566.Containers.step_covers : ∀ {V : Type u_1} [Fintype V] [inst : DecidableEq V] (G : SimpleGraph V)
+  (threshold : ℕ) (select : Finset V → V) (I : Finset V),
+  Erdos566.Containers.Independent G I →
+    ∀ (state : Erdos566.Containers.State V),
+      I ⊆ state.fingerprint ∪ state.remaining →
+        I ⊆
+          (Erdos566.Containers.step G threshold select I state).fingerprint ∪
+            (Erdos566.Containers.step G threshold select I state).remaining
+'Erdos566.Containers.step_covers' depends on axioms: [propext, Classical.choice, Quot.sound]
+@Erdos566.Containers.step_disjoint : ∀ {V : Type u_1} [Fintype V] [inst : DecidableEq V] (G : SimpleGraph V)
+  (threshold : ℕ) (select : Finset V → V),
+  (∀ (remaining : Finset V), threshold ≤ remaining.card → select remaining ∈ remaining) →
+    ∀ (I : Finset V) (state : Erdos566.Containers.State V),
+      Disjoint state.fingerprint state.remaining →
+        Disjoint (Erdos566.Containers.step G threshold select I state).fingerprint
+          (Erdos566.Containers.step G threshold select I state).remaining
+'Erdos566.Containers.step_disjoint' depends on axioms: [propext, Classical.choice, Quot.sound]
+@Erdos566.Containers.run_fingerprint_subset_input : ∀ {V : Type u_1} [inst : Fintype V] [inst_1 : DecidableEq V]
+  (G : SimpleGraph V) (threshold : ℕ) (select : Finset V → V) (I : Finset V) (t : ℕ),
+  (Erdos566.Containers.run G threshold select I t).fingerprint ⊆ I
+'Erdos566.Containers.run_fingerprint_subset_input' depends on axioms: [propext, Classical.choice, Quot.sound]
+@Erdos566.Containers.run_covers : ∀ {V : Type u_1} [inst : Fintype V] [inst_1 : DecidableEq V] (G : SimpleGraph V)
+  (threshold : ℕ) (select : Finset V → V) (I : Finset V),
+  Erdos566.Containers.Independent G I →
+    ∀ (t : ℕ),
+      I ⊆
+        (Erdos566.Containers.run G threshold select I t).fingerprint ∪
+          (Erdos566.Containers.run G threshold select I t).remaining
+'Erdos566.Containers.run_covers' depends on axioms: [propext, Classical.choice, Quot.sound]
+@Erdos566.Containers.run_disjoint : ∀ {V : Type u_1} [inst : Fintype V] [inst_1 : DecidableEq V] (G : SimpleGraph V)
+  (threshold : ℕ) (select : Finset V → V),
+  (∀ (remaining : Finset V), threshold ≤ remaining.card → select remaining ∈ remaining) →
+    ∀ (I : Finset V) (t : ℕ),
+      Disjoint (Erdos566.Containers.run G threshold select I t).fingerprint
+        (Erdos566.Containers.run G threshold select I t).remaining
+'Erdos566.Containers.run_disjoint' depends on axioms: [propext, Classical.choice, Quot.sound]
+@Erdos566.Containers.run_fingerprint_monotone : ∀ {V : Type u_1} [inst : Fintype V] [inst_1 : DecidableEq V]
+  (G : SimpleGraph V) (threshold : ℕ) (select : Finset V → V) (I : Finset V),
+  Monotone fun t => (Erdos566.Containers.run G threshold select I t).fingerprint
+'Erdos566.Containers.run_fingerprint_monotone' depends on axioms: [propext, Classical.choice, Quot.sound]
+@Erdos566.Containers.recorded_step_bounds : ∀ {V : Type u_1} [Fintype V] [inst : DecidableEq V] (G : SimpleGraph V)
+  (threshold : ℕ) (select : Finset V → V) (I : Finset V) (state : Erdos566.Containers.State V) (rate : ℝ),
+  threshold ≤ state.remaining.card →
+    select state.remaining ∈ I →
+      select state.remaining ∈ state.remaining →
+        Disjoint state.fingerprint state.remaining →
+          rate * ↑state.remaining.card ≤ ↑(Erdos566.neighborsWithin G state.remaining (select state.remaining)).card →
+            (Erdos566.Containers.step G threshold select I state).fingerprint.card = state.fingerprint.card + 1 ∧
+              ↑(Erdos566.Containers.step G threshold select I state).remaining.card ≤ (1 - rate) * ↑state.remaining.card
+'Erdos566.Containers.recorded_step_bounds' depends on axioms: [propext, Classical.choice, Quot.sound]
+@Erdos566.Containers.run_exponential_bound : ∀ {V : Type u_1} [inst : Fintype V] [inst_1 : DecidableEq V]
+  (G : SimpleGraph V) (threshold : ℕ) (select : Finset V → V) (rate : ℝ),
+  0 < rate →
+    rate ≤ 1 →
+      (∀ (W : Finset V), threshold ≤ W.card → select W ∈ W) →
+        (∀ (W : Finset V), threshold ≤ W.card → rate * ↑W.card ≤ ↑(Erdos566.neighborsWithin G W (select W)).card) →
+          ∀ (I : Finset V) (t : ℕ),
+            ↑(Erdos566.Containers.run G threshold select I t).remaining.card ≤
+              ↑(Fintype.card V) * Real.exp (-rate * ↑(Erdos566.Containers.run G threshold select I t).fingerprint.card)
+'Erdos566.Containers.run_exponential_bound' depends on axioms: [propext, Classical.choice, Quot.sound]
+@Erdos566.Containers.run_fingerprint_card_bound : ∀ {V : Type u_1} [inst : Fintype V] [inst_1 : DecidableEq V]
+  [Nonempty V] (G : SimpleGraph V) (threshold : ℕ),
+  0 < threshold →
+    ∀ (select : Finset V → V) (rate : ℝ),
+      0 < rate →
+        rate ≤ 1 →
+          (∀ (W : Finset V), threshold ≤ W.card → select W ∈ W) →
+            (∀ (W : Finset V), threshold ≤ W.card → rate * ↑W.card ≤ ↑(Erdos566.neighborsWithin G W (select W)).card) →
+              ∀ (I : Finset V) (t : ℕ),
+                ↑(Erdos566.Containers.run G threshold select I t).fingerprint.card ≤
+                  1 + Real.log ↑(Fintype.card V) / rate
+'Erdos566.Containers.run_fingerprint_card_bound' depends on axioms: [propext, Classical.choice, Quot.sound]
+@Erdos566.Containers.run_replay : ∀ {V : Type u_1} [inst : Fintype V] [inst_1 : DecidableEq V] (G : SimpleGraph V)
+  (threshold : ℕ) (select : Finset V → V) (I : Finset V),
+  ∀ t ≤ Fintype.card V,
+    Erdos566.Containers.run G threshold select
+        (Erdos566.Containers.run G threshold select I (Fintype.card V)).fingerprint t =
+      Erdos566.Containers.run G threshold select I t
+'Erdos566.Containers.run_replay' depends on axioms: [propext, Classical.choice, Quot.sound]
+@Erdos566.Containers.independent_subset_container : ∀ {V : Type u_1} [inst : Fintype V] [inst_1 : DecidableEq V]
+  (G : SimpleGraph V) (threshold : ℕ) (select : Finset V → V) (I : Finset V),
+  Erdos566.Containers.Independent G I →
+    I ⊆
+      (Erdos566.Containers.run G threshold select I (Fintype.card V)).fingerprint ∪
+        Erdos566.Containers.container G threshold select
+          (Erdos566.Containers.run G threshold select I (Fintype.card V)).fingerprint
+'Erdos566.Containers.independent_subset_container' depends on axioms: [propext, Classical.choice, Quot.sound]
+@Erdos566.Containers.container_card_lt : ∀ {V : Type u_1} [inst : Fintype V] [inst_1 : DecidableEq V]
+  (G : SimpleGraph V) (threshold : ℕ),
+  0 < threshold →
+    ∀ (select : Finset V → V),
+      (∀ (remaining : Finset V), threshold ≤ remaining.card → select remaining ∈ remaining) →
+        ∀ (F : Finset V), (Erdos566.Containers.container G threshold select F).card < threshold
+'Erdos566.Containers.container_card_lt' depends on axioms: [propext, Classical.choice, Quot.sound]
+@Erdos566.Containers.candidateFingerprints_card_le : ∀ {V : Type u_1} [inst : Fintype V] [DecidableEq V] [Nonempty V]
+  (limit : ℕ), (Erdos566.Containers.candidateFingerprints limit).card ≤ (limit + 1) * Fintype.card V ^ limit
+'Erdos566.Containers.candidateFingerprints_card_le' depends on axioms: [propext, Classical.choice, Quot.sound]
+Erdos566.Spectrum.power_two_as_exp : ∀ (n : ℕ), ↑(2 ^ n) = Real.exp (↑n * Real.log 2)
+'Erdos566.Spectrum.power_two_as_exp' depends on axioms: [propext, Classical.choice, Quot.sound]
+Erdos566.Spectrum.cubeOrder_as_exp : ∀ (m : ℕ),
+  2 ^ Erdos566.Spectrum.dimension m = Real.exp (↑(Erdos566.Spectrum.dimension m) * Real.log 2)
+'Erdos566.Spectrum.cubeOrder_as_exp' depends on axioms: [propext, Classical.choice, Quot.sound]
+Erdos566.Spectrum.containerThreshold_as_exp : ∀ (m : ℕ),
+  ↑(Erdos566.Spectrum.containerThreshold m) = Real.exp (197 / 200 * ↑(Erdos566.Spectrum.dimension m) * Real.log 2)
+'Erdos566.Spectrum.containerThreshold_as_exp' depends on axioms: [propext, Classical.choice, Quot.sound]
+Erdos566.Spectrum.containerThreshold_pos : ∀ (m : ℕ), 0 < Erdos566.Spectrum.containerThreshold m
+'Erdos566.Spectrum.containerThreshold_pos' depends on axioms: [propext, Classical.choice, Quot.sound]
+Erdos566.Spectrum.ballMass_upper : ∀ (m : ℕ), Erdos566.Spectrum.ballMass m ≤ 2 ^ Erdos566.Spectrum.dimension m
+'Erdos566.Spectrum.ballMass_upper' depends on axioms: [propext, Classical.choice, Quot.sound]
+Erdos566.Spectrum.degreeRate_pos : ∀ (m : ℕ), 0 < m → 0 < Erdos566.Spectrum.degreeRate m
+'Erdos566.Spectrum.degreeRate_pos' depends on axioms: [propext, Classical.choice, Quot.sound]
+Erdos566.Spectrum.degreeRate_le_one : ∀ (m : ℕ), Erdos566.Spectrum.degreeRate m ≤ 1
+'Erdos566.Spectrum.degreeRate_le_one' depends on axioms: [propext, Classical.choice, Quot.sound]
+Erdos566.Spectrum.ballMass_clean_lower : ∀ (m : ℕ),
+  0 < m →
+    ↑(Erdos566.Spectrum.dimension m) + 1 ≤ Real.exp (↑(Erdos566.Spectrum.dimension m) * Real.log 2 / 100000) →
+      Real.exp (4929 / 5000 * ↑(Erdos566.Spectrum.dimension m) * Real.log 2) ≤ Erdos566.Spectrum.ballMass m
+'Erdos566.Spectrum.ballMass_clean_lower' depends on axioms: [propext, Classical.choice, Quot.sound]
+Erdos566.Spectrum.decay_times_order : ∀ (m : ℕ),
+  0 < m →
+    2 * 2 ^ Erdos566.Spectrum.dimension m * Erdos566.Spectrum.spectralDecay m ≤
+      ↑(Erdos566.Spectrum.containerThreshold m)
+'Erdos566.Spectrum.decay_times_order' depends on axioms: [propext, Classical.choice, Quot.sound]
+Erdos566.Spectrum.mass_times_threshold : ∀ (m : ℕ),
+  0 < m →
+    ↑(Erdos566.Spectrum.dimension m) + 1 ≤ Real.exp (↑(Erdos566.Spectrum.dimension m) * Real.log 2 / 100000) →
+      4 * 2 ^ Erdos566.Spectrum.dimension m ≤ Erdos566.Spectrum.ballMass m * ↑(Erdos566.Spectrum.containerThreshold m)
+'Erdos566.Spectrum.mass_times_threshold' depends on axioms: [propext, Classical.choice, Quot.sound]
+Erdos566.Spectrum.exists_degree_in_large_set : ∀ (m : ℕ),
+  1000 ≤ m →
+    ↑(Erdos566.Spectrum.dimension m) + 1 ≤ Real.exp (↑(Erdos566.Spectrum.dimension m) * Real.log 2 / 100000) →
+      ∀ (W : Finset (Erdos566.CubeFourier.Word (Erdos566.Spectrum.dimension m))),
+        Erdos566.Spectrum.containerThreshold m ≤ W.card →
+          ∃ x ∈ W,
+            Erdos566.Spectrum.degreeRate m * ↑W.card ≤
+              ↑(Erdos566.neighborsWithin
+                    (Erdos566.Retuned.ballGraph (Erdos566.Spectrum.dimension m) (Erdos566.Spectrum.radius m)) W x).card
+'Erdos566.Spectrum.exists_degree_in_large_set' depends on axioms: [propext, Classical.choice, Quot.sound]
+Erdos566.Spectrum.selectCube_mem : ∀ (m : ℕ) (W : Finset (Erdos566.CubeFourier.Word (Erdos566.Spectrum.dimension m))),
+  Erdos566.Spectrum.containerThreshold m ≤ W.card → Erdos566.Spectrum.selectCube m W ∈ W
+'Erdos566.Spectrum.selectCube_mem' depends on axioms: [propext, Classical.choice, Quot.sound]
+Erdos566.Spectrum.selectCube_degree : ∀ (m : ℕ),
+  1000 ≤ m →
+    ↑(Erdos566.Spectrum.dimension m) + 1 ≤ Real.exp (↑(Erdos566.Spectrum.dimension m) * Real.log 2 / 100000) →
+      ∀ (W : Finset (Erdos566.CubeFourier.Word (Erdos566.Spectrum.dimension m))),
+        Erdos566.Spectrum.containerThreshold m ≤ W.card →
+          Erdos566.Spectrum.degreeRate m * ↑W.card ≤
+            ↑(Erdos566.neighborsWithin
+                  (Erdos566.Retuned.ballGraph (Erdos566.Spectrum.dimension m) (Erdos566.Spectrum.radius m)) W
+                  (Erdos566.Spectrum.selectCube m W)).card
+'Erdos566.Spectrum.selectCube_degree' depends on axioms: [propext, Classical.choice, Quot.sound]
+Erdos566.Spectrum.cubeContainer_small : ∀ (m : ℕ)
+  (F : Finset (Erdos566.CubeFourier.Word (Erdos566.Spectrum.dimension m))),
+  (Erdos566.Spectrum.cubeContainer m F).card < Erdos566.Spectrum.containerThreshold m
+'Erdos566.Spectrum.cubeContainer_small' depends on axioms: [propext, Classical.choice, Quot.sound]
+Erdos566.Spectrum.independent_container_cover : ∀ (m : ℕ),
+  1000 ≤ m →
+    ↑(Erdos566.Spectrum.dimension m) + 1 ≤ Real.exp (↑(Erdos566.Spectrum.dimension m) * Real.log 2 / 100000) →
+      ∀ (I : Finset (Erdos566.CubeFourier.Word (Erdos566.Spectrum.dimension m))),
+        Erdos566.Containers.Independent
+            (Erdos566.Retuned.ballGraph (Erdos566.Spectrum.dimension m) (Erdos566.Spectrum.radius m)) I →
+          ∃ F ∈ Erdos566.Containers.candidateFingerprints (Erdos566.Spectrum.fingerprintLimit m),
+            F ⊆ I ∧ I ⊆ F ∪ Erdos566.Spectrum.cubeContainer m F
+'Erdos566.Spectrum.independent_container_cover' depends on axioms: [propext, Classical.choice, Quot.sound]
+@Erdos566.Retuned.containsWords_probability : ∀ {dimension : ℕ} (side : Bool)
+  (W : Finset (Erdos566.Retuned.HammingWord dimension)),
+  (Erdos566.Retuned.hammingRetentionMeasure dimension).real (Erdos566.Retuned.containsWords side W) =
+    Erdos566.Retuned.hammingRetentionProbability dimension ^ W.card
+'Erdos566.Retuned.containsWords_probability' depends on axioms: [propext, Classical.choice, Quot.sound]
+@Erdos566.Retuned.power_retainedWords : ∀ {dimension : ℕ} (side : Bool)
+  (W : Finset (Erdos566.Retuned.HammingWord dimension))
+  (retained : Set (Bool × Erdos566.Retuned.HammingWord dimension)),
+  2 ^ (Erdos566.Retuned.retainedWords side W retained).card =
+    ∑ A ∈ W.powerset, if retained ∈ Erdos566.Retuned.containsWords side A then 1 else 0
+'Erdos566.Retuned.power_retainedWords' depends on axioms: [propext, Classical.choice, Quot.sound]
+@Erdos566.Retuned.retainedWords_exponential_moment : ∀ {dimension : ℕ} (side : Bool)
+  (W : Finset (Erdos566.Retuned.HammingWord dimension)),
+  ∫ (retained : Set (Bool × Erdos566.Retuned.HammingWord dimension)),
+      2 ^ (Erdos566.Retuned.retainedWords side W retained).card ∂Erdos566.Retuned.hammingRetentionMeasure dimension =
+    (1 + Erdos566.Retuned.hammingRetentionProbability dimension) ^ W.card
+'Erdos566.Retuned.retainedWords_exponential_moment' depends on axioms: [propext, Classical.choice, Quot.sound]
+@Erdos566.Retuned.retainedWords_tail : ∀ {dimension : ℕ} (side : Bool)
+  (W : Finset (Erdos566.Retuned.HammingWord dimension)) (limit threshold : ℕ),
+  W.card ≤ limit →
+    (Erdos566.Retuned.hammingRetentionMeasure dimension).real
+        {retained | threshold ≤ (Erdos566.Retuned.retainedWords side W retained).card} ≤
+      Real.exp (Erdos566.Retuned.hammingRetentionProbability dimension * ↑limit - ↑threshold * Real.log 2)
+'Erdos566.Retuned.retainedWords_tail' depends on axioms: [propext, Classical.choice, Quot.sound]
+Erdos566.Spectrum.eventually_polynomial_le_exp : ∀ (constant : ℝ),
+  0 ≤ constant →
+    ∀ (power : ℕ) (rate : ℝ), 0 < rate → ∀ᶠ (m : ℕ) in Filter.atTop, constant * (↑m + 1) ^ power ≤ Real.exp (rate * ↑m)
+'Erdos566.Spectrum.eventually_polynomial_le_exp' depends on axioms: [propext, Classical.choice, Quot.sound]
+Erdos566.Spectrum.fingerprintBound_nonnegative : ∀ (m : ℕ), 0 < m → 0 ≤ Erdos566.Spectrum.fingerprintBound m
+'Erdos566.Spectrum.fingerprintBound_nonnegative' depends on axioms: [propext, Classical.choice, Quot.sound]
+Erdos566.Spectrum.fingerprintBound_upper : ∀ (m : ℕ),
+  0 < m →
+    ↑(Erdos566.Spectrum.dimension m) + 1 ≤ Real.exp (↑(Erdos566.Spectrum.dimension m) * Real.log 2 / 100000) →
+      Erdos566.Spectrum.fingerprintBound m ≤ 1 + 160000 * Real.log 2 * ↑m * 2 ^ (568 * m)
+'Erdos566.Spectrum.fingerprintBound_upper' depends on axioms: [propext, Classical.choice, Quot.sound]
+Erdos566.Spectrum.fingerprintConstant_pos : 0 < Erdos566.Spectrum.fingerprintConstant
+'Erdos566.Spectrum.fingerprintConstant_pos' depends on axioms: [propext, Classical.choice, Quot.sound]
+Erdos566.Spectrum.countingConstant_pos : 0 < Erdos566.Spectrum.countingConstant
+'Erdos566.Spectrum.countingConstant_pos' depends on axioms: [propext, Classical.choice, Quot.sound]
+Erdos566.Spectrum.fingerprintLimit_upper : ∀ (m : ℕ),
+  0 < m →
+    ↑(Erdos566.Spectrum.dimension m) + 1 ≤ Real.exp (↑(Erdos566.Spectrum.dimension m) * Real.log 2 / 100000) →
+      ↑(Erdos566.Spectrum.fingerprintLimit m) + 1 ≤ Erdos566.Spectrum.fingerprintConstant * (↑m + 1) * 2 ^ (568 * m)
+'Erdos566.Spectrum.fingerprintLimit_upper' depends on axioms: [propext, Classical.choice, Quot.sound]
+Erdos566.Spectrum.fingerprint_exponent_upper : ∀ (m : ℕ),
+  0 < m →
+    ↑(Erdos566.Spectrum.dimension m) + 1 ≤ Real.exp (↑(Erdos566.Spectrum.dimension m) * Real.log 2 / 100000) →
+      ↑(Erdos566.Spectrum.fingerprintLimit m) * (1 + ↑(Erdos566.Spectrum.dimension m) * Real.log 2) ≤
+        Erdos566.Spectrum.countingConstant * (↑m + 1) ^ 2 * 2 ^ (568 * m)
+'Erdos566.Spectrum.fingerprint_exponent_upper' depends on axioms: [propext, Classical.choice, Quot.sound]
+Erdos566.Spectrum.fingerprint_count_bound : ∀ (m : ℕ),
+  ↑(Erdos566.Containers.candidateFingerprints (Erdos566.Spectrum.fingerprintLimit m)).card ≤
+    Real.exp (↑(Erdos566.Spectrum.fingerprintLimit m) * (1 + ↑(Erdos566.Spectrum.dimension m) * Real.log 2))
+'Erdos566.Spectrum.fingerprint_count_bound' depends on axioms: [propext, Classical.choice, Quot.sound]
+Erdos566.Spectrum.eventually_fingerprint_small : ∀ᶠ (m : ℕ) in Filter.atTop,
+  ↑(Erdos566.Spectrum.fingerprintLimit m) ≤ ↑(Erdos566.Spectrum.cliqueSize m) / 2 ∧
+    ↑(Erdos566.Containers.candidateFingerprints (Erdos566.Spectrum.fingerprintLimit m)).card ≤
+      Real.exp (↑(Erdos566.Spectrum.cliqueSize m) * Real.log 2 / 8)
+'Erdos566.Spectrum.eventually_fingerprint_small' depends on axioms: [propext, Classical.choice, Quot.sound]
+Erdos566.Spectrum.sampled_container_mean : ∀ (m : ℕ),
+  Erdos566.Retuned.hammingRetentionProbability (Erdos566.Spectrum.dimension m) *
+      ↑(Erdos566.Spectrum.containerThreshold m) =
+    2 ^ (544 * m)
+'Erdos566.Spectrum.sampled_container_mean' depends on axioms: [propext, Classical.choice, Quot.sound]
+Erdos566.Spectrum.sampled_container_mean_small : ∀ (m : ℕ),
+  0 < m →
+    Erdos566.Retuned.hammingRetentionProbability (Erdos566.Spectrum.dimension m) *
+        ↑(Erdos566.Spectrum.containerThreshold m) ≤
+      ↑(Erdos566.Spectrum.cliqueSize m) * Real.log 2 / 8
+'Erdos566.Spectrum.sampled_container_mean_small' depends on axioms: [propext, Classical.choice, Quot.sound]
+Erdos566.Spectrum.clique_tail_tendsto_zero : Filter.Tendsto
+  (fun m => Real.exp (-↑(Erdos566.Spectrum.cliqueSize m) * Real.log 2 / 4)) Filter.atTop (nhds 0)
+'Erdos566.Spectrum.clique_tail_tendsto_zero' depends on axioms: [propext, Classical.choice, Quot.sound]
+Erdos566.Spectrum.large_independent_mem_blueFailure : ∀ (m : ℕ),
+  1000 ≤ m →
+    ↑(Erdos566.Spectrum.dimension m) + 1 ≤ Real.exp (↑(Erdos566.Spectrum.dimension m) * Real.log 2 / 100000) →
+      ∀ (side : Bool) (retained : Set (Bool × Erdos566.CubeFourier.Word (Erdos566.Spectrum.dimension m)))
+        (I : Finset (Erdos566.CubeFourier.Word (Erdos566.Spectrum.dimension m))),
+        Erdos566.Containers.Independent
+            (Erdos566.Retuned.ballGraph (Erdos566.Spectrum.dimension m) (Erdos566.Spectrum.radius m)) I →
+          Erdos566.Spectrum.cliqueSize m ≤ I.card →
+            (∀ x ∈ I, (side, x) ∈ retained) → retained ∈ Erdos566.Spectrum.blueFailure m side
+'Erdos566.Spectrum.large_independent_mem_blueFailure' depends on axioms: [propext, Classical.choice, Quot.sound]
+Erdos566.Spectrum.blueFailure_probability_bound : ∀ (m : ℕ) (side : Bool),
+  (Erdos566.Retuned.hammingRetentionMeasure (Erdos566.Spectrum.dimension m)).real
+      (Erdos566.Spectrum.blueFailure m side) ≤
+    ↑(Erdos566.Containers.candidateFingerprints (Erdos566.Spectrum.fingerprintLimit m)).card *
+      Real.exp
+        (Erdos566.Retuned.hammingRetentionProbability (Erdos566.Spectrum.dimension m) *
+            ↑(Erdos566.Spectrum.containerThreshold m) -
+          ↑(Erdos566.Spectrum.cliqueSize m - Erdos566.Spectrum.fingerprintLimit m) * Real.log 2)
+'Erdos566.Spectrum.blueFailure_probability_bound' depends on axioms: [propext, Classical.choice, Quot.sound]
+Erdos566.Spectrum.eventually_blueFailure_small : ∀ᶠ (m : ℕ) in Filter.atTop,
+  ∀ (side : Bool),
+    (Erdos566.Retuned.hammingRetentionMeasure (Erdos566.Spectrum.dimension m)).real
+        (Erdos566.Spectrum.blueFailure m side) ≤
+      Real.exp (-↑(Erdos566.Spectrum.cliqueSize m) * Real.log 2 / 4)
+'Erdos566.Spectrum.eventually_blueFailure_small' depends on axioms: [propext, Classical.choice, Quot.sound]
+Erdos566.Spectrum.dimension_tendsto_atTop : Filter.Tendsto Erdos566.Spectrum.dimension Filter.atTop Filter.atTop
+'Erdos566.Spectrum.dimension_tendsto_atTop' depends on axioms: [propext, Quot.sound]
+Erdos566.Spectrum.sizeFailure_probability_bound : ∀ (m : ℕ),
+  (Erdos566.Retuned.hammingRetentionMeasure (Erdos566.Spectrum.dimension m)).real (Erdos566.Spectrum.sizeFailure m) ≤
+    4 / Erdos566.Retuned.hammingExpectedRetainedVertexCount (Erdos566.Spectrum.dimension m)
+'Erdos566.Spectrum.sizeFailure_probability_bound' depends on axioms: [propext, Classical.choice, Quot.sound]
+Erdos566.Spectrum.sizeFailure_bound_tendsto_zero : Filter.Tendsto
+  (fun m => 4 / Erdos566.Retuned.hammingExpectedRetainedVertexCount (Erdos566.Spectrum.dimension m)) Filter.atTop
+  (nhds 0)
+'Erdos566.Spectrum.sizeFailure_bound_tendsto_zero' depends on axioms: [propext, Classical.choice, Quot.sound]
+Erdos566.Spectrum.redFailure_bound_tendsto_zero : Filter.Tendsto
+  (fun m => ↑(2 * Erdos566.layerDepth) * Real.exp (-↑(Erdos566.Spectrum.dimension m) * Real.log 2)) Filter.atTop
+  (nhds 0)
+'Erdos566.Spectrum.redFailure_bound_tendsto_zero' depends on axioms: [propext, Classical.choice, Quot.sound]
+Erdos566.Spectrum.eventually_totalFailure_lt_one : ∀ᶠ (m : ℕ) in Filter.atTop,
+  (Erdos566.Retuned.hammingRetentionMeasure (Erdos566.Spectrum.dimension m)).real (Erdos566.Spectrum.totalFailure m) < 1
+'Erdos566.Spectrum.eventually_totalFailure_lt_one' depends on axioms: [propext, Classical.choice, Quot.sound]
+Erdos566.Spectrum.eventually_exists_good_retention : ∀ᶠ (m : ℕ) in Filter.atTop,
+  ∃ retained ∉ Erdos566.Retuned.redFailure (Erdos566.Spectrum.dimension m),
+    retained ∉ Erdos566.Spectrum.sizeFailure m ∧
+      retained ∉ Erdos566.Spectrum.blueFailure m false ∧ retained ∉ Erdos566.Spectrum.blueFailure m true
+'Erdos566.Spectrum.eventually_exists_good_retention' depends on axioms: [propext, Classical.choice, Quot.sound]
+Erdos566.Spectrum.mem_sideSet : ∀ (m : ℕ) (side : Bool)
+  (retained : Set (Bool × Erdos566.CubeFourier.Word (Erdos566.Spectrum.dimension m)))
+  (word : Erdos566.CubeFourier.Word (Erdos566.Spectrum.dimension m)),
+  word ∈ Erdos566.Spectrum.sideSet m side retained ↔ (side, word) ∈ retained
+'Erdos566.Spectrum.mem_sideSet' depends on axioms: [propext, Classical.choice, Quot.sound]
+Erdos566.Spectrum.sideSet_coe : ∀ (m : ℕ) (side : Bool)
+  (retained : Set (Bool × Erdos566.CubeFourier.Word (Erdos566.Spectrum.dimension m))),
+  ↑(Erdos566.Spectrum.sideSet m side retained) = {word | (side, word) ∈ retained}
+'Erdos566.Spectrum.sideSet_coe' depends on axioms: [propext, Classical.choice, Quot.sound]
+Erdos566.Spectrum.retained_count_sides : ∀ (m : ℕ)
+  (retained : Set (Bool × Erdos566.CubeFourier.Word (Erdos566.Spectrum.dimension m))),
+  Erdos566.Retuned.hammingRetainedVertexCount (Erdos566.Spectrum.dimension m) retained =
+    ↑(Erdos566.Spectrum.sideSet m false retained).card + ↑(Erdos566.Spectrum.sideSet m true retained).card
+'Erdos566.Spectrum.retained_count_sides' depends on axioms: [propext, Classical.choice, Quot.sound]
+Erdos566.Spectrum.half_expected_count : ∀ (m : ℕ),
+  Erdos566.Retuned.hammingExpectedRetainedVertexCount (Erdos566.Spectrum.dimension m) / 2 = ↑(2 ^ (1144 * m))
+'Erdos566.Spectrum.half_expected_count' depends on axioms: [propext, Classical.choice, Quot.sound]
+Erdos566.Spectrum.exists_large_side : ∀ (m : ℕ),
+  ∀ retained ∉ Erdos566.Spectrum.sizeFailure m,
+    ∃ side, 2 ^ (1144 * m) ≤ 2 * (Erdos566.Spectrum.sideSet m side retained).card
+'Erdos566.Spectrum.exists_large_side' depends on axioms: [propext, Classical.choice, Quot.sound]
+Erdos566.Spectrum.radius_eq_cutoff : ∀ (m : ℕ),
+  Erdos566.Spectrum.radius m = Erdos566.cubeCutoff (Erdos566.Spectrum.dimension m)
+'Erdos566.Spectrum.radius_eq_cutoff' depends on axioms: [propext, Quot.sound]
+Erdos566.Spectrum.ballGraph_eq_cubeGraph : ∀ (m : ℕ),
+  Erdos566.Retuned.ballGraph (Erdos566.Spectrum.dimension m) (Erdos566.Spectrum.radius m) =
+    Erdos566.cubeGraph (Erdos566.Spectrum.dimension m)
+'Erdos566.Spectrum.ballGraph_eq_cubeGraph' depends on axioms: [propext, Classical.choice, Quot.sound]
+Erdos566.Spectrum.side_red_free : ∀ (m : ℕ),
+  0 < m →
+    ∀ (side : Bool),
+      ∀ retained ∉ Erdos566.Retuned.redFailure (Erdos566.Spectrum.dimension m),
+        Erdos566.counterexampleGraph.Free
+          (SimpleGraph.induce (↑(Erdos566.Spectrum.sideSet m side retained))
+            (Erdos566.cubeGraph (Erdos566.Spectrum.dimension m)))
+'Erdos566.Spectrum.side_red_free' depends on axioms: [propext, Classical.choice, Quot.sound]
+Erdos566.Spectrum.side_blue_free : ∀ (m : ℕ),
+  1000 ≤ m →
+    ↑(Erdos566.Spectrum.dimension m) + 1 ≤ Real.exp (↑(Erdos566.Spectrum.dimension m) * Real.log 2 / 100000) →
+      ∀ (side : Bool),
+        ∀ retained ∉ Erdos566.Spectrum.blueFailure m side,
+          ⊤.Free
+            (SimpleGraph.induce (↑(Erdos566.Spectrum.sideSet m side retained))
+                (Erdos566.cubeGraph (Erdos566.Spectrum.dimension m)))ᶜ
+'Erdos566.Spectrum.side_blue_free' depends on axioms: [propext, Classical.choice, Quot.sound]
+Erdos566.Spectrum.sampled_cube_statement : Erdos566.SampledCubeStatement
+'Erdos566.Spectrum.sampled_cube_statement' depends on axioms: [propext, Classical.choice, Quot.sound]
+Erdos566.original_statement_false : ¬Erdos566.OriginalStatement
+'Erdos566.original_statement_false' depends on axioms: [propext, Classical.choice, Quot.sound]
+PrizeStatement.exact_statement_agreement : PrizeStatement.Statement = Erdos566.OriginalStatement
+'PrizeStatement.exact_statement_agreement' depends on axioms: [propext, Classical.choice, Quot.sound]
+PrizeStatement.original_problem_false : ¬PrizeStatement.Statement
+'PrizeStatement.original_problem_false' depends on axioms: [propext, Classical.choice, Quot.sound]
+Verification.statement_agreement : Verification.originalProblem = Erdos566.OriginalStatement
+'Verification.statement_agreement' depends on axioms: [propext, Classical.choice, Quot.sound]
+Verification.original_problem_false : ¬Verification.originalProblem
+'Verification.original_problem_false' depends on axioms: [propext, Classical.choice, Quot.sound]

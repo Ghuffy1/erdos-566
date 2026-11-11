@@ -1,0 +1,35 @@
+{
+  "status": "pass",
+  "pages": 12,
+  "source_sha256": "f88a6b6922e2f23711b98f90f390a0678907184beeb512b6e2d6401d34cba41b",
+  "pdf_sha256": "9366b11bb34ae0e4560528b7983580f7038128d2cc950562d69fae1c00f41ebd",
+  "authors_alphabetized": true,
+  "emails_match_supplied_addresses": true,
+  "forbidden_terms_found": false,
+  "references_resolved": true,
+  "exact_rational_certificates": [
+    {
+      "x": "9/25",
+      "lower_margin": 0.000002210623452506098,
+      "upper_margin": 0.0000116523201586523,
+      "exact_positive": true
+    },
+    {
+      "x": "43/100",
+      "lower_margin": 0.0000034915063662244027,
+      "upper_margin": 0.0000034399654393331556,
+      "exact_positive": true
+    },
+    {
+      "x": "49/10000",
+      "lower_margin": 0.000006633565396875657,
+      "upper_margin": 2.9790640869829734e-7,
+      "exact_positive": true
+    }
+  ],
+  "clipped_blocks": [],
+  "content_words": 4862,
+  "visual_review_pages": 12,
+  "visual_review": "Every page of the final rendering inspected",
+  "review_date": "2026-11-11"
+}
